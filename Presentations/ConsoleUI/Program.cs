@@ -6,7 +6,7 @@ using System;
 
 namespace ConsoleUI
 {
-    internal class Program
+    class Program
     {
         private static ICarService _carService = new CarManager(new InMemoryCarDal());
 
