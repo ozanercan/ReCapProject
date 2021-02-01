@@ -9,15 +9,16 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         private readonly ICarDal _carDal;
+
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;
         }
+
         public void Add(Car car)
         {
             if (car.Id == 0)
                 car.Id = _carDal.GetAll().Count + 1;
-
 
             bool addResult = _carDal.Add(car);
 

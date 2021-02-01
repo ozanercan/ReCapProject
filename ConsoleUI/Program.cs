@@ -3,20 +3,18 @@ using Business.Concrete;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using System;
-using System.Threading;
 
 namespace ConsoleUI
 {
-    class Program
+    internal class Program
     {
-        static ICarService _carService = new CarManager(new InMemoryCarDal());
-
+        private static ICarService _carService = new CarManager(new InMemoryCarDal());
 
         /// <summary>
         /// Verilen Car nesnesine ait propertyleri ekrana yazdırır.
         /// </summary>
         /// <param name="car"></param>
-        static void Print(Car car)
+        private static void Print(Car car)
         {
             string hyphen = "----------------------------------------------";
 
@@ -32,7 +30,7 @@ namespace ConsoleUI
         /// <summary>
         /// Tüm Car Listesini ekranda gösterir.
         /// </summary>
-        static void PrintAllCar()
+        private static void PrintAllCar()
         {
             var carList = _carService.GetAll();
             foreach (var car in carList)
@@ -43,7 +41,7 @@ namespace ConsoleUI
         /// Car nesnesine ait veri girişlerini kullanıcıya sunar ve girilen verileri Car nesnesi olarak geri döndürür.
         /// </summary>
         /// <returns></returns>
-        static Car InputToCar()
+        private static Car InputToCar()
         {
             Console.Write("Brand Id: ");
             int brandId = Convert.ToInt32(Console.ReadLine());
@@ -66,7 +64,7 @@ namespace ConsoleUI
             };
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
         start:
             try
