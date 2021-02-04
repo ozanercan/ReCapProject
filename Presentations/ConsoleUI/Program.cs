@@ -1,6 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Concrete;
-using DataAccess.Concrete.InMemory;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
 
@@ -8,7 +8,7 @@ namespace ConsoleUI
 {
     class Program
     {
-        private static ICarService _carService = new CarManager(new InMemoryCarDal());
+        private static ICarService _carService = new CarManager(new EfCarDal());
 
         /// <summary>
         /// Verilen Car nesnesine ait propertyleri ekrana yazdırır.
@@ -32,9 +32,16 @@ namespace ConsoleUI
         /// </summary>
         private static void PrintAllCar()
         {
-            var carList = _carService.GetAll();
-            foreach (var car in carList)
-                Print(car);
+            var carListResult = _carService.GetAll();
+            if (!carListResult.IsSuccess)
+            {
+                Console.WriteLine(carListResult.Message);
+            }
+            else
+            {
+                foreach (var car in carListResult.Data)
+                    Print(car);
+            }
         }
 
         /// <summary>
@@ -88,7 +95,8 @@ namespace ConsoleUI
                 {
                     Car createToCar = InputToCar();
 
-                    _carService.Add(createToCar);
+                    var businessResult = _carService.Add(createToCar);
+                    Console.WriteLine(businessResult.Message);
                 }
                 else if (chooseOperation == 3)
                 {
@@ -97,7 +105,8 @@ namespace ConsoleUI
                     int carId = Convert.ToInt32(Console.ReadLine());
 
                     Car updateToCar = InputToCar();
-                    _carService.Update(carId, updateToCar);
+                    var businessResult = _carService.Update(carId, updateToCar);
+                    Console.WriteLine(businessResult.Message);
                 }
                 else if (chooseOperation == 4)
                 {
@@ -105,7 +114,8 @@ namespace ConsoleUI
                     Console.Write("Silinecek Araç Id: ");
                     int carId = Convert.ToInt32(Console.ReadLine());
 
-                    _carService.DeleteById(carId);
+                    var businessResult = _carService.DeleteById(carId);
+                    Console.WriteLine(businessResult.Message);
                 }
                 else
                 {

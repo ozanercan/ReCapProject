@@ -3,7 +3,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Abstract
 {
-    public interface ICarDal : IEfRepository<Car>
+    public interface IBrandDal : IEfRepository<Brand>
     {
     }
 }

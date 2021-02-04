@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Core.Business.Results.Abstract;
+using Core.Business.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -15,68 +17,157 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public void Add(Car car)
+        public IBusinessResult Add(Car car)
         {
-            if (car.Id == 0)
-                car.Id = _carDal.GetAll().Count + 1;
+            if (car.DailyPrice <= 0)
+                return new BusinessResult("Aracın günlük fiyatı 0'dan büyük olmalıdır. İşleminiz başarısız.", false);
+
+            if (car.Description.Length <= 2)
+                return new BusinessResult("Aracın açıklaması 2 karakterden fazla olmalıdır. İşleminiz başarısız.", false);
 
             bool addResult = _carDal.Add(car);
 
+            string message;
             if (addResult == true)
-                Console.WriteLine("Car added in memory.");
+                message = "Araç başarıyla eklendi.";
             else
-                Console.WriteLine("Car not add in memory.");
+                message = "Araç kayıt edilemedi.";
+
+            return new BusinessResult(message, addResult);
         }
 
-        public void Delete(Car car)
+        public IBusinessResult Delete(Car car)
         {
             bool deleteResult = _carDal.Delete(car);
 
+            string message;
             if (deleteResult == true)
-                Console.WriteLine("Car deleted in memory.");
+                message = $"{car.Id} Id li araç silindi.";
             else
-                Console.WriteLine("Car not delete in memory.");
+                message = "Araç silinemedi.";
+
+            return new BusinessResult(message, deleteResult);
         }
 
-        public void Delete(int id, Car car)
-        {
-            car.Id = id;
-
-            Delete(car);
-        }
-
-        public void DeleteById(int id)
+        public IBusinessResult DeleteById(int id)
         {
             Car deleteToCar = _carDal.GetById(id);
 
-            Delete(deleteToCar);
+            return Delete(deleteToCar);
         }
 
-        public List<Car> GetAll()
+        public IBusinessDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();
+            var data = _carDal.GetAll();
+
+            string message;
+            bool isSuccess;
+            if (data == null || data.Count <= 0)
+            {
+                message = "Kayıtlı araç bulunamadı.";
+                isSuccess = false;
+            }
+            else
+            {
+                message = "Kayıtlı araçlar getirildi.";
+                isSuccess = true;
+            }
+
+            return new BusinessDataResult<List<Car>>(message, isSuccess, data);
         }
 
-        public Car GetById(int id)
+        public IBusinessDataResult<Car> GetById(int id)
         {
-            return _carDal.GetById(id);
+            string message = "";
+            bool isSuccess = false;
+
+            var data = _carDal.Get(p => p.Id == id);
+
+            if (data == null)
+            {
+                message = $"{id} kayıtlı araç bulunamadı.";
+                isSuccess = false;
+            }
+            else
+            {
+                message = $"{id}'li araçlar getirildi.";
+                isSuccess = true;
+            }
+
+            return new BusinessDataResult<Car>(message, isSuccess, data);
         }
 
-        public void Update(Car car)
+        public IBusinessDataResult<List<Car>> GetCarsByBrandId(int brandId)
+        {
+            string message = "";
+            bool isSuccess = false;
+
+            var data = _carDal.GetAll(p => p.BrandId == brandId);
+
+            if (data == null || data.Count <= 0)
+            {
+                message = "Markaya ait araç bulunamadı.";
+                isSuccess = false;
+            }
+            else
+            {
+                message = "Markaya ait araçlar getirildi.";
+                isSuccess = true;
+            }
+
+            return new BusinessDataResult<List<Car>>(message, isSuccess, data);
+        }
+
+        public IBusinessDataResult<List<Car>> GetCarsByColorId(int colorId)
+        {
+            string message = "";
+            bool isSuccess = false;
+
+            var data = _carDal.GetAll(p => p.ColorId == colorId);
+
+            if (data == null || data.Count <= 0)
+            {
+                message = "Bu renkte araç bulunamadı.";
+                isSuccess = false;
+            }
+            else
+            {
+                message = "Bu renkte olan araçlar getirildi.";
+                isSuccess = true;
+            }
+
+            return new BusinessDataResult<List<Car>>(message, isSuccess, data);
+        }
+
+        public IBusinessResult Update(Car car)
         {
             bool updateResult = _carDal.Update(car);
 
+            string message;
             if (updateResult == true)
-                Console.WriteLine("Car updated in memory.");
+                message = "Araç başarıyla güncellendi.";
             else
-                Console.WriteLine("Car not update in memory.");
+                message = "Araç güncellenemedi.";
+
+            return new BusinessResult(message, updateResult);
         }
 
-        public void Update(int id, Car car)
+        public IBusinessResult Update(int id, Car newCar)
         {
-            car.Id = id;
+            var findedCarResult = GetById(id);
 
-            Update(car);
+            Car updatedCar = InputToCar(findedCarResult.Data, newCar);
+
+            return Update(updatedCar);
+        }
+        private Car InputToCar(Car oldCar, Car newCar)
+        {
+            oldCar.BrandId = newCar.BrandId;
+            oldCar.ColorId = newCar.ColorId;
+            oldCar.DailyPrice = newCar.DailyPrice;
+            oldCar.ModelYear = newCar.ModelYear;
+            oldCar.Description = newCar.Description;
+            return oldCar;
         }
     }
 }

@@ -1,24 +1,27 @@
-﻿using Entities.Concrete;
+﻿using Core.Business.Results.Abstract;
+using Entities.Concrete;
 using System.Collections.Generic;
 
 namespace Business.Abstract
 {
     public interface ICarService
     {
-        Car GetById(int id);
+        IBusinessDataResult<List<Car>> GetCarsByBrandId(int brandId);
 
-        List<Car> GetAll();
+        IBusinessDataResult<List<Car>> GetCarsByColorId(int colorId);
 
-        void Add(Car car);
+        IBusinessDataResult<Car> GetById(int id);
 
-        void Update(Car car);
+        IBusinessDataResult<List<Car>> GetAll();
 
-        void Update(int id, Car car);
+        IBusinessResult Add(Car car);
 
-        void Delete(Car car);
+        IBusinessResult Update(Car car);
 
-        void Delete(int id, Car car);
+        IBusinessResult Update(int id, Car newCar);
 
-        void DeleteById(int id);
+        IBusinessResult Delete(Car car);
+
+        IBusinessResult DeleteById(int id);
     }
 }
