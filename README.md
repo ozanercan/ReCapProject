@@ -1,4 +1,4 @@
-# ReCapProject
+# CarRentalProject
 
 Kampımızla beraber paralelde geliştireceğimiz bir projemiz daha olacak. Araba kiralama sistemi yazıyoruz.
 
