@@ -1,11 +1,14 @@
 ﻿using Core.Business.Results.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using System.Collections.Generic;
 
 namespace Business.Abstract
 {
     public interface ICarService
     {
+        IBusinessDataResult<List<CarDetailDto>> GetCarDetails();
+
         IBusinessDataResult<List<Car>> GetCarsByBrandId(int brandId);
 
         IBusinessDataResult<List<Car>> GetCarsByColorId(int colorId);

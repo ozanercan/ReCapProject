@@ -1,9 +1,10 @@
 ﻿using Business.Abstract;
+using Business.Contants;
 using Core.Business.Results.Abstract;
 using Core.Business.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
+using Entities.Dtos;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -20,18 +21,18 @@ namespace Business.Concrete
         public IBusinessResult Add(Car car)
         {
             if (car.DailyPrice <= 0)
-                return new BusinessResult("Aracın günlük fiyatı 0'dan büyük olmalıdır. İşleminiz başarısız.", false);
+                return new BusinessResult(Messages.CarDailyPriceInvalid, false);
 
             if (car.Description.Length <= 2)
-                return new BusinessResult("Aracın açıklaması 2 karakterden fazla olmalıdır. İşleminiz başarısız.", false);
+                return new BusinessResult(Messages.CarDescriptionInvalid, false);
 
             bool addResult = _carDal.Add(car);
 
             string message;
             if (addResult == true)
-                message = "Araç başarıyla eklendi.";
+                message = Messages.CarAdded;
             else
-                message = "Araç kayıt edilemedi.";
+                message = Messages.CarNotAdded;
 
             return new BusinessResult(message, addResult);
         }
@@ -42,9 +43,9 @@ namespace Business.Concrete
 
             string message;
             if (deleteResult == true)
-                message = $"{car.Id} Id li araç silindi.";
+                message = Messages.CarDeleted;
             else
-                message = "Araç silinemedi.";
+                message = Messages.CarNotAdded;
 
             return new BusinessResult(message, deleteResult);
         }
@@ -64,12 +65,12 @@ namespace Business.Concrete
             bool isSuccess;
             if (data == null || data.Count <= 0)
             {
-                message = "Kayıtlı araç bulunamadı.";
+                message = Messages.CarNotFound;
                 isSuccess = false;
             }
             else
             {
-                message = "Kayıtlı araçlar getirildi.";
+                message = Messages.CarGetListByRegistered;
                 isSuccess = true;
             }
 
@@ -85,16 +86,36 @@ namespace Business.Concrete
 
             if (data == null)
             {
-                message = $"{id} kayıtlı araç bulunamadı.";
+                message = Messages.CarNotFound;
                 isSuccess = false;
             }
             else
             {
-                message = $"{id}'li araçlar getirildi.";
+                message = Messages.CarGet;
                 isSuccess = true;
             }
 
             return new BusinessDataResult<Car>(message, isSuccess, data);
+        }
+
+        public IBusinessDataResult<List<CarDetailDto>> GetCarDetails()
+        {
+            var data = _carDal.GetCarDetails();
+
+            string message;
+            bool isSuccess;
+            if (data == null || data.Count <= 0)
+            {
+                message = Messages.CarNotFound;
+                isSuccess = false;
+            }
+            else
+            {
+                message = Messages.CarGetListByRegistered;
+                isSuccess = true;
+            }
+
+            return new BusinessDataResult<List<CarDetailDto>>(message, isSuccess, data);
         }
 
         public IBusinessDataResult<List<Car>> GetCarsByBrandId(int brandId)
@@ -106,12 +127,12 @@ namespace Business.Concrete
 
             if (data == null || data.Count <= 0)
             {
-                message = "Markaya ait araç bulunamadı.";
+                message = Messages.CarNotFoundByBrand;
                 isSuccess = false;
             }
             else
             {
-                message = "Markaya ait araçlar getirildi.";
+                message = Messages.CarGetListByBrand;
                 isSuccess = true;
             }
 
@@ -127,12 +148,12 @@ namespace Business.Concrete
 
             if (data == null || data.Count <= 0)
             {
-                message = "Bu renkte araç bulunamadı.";
+                message = Messages.CarNotFoundByColor;
                 isSuccess = false;
             }
             else
             {
-                message = "Bu renkte olan araçlar getirildi.";
+                message = Messages.CarGetListByColor;
                 isSuccess = true;
             }
 
@@ -145,9 +166,9 @@ namespace Business.Concrete
 
             string message;
             if (updateResult == true)
-                message = "Araç başarıyla güncellendi.";
+                message = Messages.CarUpdated;
             else
-                message = "Araç güncellenemedi.";
+                message = Messages.CarNotUpdated;
 
             return new BusinessResult(message, updateResult);
         }
@@ -160,6 +181,7 @@ namespace Business.Concrete
 
             return Update(updatedCar);
         }
+
         private Car InputToCar(Car oldCar, Car newCar)
         {
             oldCar.BrandId = newCar.BrandId;

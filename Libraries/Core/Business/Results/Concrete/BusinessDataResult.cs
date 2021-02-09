@@ -8,6 +8,7 @@ namespace Core.Business.Results.Concrete
         {
             Data = data;
         }
+
         public TData Data { get; }
     }
 }

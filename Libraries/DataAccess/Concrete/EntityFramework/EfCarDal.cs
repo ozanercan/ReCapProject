@@ -2,13 +2,32 @@
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Contexts;
 using Entities.Concrete;
-using System;
+using Entities.Dtos;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfRepositoryBase<Car, ReCapContext>, ICarDal
     {
+        public List<CarDetailDto> GetCarDetails()
+        {
+            using (ReCapContext context = new ReCapContext())
+            {
+                var result = from car in context.Cars
+                             join color in context.Colors
+                             on car.ColorId equals color.Id
+                             join brand in context.Brands
+                             on car.BrandId equals brand.Id
+                             select new CarDetailDto
+                             {
+                                 CarDescription = car.Description,
+                                 DailyPrice = car.DailyPrice,
+                                 BrandName = brand.Name,
+                                 ColorName = color.Name
+                             };
+                return result.ToList();
+            }
+        }
     }
 }

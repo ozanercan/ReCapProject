@@ -1,4 +1,4 @@
-﻿namespace Core.DataAccess.Abstract
+﻿namespace Core.Entities.Abstract
 {
     public interface IEntity
     {

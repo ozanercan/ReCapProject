@@ -1,5 +1,5 @@
-﻿using Core.DataAccess.Abstract;
-using Core.DataAccess.RepositoryPattern.Abstract;
+﻿using Core.DataAccess.RepositoryPattern.Abstract;
+using Core.Entities.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,12 +13,14 @@ namespace Core.DataAccess.RepositoryPattern.Concrete
         where TContext : DbContext, new()
     {
         private readonly DbContext _dbContext;
+
         public EfRepositoryBase()
         {
             _dbContext = new TContext();
 
             Query = _dbContext.Set<TEntity>();
         }
+
         public IQueryable<TEntity> Query { get; set; }
 
         public DbSet<TEntity> Entities => _dbContext.Set<TEntity>();

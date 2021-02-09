@@ -9,6 +9,7 @@ namespace Core.Business.Results.Concrete
             Message = message;
             IsSuccess = isSuccess;
         }
+
         public string Message { get; }
         public bool IsSuccess { get; }
     }
