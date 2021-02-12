@@ -21,6 +21,5 @@ namespace Core.DataAccess.RepositoryPattern.Abstract
 
         TEntity Get(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes);
 
-        TEntity GetById(int id, params Expression<Func<TEntity, object>>[] includes);
     }
 }

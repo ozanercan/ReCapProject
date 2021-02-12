@@ -74,11 +74,5 @@ namespace Core.DataAccess.RepositoryPattern.Concrete
             else
                 return Entities.Where(expression).ToList();
         }
-
-        public TEntity GetById(int id, params Expression<Func<TEntity, object>>[] includes)
-        {
-            AddInclude(includes);
-            return Query.Where(p => p.Id == id).FirstOrDefault();
-        }
     }
 }

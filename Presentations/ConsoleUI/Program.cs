@@ -9,9 +9,12 @@ namespace ConsoleUI
 {
     internal class Program
     {
-        private static ICarService _carService = new CarManager(new EfCarDal());
-        private static IBrandService _brandService = new BrandManager(new EfBrandDal());
-        private static IColorService _colorService = new ColorManager(new EfColorDal());
+        private static readonly ICarService _carService = new CarManager(new EfCarDal());
+        private static readonly IBrandService _brandService = new BrandManager(new EfBrandDal());
+        private static readonly IColorService _colorService = new ColorManager(new EfColorDal());
+        private static readonly ICustomerService _customerService = new CustomerManager(new EfCustomerDal(), new UserManager(new EfUserDal()));
+        private static readonly IUserService _userService = new UserManager(new EfUserDal());
+        private static readonly IRentalService _rentalService = new RentalManager(new EfRentalDal());
 
         public static string hyphen = "----------------------------------------------";
 
@@ -39,6 +42,16 @@ namespace ConsoleUI
             Console.WriteLine($"DailyPrice: {carDetailTo.DailyPrice}");
         }
 
+        private static void Print(CustomerDetailDto customerDetailDto)
+        {
+            Console.WriteLine(hyphen);
+            Console.WriteLine($"Company Name: {customerDetailDto.CompanyName}");
+            Console.WriteLine($"First Name: {customerDetailDto.FirstName}");
+            Console.WriteLine($"Last Name: {customerDetailDto.LastName}");
+            Console.WriteLine($"Email: {customerDetailDto.Email}");
+            Console.WriteLine($"Password: {customerDetailDto.Password}");
+        }
+
         private static void Print(Brand brand)
         {
             Console.WriteLine(hyphen);
@@ -59,7 +72,7 @@ namespace ConsoleUI
         private static void PrintAllCar()
         {
             var carListResult = _carService.GetAll();
-            if (!carListResult.IsSuccess)
+            if (!carListResult.Success)
             {
                 Console.WriteLine(carListResult.Message);
             }
@@ -73,7 +86,7 @@ namespace ConsoleUI
         private static void PrintCarDetails()
         {
             var carDetailsResult = _carService.GetCarDetails();
-            if (!carDetailsResult.IsSuccess)
+            if (!carDetailsResult.Success)
             {
                 Console.WriteLine(carDetailsResult.Message);
             }
@@ -84,13 +97,27 @@ namespace ConsoleUI
             }
         }
 
+        private static void PrintCustomerDetails()
+        {
+            var customerDetailsResult = _customerService.GetCustomerDetails();
+            if (!customerDetailsResult.Success)
+            {
+                Console.WriteLine(customerDetailsResult.Message);
+            }
+            else
+            {
+                foreach (var customerDetail in customerDetailsResult.Data)
+                    Print(customerDetail);
+            }
+        }
+
         /// <summary>
         /// Tüm Brand Listesini ekranda gösterir.
         /// </summary>
         private static void PrintAllBrand()
         {
             var brandListResult = _brandService.GetAll();
-            if (!brandListResult.IsSuccess)
+            if (!brandListResult.Success)
             {
                 Console.WriteLine(brandListResult.Message);
             }
@@ -104,7 +131,7 @@ namespace ConsoleUI
         private static void PrintAllColor()
         {
             var colorListResult = _colorService.GetAll();
-            if (!colorListResult.IsSuccess)
+            if (!colorListResult.Success)
             {
                 Console.WriteLine(colorListResult.Message);
             }
@@ -164,6 +191,37 @@ namespace ConsoleUI
             };
         }
 
+        private static UserCreateDto InputToUserCreateDto()
+        {
+            Console.Write("First Name: ");
+            string firstName = Console.ReadLine();
+            Console.Write("Last Name: ");
+            string lastName = Console.ReadLine();
+            Console.Write("Email: ");
+            string email = Console.ReadLine();
+            Console.Write("Password: ");
+            string password = Console.ReadLine();
+
+            return new UserCreateDto()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                Password = password
+            };
+        }
+
+        private static CustomerCreateDto InputToCustomerCreateDto()
+        {
+            Console.Write("Company Name: ");
+            string companyName = Console.ReadLine();
+
+            return new CustomerCreateDto()
+            {
+                CompanyName = companyName
+            };
+        }
+
         private static void Main(string[] args)
         {
         start:
@@ -174,7 +232,8 @@ namespace ConsoleUI
                 Console.WriteLine("1- Araç İşlemleri");
                 Console.WriteLine("2- Marka İşlemleri");
                 Console.WriteLine("3- Renk İşlemleri");
-                Console.Write("İşlem Kodu(1-3): ");
+                Console.WriteLine("4- Müşteri İşlemleri");
+                Console.Write("İşlem Kodu(1-4): ");
                 byte chooseOperation = Convert.ToByte(Console.ReadLine());
 
                 Console.Clear();
@@ -333,6 +392,61 @@ namespace ConsoleUI
 
                     #endregion Color Operations
                 }
+                else if (chooseOperation == 4)
+                {
+                    #region Customer Operations
+
+                    Console.WriteLine("1- Müşterileri Listele");
+                    Console.WriteLine("2- Yeni Müşteri Ekle");
+                    Console.WriteLine("3- Müşteri Düzenle");
+                    Console.WriteLine("4- Müşteri Sil");
+                    Console.Write("İşlem Kodu(1-4): ");
+                    byte chooseColorOperation = Convert.ToByte(Console.ReadLine());
+
+                    Console.Clear();
+
+                    if (chooseColorOperation == 1)
+                    {
+                        PrintCustomerDetails();
+                    }
+                    else if (chooseColorOperation == 2)
+                    {
+                        UserCreateDto userCreateDto = InputToUserCreateDto();
+
+                        var userAddResult = _userService.Add(userCreateDto);
+
+                        CustomerCreateDto customerCreateDto = InputToCustomerCreateDto();
+
+                        var customerAddResult = _customerService.Add(customerCreateDto);
+
+                        Console.WriteLine(userAddResult.Message);
+                    }
+                    else if (chooseColorOperation == 3)
+                    {
+                        PrintAllColor();
+                        Console.Write("Düzenlenecek Renk Id: ");
+                        int colorId = Convert.ToInt32(Console.ReadLine());
+
+                        Color updateToColor = InputToColor();
+                        var businessResult = _colorService.Update(colorId, updateToColor);
+                        Console.WriteLine(businessResult.Message);
+                    }
+                    else if (chooseColorOperation == 4)
+                    {
+                        PrintAllColor();
+                        Console.Write("Silinecek Renk Id: ");
+                        int colorId = Convert.ToInt32(Console.ReadLine());
+
+                        var businessResult = _colorService.DeleteById(colorId);
+                        Console.WriteLine(businessResult.Message);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Geçerli olmayan komut. Lütfen 1-4 arasında bir işlem kodu giriniz.");
+                    }
+
+                    #endregion Color Operations
+                }
                 else
                 {
                     Console.WriteLine("Geçerli olmayan komut. Lütfen 1-3 arasında bir işlem kodu giriniz.");
@@ -345,7 +459,7 @@ namespace ConsoleUI
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Hata: {ex.Message}");
+                Console.WriteLine($"Hata: {ex.InnerException}");
                 Console.WriteLine("Başa Dönmek İçin Bir Tuşa Basın.");
                 Console.ReadKey();
                 goto start;

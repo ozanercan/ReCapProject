@@ -1,7 +1,6 @@
 ﻿using Business.Abstract;
-using Business.Contants;
-using Core.Business.Results.Abstract;
-using Core.Business.Results.Concrete;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
@@ -18,168 +17,112 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public IBusinessResult Add(Car car)
+        public IResult Add(Car car)
         {
             if (car.DailyPrice <= 0)
-                return new BusinessResult(Messages.CarDailyPriceInvalid, false);
+                return new ErrorResult(Messages.CarDailyPriceInvalid);
 
             if (car.Description.Length <= 2)
-                return new BusinessResult(Messages.CarDescriptionInvalid, false);
+                return new ErrorResult(Messages.CarDescriptionInvalid);
 
             bool addResult = _carDal.Add(car);
 
-            string message;
             if (addResult == true)
-                message = Messages.CarAdded;
+                return new SuccessResult(Messages.CarAdded);
             else
-                message = Messages.CarNotAdded;
-
-            return new BusinessResult(message, addResult);
+                return new ErrorResult(Messages.CarAdded);
         }
 
-        public IBusinessResult Delete(Car car)
+        public IResult Delete(Car car)
         {
             bool deleteResult = _carDal.Delete(car);
 
-            string message;
             if (deleteResult == true)
-                message = Messages.CarDeleted;
+                return new SuccessResult(Messages.CarDeleted);
             else
-                message = Messages.CarNotAdded;
-
-            return new BusinessResult(message, deleteResult);
+                return new ErrorResult(Messages.CarNotAdded);
         }
 
-        public IBusinessResult DeleteById(int id)
+        public IResult DeleteById(int id)
         {
-            Car deleteToCar = _carDal.GetById(id);
+            var getResult = this.GetById(id);
 
-            return Delete(deleteToCar);
+            if (!getResult.Success)
+                return getResult;
+
+            return Delete(getResult.Data);
         }
 
-        public IBusinessDataResult<List<Car>> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
             var data = _carDal.GetAll();
 
-            string message;
-            bool isSuccess;
             if (data == null || data.Count <= 0)
-            {
-                message = Messages.CarNotFound;
-                isSuccess = false;
-            }
+                return new ErrorDataResult<List<Car>>(data, Messages.CarNotFound);
             else
-            {
-                message = Messages.CarGetListByRegistered;
-                isSuccess = true;
-            }
-
-            return new BusinessDataResult<List<Car>>(message, isSuccess, data);
+                return new SuccessDataResult<List<Car>>(data, Messages.CarGetListByRegistered);
         }
 
-        public IBusinessDataResult<Car> GetById(int id)
+        public IDataResult<Car> GetById(int id)
         {
-            string message = "";
-            bool isSuccess = false;
-
             var data = _carDal.Get(p => p.Id == id);
 
             if (data == null)
-            {
-                message = Messages.CarNotFound;
-                isSuccess = false;
-            }
+                return new ErrorDataResult<Car>(data, Messages.CarNotFound);
             else
-            {
-                message = Messages.CarGet;
-                isSuccess = true;
-            }
-
-            return new BusinessDataResult<Car>(message, isSuccess, data);
+                return new SuccessDataResult<Car>(data, Messages.CarGet);
         }
 
-        public IBusinessDataResult<List<CarDetailDto>> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             var data = _carDal.GetCarDetails();
 
-            string message;
-            bool isSuccess;
             if (data == null || data.Count <= 0)
-            {
-                message = Messages.CarNotFound;
-                isSuccess = false;
-            }
+                return new ErrorDataResult<List<CarDetailDto>>(data, Messages.CarNotFound);
             else
-            {
-                message = Messages.CarGetListByRegistered;
-                isSuccess = true;
-            }
-
-            return new BusinessDataResult<List<CarDetailDto>>(message, isSuccess, data);
+                return new SuccessDataResult<List<CarDetailDto>>(data, Messages.CarGetListByRegistered);
         }
 
-        public IBusinessDataResult<List<Car>> GetCarsByBrandId(int brandId)
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
-            string message = "";
-            bool isSuccess = false;
-
             var data = _carDal.GetAll(p => p.BrandId == brandId);
 
             if (data == null || data.Count <= 0)
-            {
-                message = Messages.CarNotFoundByBrand;
-                isSuccess = false;
-            }
+                return new ErrorDataResult<List<Car>>(data, Messages.CarNotFoundByBrand);
             else
-            {
-                message = Messages.CarGetListByBrand;
-                isSuccess = true;
-            }
-
-            return new BusinessDataResult<List<Car>>(message, isSuccess, data);
+                return new SuccessDataResult<List<Car>>(data, Messages.CarGetListByBrand);
         }
 
-        public IBusinessDataResult<List<Car>> GetCarsByColorId(int colorId)
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
-            string message = "";
-            bool isSuccess = false;
-
             var data = _carDal.GetAll(p => p.ColorId == colorId);
 
             if (data == null || data.Count <= 0)
-            {
-                message = Messages.CarNotFoundByColor;
-                isSuccess = false;
-            }
+                return new ErrorDataResult<List<Car>>(data, Messages.CarNotFoundByColor);
             else
-            {
-                message = Messages.CarGetListByColor;
-                isSuccess = true;
-            }
-
-            return new BusinessDataResult<List<Car>>(message, isSuccess, data);
+                return new SuccessDataResult<List<Car>>(data, Messages.CarGetListByColor);
         }
 
-        public IBusinessResult Update(Car car)
+        public IResult Update(Car car)
         {
             bool updateResult = _carDal.Update(car);
 
-            string message;
             if (updateResult == true)
-                message = Messages.CarUpdated;
+                return new SuccessResult(Messages.CarUpdated);
             else
-                message = Messages.CarNotUpdated;
-
-            return new BusinessResult(message, updateResult);
+                return new ErrorResult(Messages.CarNotUpdated);
         }
 
-        public IBusinessResult Update(int id, Car newCar)
+        public IResult Update(int id, Car newCar)
         {
-            var findedCarResult = GetById(id);
+            var findedEntityResult = GetById(id);
 
-            Car updatedCar = InputToCar(findedCarResult.Data, newCar);
+            if (!findedEntityResult.Success)
+                return findedEntityResult;
 
-            return Update(updatedCar);
+            Car carToUpdate = InputToCar(findedEntityResult.Data, newCar);
+
+            return Update(carToUpdate);
         }
 
         private Car InputToCar(Car oldCar, Car newCar)

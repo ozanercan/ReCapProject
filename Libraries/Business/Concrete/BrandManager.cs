@@ -1,7 +1,6 @@
 ﻿using Business.Abstract;
-using Business.Contants;
-using Core.Business.Results.Abstract;
-using Core.Business.Results.Concrete;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Collections.Generic;
@@ -17,98 +16,79 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        public IBusinessResult Add(Brand brand)
+        public IResult Add(Brand brand)
         {
             bool addResult = _brandDal.Add(brand);
 
-            string message;
             if (addResult == true)
-                message = Messages.BrandAdded;
+                return new SuccessResult(Messages.BrandAdded);
             else
-                message = Messages.BrandNotAdded;
-
-            return new BusinessResult(message, addResult);
+                return new ErrorResult(Messages.BrandAdded);
         }
 
-        public IBusinessResult Delete(Brand brand)
+        public IResult Delete(Brand brand)
         {
             bool deleteResult = _brandDal.Delete(brand);
 
-            string message;
             if (deleteResult == true)
-                message = Messages.BrandDeleted;
+                return new SuccessResult(Messages.BrandDeleted);
             else
-                message = Messages.BrandNotDeleted;
-
-            return new BusinessResult(message, deleteResult);
+                return new ErrorResult(Messages.BrandDeleted);
         }
 
-        public IBusinessResult DeleteById(int id)
+        public IResult DeleteById(int id)
         {
-            var brandToDelete = GetById(id);
-            return Delete(brandToDelete.Data);
+            var brandGetResult = GetById(id);
+            if (!brandGetResult.Success)
+                return brandGetResult;
+
+            return Delete(brandGetResult.Data);
         }
 
-        public IBusinessDataResult<List<Brand>> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
             var data = _brandDal.GetAll();
 
-            string message;
-            bool isSuccess;
             if (data == null || data.Count <= 0)
-            {
-                message = Messages.BrandNotFound;
-                isSuccess = false;
-            }
+                return new ErrorDataResult<List<Brand>>(data, Messages.BrandNotFound);
             else
-            {
-                message = Messages.BrandGetListByRegistered;
-                isSuccess = true;
-            }
-
-            return new BusinessDataResult<List<Brand>>(message, isSuccess, data);
+                return new SuccessDataResult<List<Brand>>(data, Messages.BrandGetListByRegistered);
         }
 
-        public IBusinessDataResult<Brand> GetById(int id)
+        public IDataResult<Brand> GetById(int id)
         {
-            var data = _brandDal.GetById(id);
+            var getResult = this.GetById(id);
 
-            string message;
-            bool isSuccess;
-            if (data == null)
-            {
-                message = Messages.BrandNotFound;
-                isSuccess = false;
-            }
+            if (!getResult.Success)
+                return new ErrorDataResult<Brand>(getResult.Data, Messages.BrandNotFound);
+
+            if (getResult == null)
+                return new ErrorDataResult<Brand>(getResult.Data, Messages.BrandNotFound);
             else
-            {
-                message = Messages.BrandGetListByRegistered;
-                isSuccess = true;
-            }
-
-            return new BusinessDataResult<Brand>(message, isSuccess, data);
+                return new SuccessDataResult<Brand>(getResult.Data, Messages.BrandGetListByRegistered);
         }
 
-        public IBusinessResult Update(Brand brand)
+        public IResult Update(Brand brand)
         {
             bool updateResult = _brandDal.Update(brand);
 
-            string message;
             if (updateResult == true)
-                message = Messages.BrandUpdated;
+                return new SuccessResult(Messages.BrandUpdated);
             else
-                message = Messages.BrandNotUpdated;
-
-            return new BusinessResult(message, updateResult);
+                return new ErrorResult(Messages.BrandNotUpdated);
         }
 
-        public IBusinessResult Update(int id, Brand newBrand)
+        public IResult Update(int id, Brand newBrand)
         {
             var findedCarResult = GetById(id);
 
-            Brand updatedBrand = InputToCar(findedCarResult.Data, newBrand);
+            if (!findedCarResult.Success)
+                return findedCarResult;
 
-            return Update(updatedBrand);
+
+            Brand brandToUpdate = InputToCar(findedCarResult.Data, newBrand);
+
+            return Update(brandToUpdate);
         }
 
         private Brand InputToCar(Brand oldBrand, Brand newBrand)

@@ -1,7 +1,6 @@
 ﻿using Business.Abstract;
-using Business.Contants;
-using Core.Business.Results.Abstract;
-using Core.Business.Results.Concrete;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Collections.Generic;
@@ -17,98 +16,78 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-        public IBusinessResult Add(Color color)
+        public IResult Add(Color color)
         {
             bool addResult = _colorDal.Add(color);
 
-            string message;
             if (addResult == true)
-                message = Messages.ColorAdded;
+                return new SuccessResult(Messages.ColorAdded);
             else
-                message = Messages.ColorNotAdded;
-
-            return new BusinessResult(message, addResult);
+                return new ErrorResult(Messages.ColorNotAdded);
         }
 
-        public IBusinessResult Delete(Color color)
+        public IResult Delete(Color color)
         {
             bool deleteResult = _colorDal.Delete(color);
 
-            string message;
             if (deleteResult == true)
-                message = Messages.ColorDeleted;
+                return new SuccessResult(Messages.ColorDeleted);
             else
-                message = Messages.ColorNotDeleted;
-
-            return new BusinessResult(message, deleteResult);
+                return new ErrorResult(Messages.ColorNotDeleted);
         }
 
-        public IBusinessResult DeleteById(int id)
+        public IResult DeleteById(int id)
         {
-            var colorToDelete = GetById(id);
-            return Delete(colorToDelete.Data);
+            var getResult = GetById(id);
+
+            if (!getResult.Success)
+                return getResult;
+
+            return Delete(getResult.Data);
         }
 
-        public IBusinessDataResult<List<Color>> GetAll()
+        public IDataResult<List<Color>> GetAll()
         {
             var data = _colorDal.GetAll();
 
-            string message;
-            bool isSuccess;
             if (data == null || data.Count <= 0)
-            {
-                message = Messages.ColorNotFound;
-                isSuccess = false;
-            }
+                return new ErrorDataResult<List<Color>>(data, Messages.ColorNotFound);
             else
-            {
-                message = Messages.ColorGetListByRegistered;
-                isSuccess = true;
-            }
-
-            return new BusinessDataResult<List<Color>>(message, isSuccess, data);
+                return new SuccessDataResult<List<Color>>(data, Messages.ColorGetListByRegistered);
         }
 
-        public IBusinessDataResult<Color> GetById(int id)
+        public IDataResult<Color> GetById(int id)
         {
-            var data = _colorDal.GetById(id);
+            var dataResult = this.GetById(id);
 
-            string message;
-            bool isSuccess;
-            if (data == null)
-            {
-                message = Messages.ColorNotFound;
-                isSuccess = false;
-            }
+            if (!dataResult.Success)
+                return dataResult;
+
+            if (dataResult == null)
+                return new ErrorDataResult<Color>(dataResult.Data, Messages.ColorNotFound);
             else
-            {
-                message = Messages.ColorGetListByRegistered;
-                isSuccess = true;
-            }
-
-            return new BusinessDataResult<Color>(message, isSuccess, data);
+                return new SuccessDataResult<Color>(dataResult.Data, Messages.ColorGetListByRegistered);
         }
 
-        public IBusinessResult Update(Color brand)
+        public IResult Update(Color brand)
         {
             bool updateResult = _colorDal.Update(brand);
 
-            string message;
             if (updateResult == true)
-                message = Messages.ColorUpdated;
+                return new SuccessResult(Messages.ColorUpdated);
             else
-                message = Messages.ColorNotUpdated;
-
-            return new BusinessResult(message, updateResult);
+                return new ErrorResult(Messages.ColorNotUpdated);
         }
 
-        public IBusinessResult Update(int id, Color newColor)
+        public IResult Update(int id, Color newColor)
         {
-            var findedColorResult = GetById(id);
+            var findedEntityResult = GetById(id);
+            if (!findedEntityResult.Success)
+                return findedEntityResult;
 
-            Color updatedColor = InputToCar(findedColorResult.Data, newColor);
+            Color colorToUpdate = InputToCar(findedEntityResult.Data, newColor);
 
-            return Update(updatedColor);
+            return Update(colorToUpdate);
         }
 
         private Color InputToCar(Color oldColor, Color newColor)
