@@ -1,23 +1,22 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.Dtos;
 using System.Collections.Generic;
 
 namespace Business.Abstract
 {
     public interface IRentalService
     {
-        IDataResult<Rental> GetById(int id);
-
         IDataResult<List<Rental>> GetAll();
 
-        IResult Add(Rental rental);
+        IResult Add(RentalCreateDto rentalCreateDto);
 
-        IResult Update(Rental rental);
+        IDataResult<List<Rental>> GetListReturnDateIsNull();
 
-        IResult Update(int id, Rental newRental);
+        IDataResult<Rental> GetById(int id);
 
-        IResult Delete(Rental rental);
+        IResult Update(Rental brand);
 
-        IResult DeleteById(int id);
+        IResult Delete(Rental brand);
     }
 }

@@ -5,16 +5,19 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
         private readonly ICarDal _carDal;
+        private readonly IRentalService _rentalService;
 
-        public CarManager(ICarDal carDal)
+        public CarManager(ICarDal carDal, IRentalService rentalService)
         {
             _carDal = carDal;
+            _rentalService = rentalService;
         }
 
         public IResult Add(Car car)
@@ -101,6 +104,18 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<Car>>(data, Messages.CarNotFoundByColor);
             else
                 return new SuccessDataResult<List<Car>>(data, Messages.CarGetListByColor);
+        }
+
+        public IDataResult<List<Car>> GetRentalCars()
+        {
+            var rentalResult = _rentalService.GetListReturnDateIsNull();
+
+            var cars = _carDal.GetAll();
+
+            foreach (var rental in rentalResult.Data)
+                cars.Remove(cars.Where(p => p.Id == rental.CarId).First());
+
+            return new SuccessDataResult<List<Car>>(cars);
         }
 
         public IResult Update(Car car)

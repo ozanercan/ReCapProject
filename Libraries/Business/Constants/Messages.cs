@@ -2,6 +2,8 @@
 {
     public static class Messages
     {
+        public static string CarNotInStock => "Araç stokta yok.";
+        public static string CarInStock => "Araç stokta.";
         public static string CarAdded => "Araç kayıt edildi.";
         public static string CarNotAdded => "Araç kayıt edilemedi.";
         public static string CarUpdated => "Araç güncellendi.";
@@ -68,6 +70,7 @@
         public static string RentalNotFound => "Kiralama bulunamadı.";
         public static string RentalNotUpdated => "Kiralama güncellenemedi.";
         public static string RentalGet => "Kiralama getirildi.";
+        public static string RentalListed => "Kiralamalar listelendi.";
         public static string RentalGetListByRegistered => "Kayıtlı kiralamalar getirildi.";
     }
 }

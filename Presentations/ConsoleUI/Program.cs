@@ -9,7 +9,7 @@ namespace ConsoleUI
 {
     internal class Program
     {
-        private static readonly ICarService _carService = new CarManager(new EfCarDal());
+        private static readonly ICarService _carService = new CarManager(new EfCarDal(), new RentalManager(new EfRentalDal()));
         private static readonly IBrandService _brandService = new BrandManager(new EfBrandDal());
         private static readonly IColorService _colorService = new ColorManager(new EfColorDal());
         private static readonly ICustomerService _customerService = new CustomerManager(new EfCustomerDal(), new UserManager(new EfUserDal()));
@@ -180,6 +180,26 @@ namespace ConsoleUI
             };
         }
 
+        private static RentalCreateDto InputToRentalCreateDto()
+        {
+            DateTime rentDate = new DateTime();
+            Console.Write("CarId: ");
+            int carId = Convert.ToInt32(Console.ReadLine());
+            Console.Write("CustomerId: ");
+            int customerId = Convert.ToInt32(Console.ReadLine());
+            Console.Write("RentDate: (Automatic Input Press A)");
+            string rentDateString = Console.ReadLine();
+            if (rentDateString.ToLower() == "a")
+                rentDate = DateTime.Now;
+
+            return new RentalCreateDto()
+            {
+                CarId = carId,
+                CustomerId = customerId,
+                RentDate = rentDate
+            };
+        }
+
         private static Color InputToColor()
         {
             Console.Write("Color Name: ");
@@ -233,7 +253,8 @@ namespace ConsoleUI
                 Console.WriteLine("2- Marka İşlemleri");
                 Console.WriteLine("3- Renk İşlemleri");
                 Console.WriteLine("4- Müşteri İşlemleri");
-                Console.Write("İşlem Kodu(1-4): ");
+                Console.WriteLine("4- Kira İşlemleri");
+                Console.Write("İşlem Kodu(1-5): ");
                 byte chooseOperation = Convert.ToByte(Console.ReadLine());
 
                 Console.Clear();
@@ -398,9 +419,9 @@ namespace ConsoleUI
 
                     Console.WriteLine("1- Müşterileri Listele");
                     Console.WriteLine("2- Yeni Müşteri Ekle");
-                    Console.WriteLine("3- Müşteri Düzenle");
-                    Console.WriteLine("4- Müşteri Sil");
-                    Console.Write("İşlem Kodu(1-4): ");
+                    //Console.WriteLine("3- Müşteri Düzenle");
+                    //Console.WriteLine("4- Müşteri Sil");
+                    Console.Write("İşlem Kodu(1-2): ");
                     byte chooseColorOperation = Convert.ToByte(Console.ReadLine());
 
                     Console.Clear();
@@ -421,28 +442,39 @@ namespace ConsoleUI
 
                         Console.WriteLine(userAddResult.Message);
                     }
-                    else if (chooseColorOperation == 3)
+                    else
                     {
-                        PrintAllColor();
-                        Console.Write("Düzenlenecek Renk Id: ");
-                        int colorId = Convert.ToInt32(Console.ReadLine());
-
-                        Color updateToColor = InputToColor();
-                        var businessResult = _colorService.Update(colorId, updateToColor);
-                        Console.WriteLine(businessResult.Message);
+                        Console.WriteLine("Geçerli olmayan komut. Lütfen 1-2 arasında bir işlem kodu giriniz.");
                     }
-                    else if (chooseColorOperation == 4)
-                    {
-                        PrintAllColor();
-                        Console.Write("Silinecek Renk Id: ");
-                        int colorId = Convert.ToInt32(Console.ReadLine());
 
-                        var businessResult = _colorService.DeleteById(colorId);
-                        Console.WriteLine(businessResult.Message);
+                    #endregion Color Operations
+                }
+                else if (chooseOperation == 5)
+                {
+                    #region Rent Operations
+
+                    Console.WriteLine("1- Kiraları Listele");
+                    Console.WriteLine("2- Yeni Kira Ekle");
+                    //Console.WriteLine("3- Müşteri Düzenle");
+                    //Console.WriteLine("4- Müşteri Sil");
+                    Console.Write("İşlem Kodu(1-2): ");
+                    byte chooseRentOperation = Convert.ToByte(Console.ReadLine());
+
+                    Console.Clear();
+
+                    if (chooseRentOperation == 1)
+                    {
+                        //PrintCustomerDetails();
+                    }
+                    else if (chooseRentOperation == 2)
+                    {
+                        RentalCreateDto rentalCreateDto = InputToRentalCreateDto();
+                        var addResult = _rentalService.Add(rentalCreateDto);
+                        Console.WriteLine(addResult.Message);
                     }
                     else
                     {
-                        Console.WriteLine("Geçerli olmayan komut. Lütfen 1-4 arasında bir işlem kodu giriniz.");
+                        Console.WriteLine("Geçerli olmayan komut. Lütfen 1-2 arasında bir işlem kodu giriniz.");
                     }
 
                     #endregion Color Operations

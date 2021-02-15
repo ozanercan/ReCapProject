@@ -35,7 +35,7 @@ namespace Business.Concrete
             if (addResult == true)
                 return new SuccessResult(Messages.UserAdded);
             else
-                return new ErrorResult(Messages.UserAdded);
+                return new ErrorResult(Messages.UserNotAdded);
         }
 
         public IResult Delete(User brand)
@@ -45,7 +45,7 @@ namespace Business.Concrete
             if (deleteResult == true)
                 return new SuccessResult(Messages.UserDeleted);
             else
-                return new ErrorResult(Messages.UserDeleted);
+                return new ErrorResult(Messages.UserNotDeleted);
         }
 
         public IResult DeleteById(int id)

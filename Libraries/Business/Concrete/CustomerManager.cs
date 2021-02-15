@@ -37,7 +37,7 @@ namespace Business.Concrete
             if (addResult == true)
                 return new SuccessResult(Messages.CustomerAdded);
             else
-                return new ErrorResult(Messages.CustomerAdded);
+                return new ErrorResult(Messages.CustomerNotAdded);
         }
 
         public IResult Delete(Customer customer)
@@ -47,7 +47,7 @@ namespace Business.Concrete
             if (deleteResult == true)
                 return new SuccessResult(Messages.CustomerDeleted);
             else
-                return new ErrorResult(Messages.CustomerDeleted);
+                return new ErrorResult(Messages.CustomerNotDeleted);
         }
 
         public IResult DeleteById(int id)
