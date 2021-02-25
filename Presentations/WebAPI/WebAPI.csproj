@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+    <PackageReference Include="Microsoft.AspNet.WebHelpers" Version="3.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Business\Business.csproj" />
     <ProjectReference Include="..\..\Libraries\Core\Core.csproj" />
     <ProjectReference Include="..\..\Libraries\DataAccess\DataAccess.csproj" />

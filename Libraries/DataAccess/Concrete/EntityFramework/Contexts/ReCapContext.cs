@@ -12,7 +12,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customer>(p => p.HasKey(x=>x.UserId));
+            modelBuilder.Entity<Customer>(p => p.HasKey(x => x.UserId));
 
         }
 
@@ -22,5 +22,6 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<User> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Rental> Rentals { get; set; }
+        public DbSet<CarImage> CarImages { get; set; }
     }
 }
