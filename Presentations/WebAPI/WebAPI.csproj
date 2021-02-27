@@ -16,5 +16,9 @@
     <ProjectReference Include="..\..\Libraries\Entities\Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 
 </Project>

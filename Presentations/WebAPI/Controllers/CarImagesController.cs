@@ -1,13 +1,8 @@
 ﻿using Business.Abstract;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using WebAPI.Helpers;
 
 namespace WebAPI.Controllers
 {
@@ -21,6 +16,16 @@ namespace WebAPI.Controllers
         {
             _carImageService = carImageService;
             _webHostEnvironment = webHostEnvironment;
+        }
+
+        [HttpGet("getlistbycarid")]
+        public IActionResult GetListByCarId(int carId)
+        {
+            var carImagesResult = _carImageService.GetAllByCarId(carId, Request);
+            if (!carImagesResult.Success)
+                return BadRequest(carImagesResult);
+
+            return Ok(carImagesResult);
         }
 
 
@@ -45,7 +50,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete([FromForm] CarImageDeleteDto carImageDeleteDto)
+        public IActionResult Delete(CarImageDeleteDto carImageDeleteDto)
         {
             var deleteResult = _carImageService.Delete(carImageDeleteDto, _webHostEnvironment);
             if (!deleteResult.Success)

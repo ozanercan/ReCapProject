@@ -39,7 +39,7 @@ namespace Business.Utilities.FileHelper
                 {
                     await formFiles.CopyToAsync(fileStream);
                     await fileStream.FlushAsync();
-                    return new SuccessFileResult(shortPath: string.Join(@"/", uploadFolderName, imageFolderName, imageName), fullPath: fullPath, imageName);
+                    return new SuccessFileResult(shortPath: string.Join(@"/", imageFolderName, imageName), fullPath: fullPath, imageName);
                 }
             }
             catch (Exception ex)
@@ -55,7 +55,7 @@ namespace Business.Utilities.FileHelper
         {
             try
             {
-                string fileRemovePath = string.Join("/", _hostEnvironment.ContentRootPath, filePath);
+                string fileRemovePath = string.Join("/", _hostEnvironment.ContentRootPath, uploadFolderName, filePath);
 
                 if (!File.Exists(fileRemovePath))
                     return new ErrorFileResult();

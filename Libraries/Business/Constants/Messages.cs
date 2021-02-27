@@ -2,16 +2,20 @@
 {
     public static class Messages
     {
-        public static string CarImageNotAdded = "Araç resmi eklenemedi.";
-        public static string CarImageAdded = "Araç resmi eklendi.";
-        public static string CarImageNotDeleted = "Araç resmi silinemedi.";
-        public static string CarImageDeleted = "Araç resmi silindi.";
-        public static string CarImageNotFound = "Araç resmi bulunamadı.";
-        public static string CarImagesNotFound = "Sistemde kayıtlı araç resmi bulunamadı.";
-        public static string CarImageNotUpdated = "Araç resmi güncellenemedi.";
-        public static string CarImageUpdated = "Araç resmi güncellendi.";
-        public static string CarImagesListed = "Araç resimleri listelendi.";
-        public static string CarImageBrought = "Araç resmi getirildi.";
+        public static string CarImageNotAdded => "Araç resmi eklenemedi.";
+        public static string CarImageAdded => "Araç resmi eklendi.";
+        public static string CarImageNotDeleted => "Araç resmi silinemedi.";
+        public static string CarImageDeleted => "Araç resmi silindi.";
+        public static string CarImageNotFound => "Araç resmi bulunamadı.";
+        public static string CarImagesNotFound => "Sistemde kayıtlı araç resmi bulunamadı.";
+        public static string CarImageNotUpdated => "Araç resmi güncellenemedi.";
+        public static string CarImageUpdated => "Araç resmi güncellendi.";
+        public static string CarImagesListed => "Araç resimleri listelendi.";
+        public static string CarImageBrought => "Araç resmi getirildi.";
+        public static string CarImageCountError => "Araç resim sınırını aştınız.";
+
+        public static string CarImageNotUploaded => "Resim yüklenemedi.";
+        public static string RegisteredCarImageNotDeleted => "Kayıtlı araç resmi silinemedi.";
 
         public static string CarNotInStock => "Araç stokta yok.";
         public static string CarInStock => "Araç stokta.";
