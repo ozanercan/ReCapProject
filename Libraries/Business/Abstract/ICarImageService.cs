@@ -1,7 +1,9 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.Dtos;
+using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
@@ -11,11 +13,10 @@ namespace Business.Abstract
 
         IDataResult<List<CarImage>> GetAll();
 
-        IResult Add(CarImageAddDto carImageAddDto);
+        Task<IResult> AddAsync(CarImageAddDto carImageAddDto, IHostEnvironment hostEnvironment);
 
-        IResult Update(CarImageUpdateDto carImageUpdateDto);
+        Task<IResult> UpdateAsync(CarImageUpdateDto carImageUpdateDto, IHostEnvironment hostEnvironment);
 
-        IResult Delete(CarImageDeleteDto carImage);
-
+        IResult Delete(CarImageDeleteDto carImage, IHostEnvironment hostEnvironment);
     }
 }

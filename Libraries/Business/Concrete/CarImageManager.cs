@@ -1,13 +1,16 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.Utilities.FileHelper;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -20,12 +23,18 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarImageAddDtoValidator))]
-        public IResult Add(CarImageAddDto carImageAddDto)
+        public async Task<IResult> AddAsync(CarImageAddDto carImageAddDto, IHostEnvironment hostEnvironment)
         {
+            FileHelper.Initialize(hostEnvironment);
+
+            var uploadResult = await FileHelper.ImageUploadAsync(carImageAddDto.FormFile);
+            if (!uploadResult.Success)
+                return new ErrorResult("Resim yüklenemedi.");
+
             CarImage carImage = new CarImage()
             {
                 CarId = carImageAddDto.CarId,
-                ImagePath = carImageAddDto.ImagePath,
+                ImagePath = uploadResult.ShortPath,
                 Date = DateTime.Now
             };
 
@@ -34,17 +43,24 @@ namespace Business.Concrete
             if (!addResult)
                 return new ErrorResult(Messages.CarImageNotAdded);
 
+
             return new SuccessResult(Messages.CarImageAdded);
         }
 
-        public IResult Delete(CarImageDeleteDto carImageDeleteDto)
+        public IResult Delete(CarImageDeleteDto carImageDeleteDto, IHostEnvironment hostEnvironment)
         {
-            var findedEntityResult = this.GetById(carImageDeleteDto.Id);
+            FileHelper.Initialize(hostEnvironment);
 
-            if (!findedEntityResult.Success)
-                return findedEntityResult;
+            var carImageResult = this.GetById(carImageDeleteDto.Id);
+            if (!carImageResult.Success)
+                return new ErrorResult(carImageResult.Message);
 
-            var deleteResult = _carImageDal.Delete(findedEntityResult.Data);
+            var fileRemoveResult = FileHelper.FileRemove(carImageResult.Data.ImagePath);
+
+            if (!fileRemoveResult.Success)
+                return new ErrorResult("Kayıtlı resim silinemedi.");
+
+            bool deleteResult = _carImageDal.Delete(carImageResult.Data);
 
             if (!deleteResult)
                 return new ErrorResult(Messages.CarImageNotDeleted);
@@ -72,22 +88,34 @@ namespace Business.Concrete
             return new SuccessDataResult<CarImage>(carImage, Messages.CarImageBrought);
         }
 
-        public IResult Update(CarImageUpdateDto carImageUpdateDto)
+        public async Task<IResult> UpdateAsync(CarImageUpdateDto carImageUpdateDto, IHostEnvironment hostEnvironment)
         {
-            var carImageToUpdateResult = this.GetById(carImageUpdateDto.Id);
+            FileHelper.Initialize(hostEnvironment);
 
-            if (!carImageToUpdateResult.Success)
-                return carImageToUpdateResult;
+            var carImageResult = this.GetById(carImageUpdateDto.Id);
+            if (!carImageResult.Success)
+                return new ErrorResult(carImageResult.Message);
 
-            carImageToUpdateResult.Data.CarId = carImageUpdateDto.CarId;
-            carImageToUpdateResult.Data.ImagePath = carImageUpdateDto.ImagePath;
+            var fileRemoveResult = FileHelper.FileRemove(carImageResult.Data.ImagePath);
 
-            var updateResult = _carImageDal.Update(carImageToUpdateResult.Data);
+            if (!fileRemoveResult.Success)
+                return new ErrorResult("Kayıtlı resim silinemedi.");
+
+            var fileAddResult = await FileHelper.ImageUploadAsync(carImageUpdateDto.FormFile);
+
+            if (!fileAddResult.Success)
+                return new ErrorResult("Resim yüklenemedi.");
+
+            carImageResult.Data.CarId = carImageUpdateDto.CarId;
+            carImageResult.Data.ImagePath = fileAddResult.ShortPath;
+
+            var updateResult = _carImageDal.Update(carImageResult.Data);
 
             if (!updateResult)
                 return new ErrorResult(Messages.CarImageNotUpdated);
 
             return new SuccessResult(Messages.CarImageUpdated);
         }
+
     }
 }

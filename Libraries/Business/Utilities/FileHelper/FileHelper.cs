@@ -1,29 +1,29 @@
 ﻿using Core.Utilities.Results;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace WebAPI.Helpers
+namespace Business.Utilities.FileHelper
 {
     public class FileHelper
     {
-        private static IWebHostEnvironment _webHostEnvironment;
+        private static IHostEnvironment _hostEnvironment;
         private static string uploadFolderName = "uploads";
         private static string imageFolderName = "images";
 
-        public static void Initialize(IWebHostEnvironment webHostEnvironment)
+        public static void Initialize(IHostEnvironment hostEnvironment)
         {
-            if (_webHostEnvironment == null)
-                _webHostEnvironment = webHostEnvironment;
+            if (_hostEnvironment == null)
+                _hostEnvironment = hostEnvironment;
         }
 
         public static async Task<IFileResult> ImageUploadAsync(IFormFile formFiles, string fileName = "")
         {
             try
             {
-                string fullFolderPath = string.Join(@"\", _webHostEnvironment.ContentRootPath, uploadFolderName, imageFolderName);
+                string fullFolderPath = string.Join(@"\", _hostEnvironment.ContentRootPath, uploadFolderName, imageFolderName);
 
                 CreateIfNoFolder(fullFolderPath);
 
@@ -55,7 +55,7 @@ namespace WebAPI.Helpers
         {
             try
             {
-                string fileRemovePath = string.Join("/", _webHostEnvironment.ContentRootPath, filePath);
+                string fileRemovePath = string.Join("/", _hostEnvironment.ContentRootPath, filePath);
 
                 if (!File.Exists(fileRemovePath))
                     return new ErrorFileResult();
