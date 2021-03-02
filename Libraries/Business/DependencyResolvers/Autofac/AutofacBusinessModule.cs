@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Business.Abstract;
 using Business.Concrete;
+using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using System;
@@ -20,6 +21,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<RentalManager>().As<IRentalService>();
             builder.RegisterType<UserManager>().As<IUserService>();
             builder.RegisterType<CarImageManager>().As<ICarImageService>();
+            builder.RegisterType<AuthManager>().As<IAuthService>();
+
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
             builder.RegisterType<EfBrandDal>().As<IBrandDal>();
             builder.RegisterType<EfCarDal>().As<ICarDal>();
@@ -27,7 +31,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfCustomerDal>().As<ICustomerDal>();
             builder.RegisterType<EfRentalDal>().As<IRentalDal>();
             builder.RegisterType<EfUserDal>().As<IUserDal>();
-            builder.RegisterType<EfCarImageDal>().As <ICarImageDal>();
+            builder.RegisterType<EfCarImageDal>().As<ICarImageDal>();
         }
     }
 }

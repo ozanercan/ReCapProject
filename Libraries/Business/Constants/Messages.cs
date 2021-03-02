@@ -2,6 +2,13 @@
 {
     public static class Messages
     {
+        public static string ClaimsListed = "Claimler listelendi.";
+        public static string ClaimsNotFound = "Claimler bulunamadı.";
+        public static string PasswordError = "Şifre yanlış.";
+        public static string LoginSuccess = "Giriş başarılı.";
+        public static string UserAlreadyExist = "Kullanıcı zaten var.";
+        public static string AccessTokenCreated = "Access Token başarıyla oluşturuldu.";
+
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";
         public static string CarImageNotDeleted => "Araç resmi silinemedi.";
@@ -56,7 +63,7 @@
         public static string ColorGetListByRegistered => "Kayıtlı Renklar getirildi.";
 
 
-        public static string UserAdded => "Kullanıcı kayıt edildi.";
+        public static string UserAdded => "Kullanıcı başarıyla kayıt edildi.";
         public static string UserDeleted => "Kullanıcı silindi.";
         public static string UserUpdated => "Kullanıcı güncellendi.";
         public static string UserNotAdded => "Kullanıcı kayıt edilemedi.";

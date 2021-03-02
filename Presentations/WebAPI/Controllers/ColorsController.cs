@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -40,7 +41,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+
         [HttpPost("add")]
+        [Authorize(Roles = "color.add")]
         public IActionResult Add(Color color)
         {
             var result = _colorService.Add(color);

@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -20,17 +21,9 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        public IResult Add(UserCreateDto userCreateDto)
+        public IResult Add(User user)
         {
-            var userToCreate = new User()
-            {
-                FirstName = userCreateDto.FirstName,
-                LastName = userCreateDto.LastName,
-                Email = userCreateDto.Email,
-                Password = userCreateDto.Password
-            };
-
-            bool addResult = _userDal.Add(userToCreate);
+            bool addResult = _userDal.Add(user);
 
             if (addResult == true)
                 return new SuccessResult(Messages.UserAdded);
@@ -80,6 +73,24 @@ namespace Business.Concrete
                 return new SuccessDataResult<User>(getResult.Data, Messages.UserGetListByRegistered);
         }
 
+        public IDataResult<User> GetByMail(string mail)
+        {
+            var user = _userDal.Get(p => p.Email.Equals(mail));
+            if (user == null)
+                return new ErrorDataResult<User>(null, Messages.UserNotFound);
+
+            return new SuccessDataResult<User>(user, Messages.UserAlreadyExist);
+        }
+
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        {
+            var operationClaims = _userDal.GetClaims(user);
+            if (operationClaims == null)
+                return new ErrorDataResult<List<OperationClaim>>(null, Messages.ClaimsNotFound);
+
+            return new SuccessDataResult<List<OperationClaim>>(operationClaims, Messages.ClaimsListed);
+        }
+
         public IDataResult<User> GetLastInsertUser()
         {
             User user = _userDal.GetAll().Last();
@@ -114,7 +125,7 @@ namespace Business.Concrete
             oldUser.FirstName = newUser.FirstName;
             oldUser.LastName = newUser.LastName;
             oldUser.Email = newUser.Email;
-            oldUser.Password = newUser.Password;
+            //oldUser.Password = newUser.Password;
 
             return oldUser;
         }
