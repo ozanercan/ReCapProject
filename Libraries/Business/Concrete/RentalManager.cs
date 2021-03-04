@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -32,6 +34,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CarNotInStock);
         }
 
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Add(RentalCreateDto rentalCreateDto)
         {
             if (!CheckVehicle(rentalCreateDto.CarId).Success)
@@ -53,6 +56,8 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.RentalNotAdded);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<Rental>> GetAll()
         {
             var data = _rentalDal.GetAll();
@@ -73,6 +78,8 @@ namespace Business.Concrete
             return oldRental;
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<Rental>> GetListReturnDateIsNull()
         {
             var rentals = _rentalDal.GetAll(p => p.ReturnDate == null);
@@ -83,6 +90,8 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(rentals, Messages.RentalListed);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<Rental> GetById(int id)
         {
             var rental = _rentalDal.Get(p => p.Id == id);
@@ -94,6 +103,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(rental, Messages.RentalGet);
         }
 
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Update(Rental brand)
         {
             var updateResult = _rentalDal.Update(brand);
@@ -104,6 +114,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalUpdated);
         }
 
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Delete(Rental brand)
         {
             var deleteResult = _rentalDal.Update(brand);

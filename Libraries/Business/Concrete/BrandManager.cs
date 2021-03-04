@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -16,6 +18,7 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
+        [CacheRemoveAspect("IBrandService.Get")]
         public IResult Add(Brand brand)
         {
             bool addResult = _brandDal.Add(brand);
@@ -26,6 +29,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.BrandAdded);
         }
 
+        [CacheRemoveAspect("IBrandService.Get")]
         public IResult Delete(Brand brand)
         {
             bool deleteResult = _brandDal.Delete(brand);
@@ -36,6 +40,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.BrandDeleted);
         }
 
+        [CacheRemoveAspect("IBrandService.Get")]
         public IResult DeleteById(int id)
         {
             var brandGetResult = GetById(id);
@@ -45,6 +50,8 @@ namespace Business.Concrete
             return Delete(brandGetResult.Data);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<Brand>> GetAll()
         {
             var data = _brandDal.GetAll();
@@ -55,6 +62,8 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<Brand>>(data, Messages.BrandGetListByRegistered);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<Brand> GetById(int id)
         {
             var getResult = this.GetById(id);
@@ -68,6 +77,7 @@ namespace Business.Concrete
                 return new SuccessDataResult<Brand>(getResult.Data, Messages.BrandGetListByRegistered);
         }
 
+        [CacheRemoveAspect("IBrandService.Get")]
         public IResult Update(Brand brand)
         {
             bool updateResult = _brandDal.Update(brand);
@@ -78,6 +88,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.BrandNotUpdated);
         }
 
+        [CacheRemoveAspect("IBrandService.Get")]
         public IResult Update(int id, Brand newBrand)
         {
             var findedCarResult = GetById(id);

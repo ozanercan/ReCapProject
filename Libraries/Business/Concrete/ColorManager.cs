@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -16,6 +18,7 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
+        [CacheRemoveAspect("IColorService.Get")]
         public IResult Add(Color color)
         {
             bool addResult = _colorDal.Add(color);
@@ -26,6 +29,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.ColorNotAdded);
         }
 
+        [CacheRemoveAspect("IColorService.Get")]
         public IResult Delete(Color color)
         {
             bool deleteResult = _colorDal.Delete(color);
@@ -36,6 +40,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.ColorNotDeleted);
         }
 
+        [CacheRemoveAspect("IColorService.Get")]
         public IResult DeleteById(int id)
         {
             var getResult = GetById(id);
@@ -46,6 +51,8 @@ namespace Business.Concrete
             return Delete(getResult.Data);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<Color>> GetAll()
         {
             var data = _colorDal.GetAll();
@@ -56,6 +63,8 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<Color>>(data, Messages.ColorGetListByRegistered);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<Color> GetById(int id)
         {
             var dataResult = this.GetById(id);
@@ -69,6 +78,7 @@ namespace Business.Concrete
                 return new SuccessDataResult<Color>(dataResult.Data, Messages.ColorGetListByRegistered);
         }
 
+        [CacheRemoveAspect("IColorService.Get")]
         public IResult Update(Color brand)
         {
             bool updateResult = _colorDal.Update(brand);
@@ -79,6 +89,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.ColorNotUpdated);
         }
 
+        [CacheRemoveAspect("IColorService.Get")]
         public IResult Update(int id, Color newColor)
         {
             var findedEntityResult = GetById(id);

@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,6 +21,7 @@ namespace Business.Concrete
             _userService = userService;
         }
 
+        [CacheRemoveAspect("ICustomerService.Get")]
         public IResult Add(CustomerCreateDto customerCreateDto)
         {
             var lastUserInsertIdResult = _userService.GetLastInsertUser();
@@ -40,6 +43,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CustomerNotAdded);
         }
 
+        [CacheRemoveAspect("ICustomerService.Get")]
         public IResult Delete(Customer customer)
         {
             bool deleteResult = _customerDal.Delete(customer);
@@ -50,6 +54,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CustomerNotDeleted);
         }
 
+        [CacheRemoveAspect("ICustomerService.Get")]
         public IResult DeleteById(int id)
         {
             var getResult = GetById(id);
@@ -59,6 +64,8 @@ namespace Business.Concrete
             return Delete(getResult.Data);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<Customer>> GetAll()
         {
             var data = _customerDal.GetAll();
@@ -69,6 +76,8 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<Customer>>(data, Messages.CustomerGetListByRegistered);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<Customer> GetById(int id)
         {
             var getResult = this.GetById(id);
@@ -82,11 +91,14 @@ namespace Business.Concrete
                 return new SuccessDataResult<Customer>(getResult.Data, Messages.CustomerGetListByRegistered);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
         {
             return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails());
         }
 
+        [CacheRemoveAspect("ICustomerService.Get")]
         public IResult Update(Customer customer)
         {
             bool updateResult = _customerDal.Update(customer);
@@ -97,6 +109,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CustomerNotUpdated);
         }
 
+        [CacheRemoveAspect("ICustomerService.Get")]
         public IResult Update(int id, Customer newCustomer)
         {
             var findedCustomerResult = GetById(id);

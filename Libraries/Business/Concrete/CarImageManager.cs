@@ -2,6 +2,8 @@
 using Business.Constants;
 using Business.Utilities.FileHelper;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -27,6 +29,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarImageAddDtoValidator))]
+        [CacheRemoveAspect("ICarImageService.Get")]
         public async Task<IResult> AddAsync(CarImageAddDto carImageAddDto, IHostEnvironment hostEnvironment)
         {
             var logicResult = BusinessRules.Run(
@@ -58,6 +61,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageAdded);
         }
 
+        [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Delete(CarImageDeleteDto carImageDeleteDto, IHostEnvironment hostEnvironment)
         {
             FileHelper.Initialize(hostEnvironment);
@@ -79,6 +83,8 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageDeleted);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetAll(HttpRequest httpRequest)
         {
             var carImages = _carImageDal.GetAll();
@@ -91,6 +97,8 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(carImages, Messages.CarImagesListed);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetAllByCarId(int carId, HttpRequest httpRequest)
         {
             var logicResult = BusinessRules.Run(
@@ -122,6 +130,7 @@ namespace Business.Concrete
             return new SuccessDataResult<CarImage>(carImage, Messages.CarImageBrought);
         }
 
+        [CacheRemoveAspect("ICarImageService.Get")]
         public async Task<IResult> UpdateAsync(CarImageUpdateDto carImageUpdateDto, IHostEnvironment hostEnvironment)
         {
             FileHelper.Initialize(hostEnvironment);

@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -20,6 +22,7 @@ namespace Business.Concrete
             _rentalService = rentalService;
         }
 
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
             if (car.DailyPrice <= 0)
@@ -36,6 +39,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CarAdded);
         }
 
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Delete(Car car)
         {
             bool deleteResult = _carDal.Delete(car);
@@ -46,6 +50,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CarNotAdded);
         }
 
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult DeleteById(int id)
         {
             var getResult = this.GetById(id);
@@ -56,6 +61,8 @@ namespace Business.Concrete
             return Delete(getResult.Data);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             var data = _carDal.GetAll();
@@ -66,6 +73,8 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<Car>>(data, Messages.CarGetListByRegistered);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<Car> GetById(int id)
         {
             var data = _carDal.Get(p => p.Id == id);
@@ -76,6 +85,8 @@ namespace Business.Concrete
                 return new SuccessDataResult<Car>(data, Messages.CarGet);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             var data = _carDal.GetCarDetails();
@@ -86,6 +97,8 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<CarDetailDto>>(data, Messages.CarGetListByRegistered);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
             var data = _carDal.GetAll(p => p.BrandId == brandId);
@@ -96,6 +109,8 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<Car>>(data, Messages.CarGetListByBrand);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
             var data = _carDal.GetAll(p => p.ColorId == colorId);
@@ -106,6 +121,8 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<Car>>(data, Messages.CarGetListByColor);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<Car>> GetRentalCars()
         {
             var rentalResult = _rentalService.GetListReturnDateIsNull();
@@ -118,6 +135,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(cars);
         }
 
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
         {
             bool updateResult = _carDal.Update(car);
@@ -128,6 +146,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CarNotUpdated);
         }
 
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(int id, Car newCar)
         {
             var findedEntityResult = GetById(id);

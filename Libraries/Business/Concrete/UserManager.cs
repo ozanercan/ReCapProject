@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -21,6 +23,7 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Add(User user)
         {
             bool addResult = _userDal.Add(user);
@@ -31,6 +34,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.UserNotAdded);
         }
 
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Delete(User brand)
         {
             bool deleteResult = _userDal.Delete(brand);
@@ -41,6 +45,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.UserNotDeleted);
         }
 
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult DeleteById(int id)
         {
             var getResult = GetById(id);
@@ -50,6 +55,8 @@ namespace Business.Concrete
             return Delete(getResult.Data);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<User>> GetAll()
         {
             var data = _userDal.GetAll();
@@ -60,6 +67,8 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<User>>(data, Messages.UserGetListByRegistered);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<User> GetById(int id)
         {
             var getResult = this.GetById(id);
@@ -73,6 +82,8 @@ namespace Business.Concrete
                 return new SuccessDataResult<User>(getResult.Data, Messages.UserGetListByRegistered);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<User> GetByMail(string mail)
         {
             var user = _userDal.Get(p => p.Email.Equals(mail));
@@ -82,6 +93,8 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(user, Messages.UserAlreadyExist);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
             var operationClaims = _userDal.GetClaims(user);
@@ -91,12 +104,15 @@ namespace Business.Concrete
             return new SuccessDataResult<List<OperationClaim>>(operationClaims, Messages.ClaimsListed);
         }
 
+        [PerformanceAspect(5)]
+        [CacheAspect]
         public IDataResult<User> GetLastInsertUser()
         {
             User user = _userDal.GetAll().Last();
             return new SuccessDataResult<User>(user);
         }
 
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Update(User brand)
         {
             bool updateResult = _userDal.Update(brand);
@@ -107,6 +123,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.UserNotUpdated);
         }
 
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Update(int id, User newBrand)
         {
             var findedEntityResult = GetById(id);
