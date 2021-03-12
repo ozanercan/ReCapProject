@@ -36,9 +36,9 @@ namespace ConsoleUI
         private static void Print(CarDetailDto carDetailTo)
         {
             Console.WriteLine(hyphen);
-            Console.WriteLine($"Car Description : {carDetailTo.CarDescription}");
+            Console.WriteLine($"Car Description : {carDetailTo.Description}");
             Console.WriteLine($"Brand: {carDetailTo.BrandName}");
-            Console.WriteLine($"Color: {carDetailTo.CarDescription}");
+            Console.WriteLine($"Color: {carDetailTo.Description}");
             Console.WriteLine($"DailyPrice: {carDetailTo.DailyPrice}");
         }
 

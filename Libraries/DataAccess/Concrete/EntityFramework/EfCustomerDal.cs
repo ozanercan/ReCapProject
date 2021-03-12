@@ -18,11 +18,12 @@ namespace DataAccess.Concrete.EntityFramework
                              on user.Id equals customer.UserId
                              select new CustomerDetailDto
                              {
+                                 Id = user.Id,
                                  CompanyName = customer.CompanyName,
                                  FirstName = user.FirstName,
                                  LastName = user.LastName,
                                  Email = user.Email,
-                                 //Password = user.Password
+                                 Status = user.Status
                              };
 
                 return result.ToList();

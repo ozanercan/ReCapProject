@@ -1,0 +1,21 @@
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Marka</th>
+        <th>Müşteri</th>
+        <th>Kiralama Tarihi</th>
+        <th>Teslim Alma Tarihi</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let rental of rentalDtos">
+            <td>{{rental.id}}</td>
+            <td>{{rental.brandName}}</td>
+            <td>{{rental.customer}}</td>
+            <td>{{rental.rentDate}}</td>
+            <td>{{rental.returnDate}}</td>
+        </tr>
+    </tbody>
+  </table>
+  

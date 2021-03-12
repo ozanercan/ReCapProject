@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">{{navbarBrandTitle}}</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li *ngFor="let nav of navs" class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{nav.route}}">{{nav.title}}</a>
+          </li>
+          <li *ngFor="let dropDownNav of dropDownNavs" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{{dropDownNav.route}}" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{dropDownNav.title}}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li *ngFor="let childNav of dropDownNav.childNavs" ><a class="dropdown-item" href="{{childNav.route}}">{{childNav.title}}</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

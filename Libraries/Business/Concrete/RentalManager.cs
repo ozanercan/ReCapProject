@@ -125,5 +125,14 @@ namespace Business.Concrete
 
             return new SuccessResult(Messages.RentalDeleted);
         }
+
+        public IDataResult<List<RentalDto>> GetAllDto()
+        {
+            var getResult = _rentalDal.GetRentalDtos();
+            if (getResult.Count==0)
+                return new ErrorDataResult<List<RentalDto>>(null, Messages.RentalNotFound);
+
+            return new SuccessDataResult<List<RentalDto>>(getResult, Messages.RentalListed);
+        }
     }
 }
