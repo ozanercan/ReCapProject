@@ -74,5 +74,20 @@ namespace Core.DataAccess.RepositoryPattern.Concrete
             else
                 return Entities.Where(expression).ToList();
         }
+
+        public List<TEntity> GetAllNoTracking(Expression<Func<TEntity, bool>> expression = null, params Expression<Func<TEntity, object>>[] includes)
+        {
+            AddInclude(includes);
+            if (expression == null)
+                return Entities.AsNoTracking().ToList();
+            else
+                return Entities.Where(expression).AsNoTracking().ToList();
+        }
+
+        public TEntity GetNoTracking(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes)
+        {
+            AddInclude(includes);
+            return Query.Where(expression).AsNoTracking().FirstOrDefault();
+        }
     }
 }

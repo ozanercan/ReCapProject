@@ -8,6 +8,8 @@
         public static string LoginSuccess = "Giriş başarılı.";
         public static string UserAlreadyExist = "Kullanıcı zaten var.";
         public static string AccessTokenCreated = "Access Token başarıyla oluşturuldu.";
+        public static string CarNotFoundById = "Idsi verilen araç bulunamadı.";
+        public static string CarBroughtById = "Idsi verilen araç getirildi.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";

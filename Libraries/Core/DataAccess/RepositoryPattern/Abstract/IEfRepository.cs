@@ -19,7 +19,11 @@ namespace Core.DataAccess.RepositoryPattern.Abstract
 
         List<TEntity> GetAll(Expression<Func<TEntity, bool>> expression = null, params Expression<Func<TEntity, object>>[] includes);
 
+        List<TEntity> GetAllNoTracking(Expression<Func<TEntity, bool>> expression = null, params Expression<Func<TEntity, object>>[] includes);
+
         TEntity Get(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes);
+
+        TEntity GetNoTracking(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes);
 
     }
 }

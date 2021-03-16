@@ -16,6 +16,7 @@ namespace WebAPI.Controllers
         {
             _carImageService = carImageService;
             _webHostEnvironment = webHostEnvironment;
+            
         }
 
         [HttpGet("getlistbycarid")]

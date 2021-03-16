@@ -21,5 +21,6 @@ namespace Business.Abstract
         Task<IResult> UpdateAsync(CarImageUpdateDto carImageUpdateDto, IHostEnvironment hostEnvironment);
 
         IResult Delete(CarImageDeleteDto carImage, IHostEnvironment hostEnvironment);
+        IDataResult<string> GetDefaultCarImageUrl();
     }
 }

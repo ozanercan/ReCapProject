@@ -49,7 +49,6 @@ namespace ConsoleUI
             Console.WriteLine($"First Name: {customerDetailDto.FirstName}");
             Console.WriteLine($"Last Name: {customerDetailDto.LastName}");
             Console.WriteLine($"Email: {customerDetailDto.Email}");
-            Console.WriteLine($"Password: {customerDetailDto.Password}");
         }
 
         private static void Print(Brand brand)

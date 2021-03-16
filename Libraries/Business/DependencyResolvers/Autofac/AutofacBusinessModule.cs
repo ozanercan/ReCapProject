@@ -7,6 +7,7 @@ using Core.Utilities.Interceptors;
 using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,16 +18,9 @@ namespace Business.DependencyResolvers.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<BrandManager>().As<IBrandService>();
-            builder.RegisterType<CarManager>().As<ICarService>();
-            builder.RegisterType<ColorManager>().As<IColorService>();
-            builder.RegisterType<CustomerManager>().As<ICustomerService>();
-            builder.RegisterType<RentalManager>().As<IRentalService>();
-            builder.RegisterType<UserManager>().As<IUserService>();
-            builder.RegisterType<CarImageManager>().As<ICarImageService>();
             builder.RegisterType<AuthManager>().As<IAuthService>();
-
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
+
 
             builder.RegisterType<EfBrandDal>().As<IBrandDal>();
             builder.RegisterType<EfCarDal>().As<ICarDal>();
@@ -35,6 +29,16 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfRentalDal>().As<IRentalDal>();
             builder.RegisterType<EfUserDal>().As<IUserDal>();
             builder.RegisterType<EfCarImageDal>().As<ICarImageDal>();
+
+
+            builder.RegisterType<BrandManager>().As<IBrandService>();
+            builder.RegisterType<CarManager>().As<ICarService>();
+            builder.RegisterType<ColorManager>().As<IColorService>();
+            builder.RegisterType<CustomerManager>().As<ICustomerService>();
+            builder.RegisterType<RentalManager>().As<IRentalService>();
+            builder.RegisterType<UserManager>().As<IUserService>();
+            builder.RegisterType<CarImageManager>().As<ICarImageService>();
+
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

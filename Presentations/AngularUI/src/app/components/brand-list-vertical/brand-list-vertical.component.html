@@ -1,0 +1,20 @@
+<ul class="list-group list-group-flush">
+  <li
+    class="list-group-item list-group-item-action"
+    routerLink="carListWithCard"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    Tüm Markalar
+  </li>
+  <li
+    *ngFor="let brand of brands"
+    (click)="setCurrentBrand(brand)"
+    class="list-group-item list-group-item-action"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    routerLink="carListWithCard/brand/{{ brand.id }}"
+  >
+    {{ brand.name }}
+  </li>
+</ul>

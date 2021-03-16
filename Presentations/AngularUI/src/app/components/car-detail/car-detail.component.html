@@ -1,0 +1,40 @@
+<div class="row mt-3">
+  <div class="col-md-6 row">
+    <div class="col-md-12" style="height: 500px">
+      <img
+        src="{{ parentImageUrl }}"
+        class="img-fluid h-100"
+        (click)="chooseOtherPhotoByImageUrl(parentImageUrl)"
+      />
+    </div>
+    <div
+      class="col-6 col-sm-6 col-md-6 col-lg-4"
+      *ngFor="let carImage of carImages"
+      style="height: 150px"
+    >
+      <img
+        src="{{ carImage.imagePath }}"
+        class="img-thumbnail h-100"
+        (click)="setParentImage(carImage)"
+      />
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <p class="fs-3 text-center"><b>{{ carDetailDto.dailyPrice }}</b> Türk Lirası</p>
+      </div>
+      <div class="card-body">
+        <p class="card-text"><b>Otomobil Id:</b> {{ carDetailDto.id }}</p>
+        <hr />
+        <p class="card-text"><b>Marka:</b> {{ carDetailDto.brandName }}</p>
+        <hr />
+        <p class="card-text"><b>Model Yılı:</b> {{ carDetailDto.modelYear }}</p>
+        <hr />
+        <p class="card-text"><b>Renk:</b> {{ carDetailDto.colorName }}</p>
+        <hr />
+        <p class="card-text"><b>Açıklama; </b>{{ carDetailDto.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>

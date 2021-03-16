@@ -1,0 +1,22 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Firma Adı</th>
+      <th>İsim</th>
+      <th>Soyisim</th>
+      <th>Email</th>
+      <th>Durum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customerDetail of customerDetails">
+      <td>{{ customerDetail.id }}</td>
+      <td>{{ customerDetail.companyName }}</td>
+      <td>{{ customerDetail.firstName }}</td>
+      <td>{{ customerDetail.lastName }}</td>
+      <td>{{ customerDetail.email }}</td>
+      <td>{{ customerDetail.status }}</td>
+    </tr>
+  </tbody>
+</table>

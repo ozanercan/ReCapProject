@@ -1,0 +1,14 @@
+<div class="card" (click)="navigateToCarDetailPage()">
+  <img [src]="carDetail.imagePath" class="card-img-top" height="200" />
+  <div class="card-body">
+    <p class="card-text"><b>Marka:</b> {{ carDetail.brandName }}</p>
+    <hr />
+    <p class="card-text"><b>Model Yılı:</b> {{ carDetail.modelYear }}</p>
+    <hr />
+    <p class="card-text"><b>Renk:</b> {{ carDetail.colorName }}</p>
+    <hr />
+    <p class="card-text"><b>Günlük Fiyat:</b> {{ carDetail.dailyPrice }} ₺</p>
+    <hr />
+    <p class="card-text"><b>Açıklama:</b>{{ carDetail.description }}</p>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<ul class="list-group list-group-horizontal list-group-flush">
+  <li
+    class="list-group-item"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    routerLink="carListWithCard"
+  >
+    Tüm Renkler
+  </li>
+  <li
+    *ngFor="let color of colors"
+    class="list-group-item"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    routerLink="carListWithCard/color/{{ color.id }}"
+    (click)="setCurrentColor(color)"
+  >
+    {{ color.name }}
+  </li>
+</ul>

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Business.Concrete
@@ -84,7 +85,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<CarImage>> GetAll(HttpRequest httpRequest)
         {
             var carImages = _carImageDal.GetAll();
@@ -98,7 +99,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<CarImage>> GetAllByCarId(int carId, HttpRequest httpRequest)
         {
             var logicResult = BusinessRules.Run(
@@ -107,7 +108,7 @@ namespace Business.Concrete
             if (!logicResult.Success)
                 return new ErrorDataResult<List<CarImage>>(null, logicResult.Message);
 
-            var getCarList = _carImageDal.GetAll(p => p.CarId == carId);
+            var getCarList = _carImageDal.GetAllNoTracking(p => p.CarId == carId);
 
             if (getCarList.Count == 0)
             {
@@ -171,8 +172,13 @@ namespace Business.Concrete
             return new CarImage()
             {
                 CarId = carId,
-                ImagePath = @"https://cdn1.iconfinder.com/data/icons/cars-journey/91/Cars__Journey_68-512.png"
+                ImagePath = DefaultValues.DefaultCarImageUrl
             };
+        }
+
+        public IDataResult<string> GetDefaultCarImageUrl()
+        {
+            return new SuccessDataResult<string>(DefaultValues.DefaultCarImageUrl);
         }
 
         private void GetImagePathScheme(HttpRequest httpRequest, List<CarImage> getCarList)
@@ -195,9 +201,6 @@ namespace Business.Concrete
         private IResult CheckIfCarExist(int carId)
         {
             var result = _carService.GetById(carId);
-            if (!result.Success)
-                return result;
-
             return result;
         }
     }

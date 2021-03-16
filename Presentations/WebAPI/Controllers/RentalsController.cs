@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getalldto")]
+        [HttpGet("getdetails")]
         public IActionResult GetAllDto()
         {
             var result = _rentalService.GetAllDto();

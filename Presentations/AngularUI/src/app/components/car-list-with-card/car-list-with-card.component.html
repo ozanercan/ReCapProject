@@ -1,0 +1,15 @@
+<div>
+  <div
+    class="alert alert-danger"
+    role="alert"
+    *ngIf="errorResponse !== undefined"
+  >
+    {{ errorResponse.message }}
+  </div>
+
+  <div class="row">
+    <div *ngFor="let carDetail of carDetails" class="col-md-4 mb-3 ">
+      <app-car-card [carDetail]="carDetail"></app-car-card>
+    </div>
+  </div>
+</div>
