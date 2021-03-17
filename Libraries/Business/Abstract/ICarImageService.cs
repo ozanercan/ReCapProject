@@ -12,15 +12,19 @@ namespace Business.Abstract
     {
         IDataResult<CarImage> GetById(int id);
 
-        IDataResult<List<CarImage>> GetAll(HttpRequest httpRequest);
+        IDataResult<List<CarImage>> GetAll();
+        IDataResult<List<CarImage>> GetAllNoTracking();
 
-        IDataResult<List<CarImage>> GetAllByCarId(int carId, HttpRequest httpRequest);
+        IDataResult<List<CarImage>> GetAllByCarId(int carId);
 
-        Task<IResult> AddAsync(CarImageAddDto carImageAddDto, IHostEnvironment hostEnvironment);
+        IDataResult<CarImage> GetDefaultCarImage(int carId);
 
-        Task<IResult> UpdateAsync(CarImageUpdateDto carImageUpdateDto, IHostEnvironment hostEnvironment);
+        Task<IResult> AddAsync(CarImageAddDto carImageAddDto);
 
-        IResult Delete(CarImageDeleteDto carImage, IHostEnvironment hostEnvironment);
+        Task<IResult> UpdateAsync(CarImageUpdateDto carImageUpdateDto);
+
+        IResult Delete(CarImageDeleteDto carImage);
         IDataResult<string> GetDefaultCarImageUrl();
+        IDataResult<List<CarImage>> GetAllByCarDetails();
     }
 }

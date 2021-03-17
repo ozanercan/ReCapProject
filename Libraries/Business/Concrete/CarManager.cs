@@ -18,12 +18,14 @@ namespace Business.Concrete
         private readonly ICarDal _carDal;
         private readonly IRentalService _rentalService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ICarImageService _carImageService;
 
-        public CarManager(ICarDal carDal, IRentalService rentalService)
+        public CarManager(ICarDal carDal, IRentalService rentalService, ICarImageService carImageService)
         {
             _carDal = carDal;
             _rentalService = rentalService;
             _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
+            _carImageService = carImageService;
         }
 
         [CacheRemoveAspect("ICarService.Get")]
@@ -93,37 +95,70 @@ namespace Business.Concrete
         //[CacheAspect]
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            var data = _carDal.GetCarDetails();
+            var carDetails = _carDal.GetCarDetails();
 
-            SetCarImage(data);
+            var carImages = _carImageService.GetAllNoTracking().Data;
 
-            if (data.Count == 0)
-                return new ErrorDataResult<List<CarDetailDto>>(data, Messages.CarNotFound);
+            SetImages(carDetails, carImages);
 
-            return new SuccessDataResult<List<CarDetailDto>>(data, Messages.CarGetListByRegistered);
+            CheckDefaultImage(carDetails);
+
+            if (carDetails.Count == 0)
+                return new ErrorDataResult<List<CarDetailDto>>(carDetails, Messages.CarNotFound);
+
+            return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByRegistered);
+        }
+
+        private void SetImages(List<CarDetailDto> carDetails, List<CarImage> carImages)
+        {
+            carDetails.ForEach(carDetail =>
+            {
+                var findedCarImages = carImages.Where(p => p.CarId == carDetail.Id).ToList();
+                if (findedCarImages.Count == 0)
+                {
+                    carDetail.ImagePaths.Add(_carImageService.GetDefaultCarImage(carDetail.Id).Data);
+                }
+                else
+                {
+                    carDetail.ImagePaths = findedCarImages;
+                }
+            });
+        }
+
+        private void CheckDefaultImage(List<CarDetailDto> data)
+        {
+            foreach (var item in data)
+            {
+                if (item.ImagePaths.Count == 0)
+                {
+                    item.ImagePaths = new List<CarImage>() { _carImageService.GetDefaultCarImage(item.Id).Data };
+                }
+            }
         }
 
         [PerformanceAspect(5)]
         //[CacheAspect]
         public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandId(int brandId)
         {
-            var data = _carDal.GetCarDetailsByBrandId(brandId);
+            var carDetails = _carDal.GetCarDetailsByBrandId(brandId);
+            var carImages = _carImageService.GetAllNoTracking().Data;
 
-            SetCarImage(data);
+            SetImages(carDetails, carImages);
+            CheckDefaultImage(carDetails);
 
-            if (data.Count == 0)
+            if (carDetails.Count == 0)
                 return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFoundByBrand);
 
-            return new SuccessDataResult<List<CarDetailDto>>(data, Messages.CarGetListByBrand);
+            return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByBrand);
         }
 
-       
+
 
         [PerformanceAspect(5)]
         //[CacheAspect]
         public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
-            var data = _carDal.GetAll(p => p.ColorId == colorId);
+            var data = _carDal.GetAllNoTracking(p => p.ColorId == colorId);
 
             if (data == null || data.Count <= 0)
                 return new ErrorDataResult<List<Car>>(data, Messages.CarNotFoundByColor);
@@ -172,69 +207,30 @@ namespace Business.Concrete
 
         public IDataResult<List<CarDetailDto>> GetCarDetailsByColorId(int colorId)
         {
-            var data = _carDal.GetCarDetailsByColorId(colorId);
+            var carDetails = _carDal.GetCarDetailsByColorId(colorId);
+            var carImages = _carImageService.GetAllNoTracking().Data;
 
-            SetCarImage(data);
+            SetImages(carDetails, carImages);
+            CheckDefaultImage(carDetails);
 
-            if (data.Count == 0)
+            if (carDetails.Count == 0)
                 return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFoundByColor);
 
-            return new SuccessDataResult<List<CarDetailDto>>(data, Messages.CarGetListByColor);
+            return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByColor);
         }
 
         public IDataResult<CarDetailDto> GetCarDetailById(int id)
         {
-            var data = _carDal.GetCarDetailById(id);
+            var carDetail = _carDal.GetCarDetailById(id);
+            var carImages = _carImageService.GetAll().Data;
 
-            SetCarImage(data);
+            //SetImages(carDetails, carImages);
+            //CheckDefaultImage(carDetails);
 
-            if (data == null)
+            if (carDetail == null)
                 return new ErrorDataResult<CarDetailDto>(null, Messages.CarNotFoundById);
 
-            return new SuccessDataResult<CarDetailDto>(data, Messages.CarBroughtById);
-        }
-
-        private void SetCarImage(List<CarDetailDto> data)
-        {
-            data.ForEach(carDetail =>
-            {
-                if (string.IsNullOrEmpty(carDetail.ImagePath))
-                    carDetail.ImagePath = DefaultValues.DefaultCarImageUrl;
-                else
-                {
-                    carDetail.ImagePath = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/" + carDetail.ImagePath;
-                }
-            });
-        }
-        private void SetCarImage(List<CarImage> data)
-        {
-            data.ForEach(carImage =>
-            {
-                if (string.IsNullOrEmpty(carImage.ImagePath))
-                    carImage.ImagePath = DefaultValues.DefaultCarImageUrl;
-                else
-                {
-                    carImage.ImagePath = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/" + carImage.ImagePath;
-                }
-            });
-        }
-        private void SetCarImage(CarImage data)
-        {
-            if (string.IsNullOrEmpty(data.ImagePath))
-                data.ImagePath = DefaultValues.DefaultCarImageUrl;
-            else
-            {
-                data.ImagePath = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/" + data.ImagePath;
-            }
-        }
-        private void SetCarImage(CarDetailDto data)
-        {
-            if (string.IsNullOrEmpty(data.ImagePath))
-                data.ImagePath = DefaultValues.DefaultCarImageUrl;
-            else
-            {
-                data.ImagePath = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/" + data.ImagePath;
-            }
+            return new SuccessDataResult<CarDetailDto>(carDetail, Messages.CarBroughtById);
         }
 
         private Car InputToCar(Car oldCar, Car newCar)

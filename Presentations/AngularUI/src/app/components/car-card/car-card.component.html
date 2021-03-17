@@ -1,5 +1,5 @@
 <div class="card" (click)="navigateToCarDetailPage()">
-  <img [src]="carDetail.imagePath" class="card-img-top" height="200" />
+  <img [src]="carDetail.imagePaths[0].imagePath" class="card-img-top" height="200" />
   <div class="card-body">
     <p class="card-text"><b>Marka:</b> {{ carDetail.brandName }}</p>
     <hr />

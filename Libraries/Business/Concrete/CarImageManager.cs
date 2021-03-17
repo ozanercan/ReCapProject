@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Business.Concrete
@@ -22,25 +23,27 @@ namespace Business.Concrete
     public class CarImageManager : ICarImageService
     {
         private readonly ICarImageDal _carImageDal;
-        private readonly ICarService _carService;
-        public CarImageManager(ICarImageDal carImageDal, ICarService carService)
+        private readonly IHostEnvironment _hostEnvironment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public CarImageManager(ICarImageDal carImageDal, IHostEnvironment hostEnvironment, IHttpContextAccessor httpContextAccessor)
         {
             _carImageDal = carImageDal;
-            _carService = carService;
+            _hostEnvironment = hostEnvironment;
+
+            FileHelper.Initialize(_hostEnvironment);
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [ValidationAspect(typeof(CarImageAddDtoValidator))]
         [CacheRemoveAspect("ICarImageService.Get")]
-        public async Task<IResult> AddAsync(CarImageAddDto carImageAddDto, IHostEnvironment hostEnvironment)
+        public async Task<IResult> AddAsync(CarImageAddDto carImageAddDto)
         {
             var logicResult = BusinessRules.Run(
-                CheckIfCarExist(carImageAddDto.CarId),
                 CheckIfNumberOfCarPicturesByCarId(carImageAddDto.CarId));
 
             if (!logicResult.Success)
                 return logicResult;
 
-            FileHelper.Initialize(hostEnvironment);
 
             var uploadResult = await FileHelper.ImageUploadAsync(carImageAddDto.FormFile);
             if (!uploadResult.Success)
@@ -63,10 +66,8 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICarImageService.Get")]
-        public IResult Delete(CarImageDeleteDto carImageDeleteDto, IHostEnvironment hostEnvironment)
+        public IResult Delete(CarImageDeleteDto carImageDeleteDto)
         {
-            FileHelper.Initialize(hostEnvironment);
-
             var carImageResult = this.GetById(carImageDeleteDto.Id);
             if (!carImageResult.Success)
                 return new ErrorResult(carImageResult.Message);
@@ -86,37 +87,56 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<List<CarImage>> GetAll(HttpRequest httpRequest)
+        public IDataResult<List<CarImage>> GetAll()
         {
             var carImages = _carImageDal.GetAll();
 
             if (carImages == null)
                 return new ErrorDataResult<List<CarImage>>(null, Messages.CarImagesNotFound);
 
-            GetImagePathScheme(httpRequest, carImages);
+            GetImagePathScheme(_httpContextAccessor.HttpContext.Request, carImages);
+
+            return new SuccessDataResult<List<CarImage>>(carImages, Messages.CarImagesListed);
+        }
+
+        public IDataResult<List<CarImage>> GetAllNoTracking()
+        {
+            var carImages = _carImageDal.GetAllNoTracking();
+
+            if (carImages == null)
+                return new ErrorDataResult<List<CarImage>>(null, Messages.CarImagesNotFound);
+
+            GetImagePathScheme(_httpContextAccessor.HttpContext.Request, carImages);
+
+            return new SuccessDataResult<List<CarImage>>(carImages, Messages.CarImagesListed);
+        }
+
+        public IDataResult<List<CarImage>> GetAllByCarDetails()
+        {
+            var carImages = _carImageDal.GetAllNoTracking();
+
+            if (carImages == null)
+                return new ErrorDataResult<List<CarImage>>(null, Messages.CarImagesNotFound);
+
+            GetImagePathScheme(_httpContextAccessor.HttpContext.Request, carImages);
 
             return new SuccessDataResult<List<CarImage>>(carImages, Messages.CarImagesListed);
         }
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<List<CarImage>> GetAllByCarId(int carId, HttpRequest httpRequest)
+        public IDataResult<List<CarImage>> GetAllByCarId(int carId)
         {
-            var logicResult = BusinessRules.Run(
-                CheckIfCarExist(carId));
-
-            if (!logicResult.Success)
-                return new ErrorDataResult<List<CarImage>>(null, logicResult.Message);
-
             var getCarList = _carImageDal.GetAllNoTracking(p => p.CarId == carId);
 
             if (getCarList.Count == 0)
             {
                 var defaultCarImage = GetDefaultCarImage(carId);
-                return new SuccessDataResult<List<CarImage>>(new List<CarImage> { defaultCarImage });
+
+                return new SuccessDataResult<List<CarImage>>(new List<CarImage> { defaultCarImage.Data });
             }
 
-            GetImagePathScheme(httpRequest, getCarList);
+            GetImagePathScheme(_httpContextAccessor.HttpContext.Request, getCarList);
 
             return new SuccessDataResult<List<CarImage>>(getCarList);
         }
@@ -132,16 +152,8 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICarImageService.Get")]
-        public async Task<IResult> UpdateAsync(CarImageUpdateDto carImageUpdateDto, IHostEnvironment hostEnvironment)
+        public async Task<IResult> UpdateAsync(CarImageUpdateDto carImageUpdateDto)
         {
-            FileHelper.Initialize(hostEnvironment);
-
-            var logicResult = BusinessRules.Run(
-                CheckIfCarExist(carImageUpdateDto.CarId));
-
-            if (!logicResult.Success)
-                return logicResult;
-
             var carImageResult = this.GetById(carImageUpdateDto.Id);
             if (!carImageResult.Success)
                 return new ErrorResult(carImageResult.Message);
@@ -167,13 +179,13 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageUpdated);
         }
 
-        private CarImage GetDefaultCarImage(int carId)
+        public IDataResult<CarImage> GetDefaultCarImage(int carId)
         {
-            return new CarImage()
+            return new SuccessDataResult<CarImage>(new CarImage()
             {
                 CarId = carId,
                 ImagePath = DefaultValues.DefaultCarImageUrl
-            };
+            });
         }
 
         public IDataResult<string> GetDefaultCarImageUrl()
@@ -196,12 +208,6 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CarImageCountError);
 
             return new SuccessResult();
-        }
-
-        private IResult CheckIfCarExist(int carId)
-        {
-            var result = _carService.GetById(carId);
-            return result;
         }
     }
 }

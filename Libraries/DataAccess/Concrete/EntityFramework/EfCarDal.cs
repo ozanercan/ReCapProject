@@ -20,9 +20,6 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.ColorId equals color.Id
                              join brand in context.Brands
                              on car.BrandId equals brand.Id
-                             join carImage in context.CarImages
-                             on car.Id equals carImage.CarId into cimg
-                             from x in cimg.DefaultIfEmpty()
                              select new CarDetailDto
                              {
                                  BrandName = brand.Name,
@@ -30,8 +27,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 Id = car.Id,
-                                 ImagePath = x.ImagePath
+                                 Id = car.Id
                              };
                 return result.AsNoTracking().ToList();
             }
@@ -47,9 +43,6 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.ColorId equals color.Id
                              join brand in context.Brands
                              on car.BrandId equals brand.Id
-                             join carImage in context.CarImages
-                             on car.Id equals carImage.CarId into cimg
-                             from x in cimg.DefaultIfEmpty()
                              where brand.Id == brandId
                              select new CarDetailDto
                              {
@@ -58,8 +51,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 Id = car.Id,
-                                 ImagePath = x.ImagePath
+                                 Id = car.Id
                              };
                 return result.AsNoTracking().ToList();
             }
@@ -75,9 +67,6 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.ColorId equals color.Id
                              join brand in context.Brands
                              on car.BrandId equals brand.Id
-                             join carImage in context.CarImages
-                             on car.Id equals carImage.CarId into cimg
-                             from x in cimg.DefaultIfEmpty()
                              where color.Id == colorId
                              select new CarDetailDto
                              {
@@ -86,8 +75,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 Id = car.Id,
-                                 ImagePath = x.ImagePath
+                                 Id = car.Id
                              };
                 return result.AsNoTracking().ToList();
             }
@@ -103,9 +91,6 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.ColorId equals color.Id
                              join brand in context.Brands
                              on car.BrandId equals brand.Id
-                             join carImage in context.CarImages
-                             on car.Id equals carImage.CarId into cimg
-                             from x in cimg.DefaultIfEmpty()
                              where car.Id == id
                              select new CarDetailDto
                              {
@@ -114,8 +99,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 Id = car.Id,
-                                 ImagePath = x.ImagePath
+                                 Id = car.Id
                              };
                 return result.AsNoTracking().FirstOrDefault();
             }

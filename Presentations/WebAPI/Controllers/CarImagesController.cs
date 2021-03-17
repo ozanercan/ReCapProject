@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
         [HttpGet("getlistbycarid")]
         public IActionResult GetListByCarId(int carId)
         {
-            var carImagesResult = _carImageService.GetAllByCarId(carId, Request);
+            var carImagesResult = _carImageService.GetAllByCarId(carId);
             if (!carImagesResult.Success)
                 return BadRequest(carImagesResult);
 
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync([FromForm] CarImageAddDto carImageAddDto)
         {
-            var addResult = await _carImageService.AddAsync(carImageAddDto, _webHostEnvironment);
+            var addResult = await _carImageService.AddAsync(carImageAddDto);
             if (!addResult.Success)
                 return BadRequest(addResult);
 
@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
         [HttpPost("update")]
         public async Task<IActionResult> UpdateAsync([FromForm] CarImageUpdateDto carImageUpdateDto)
         {
-            var updateResult = await _carImageService.UpdateAsync(carImageUpdateDto, _webHostEnvironment);
+            var updateResult = await _carImageService.UpdateAsync(carImageUpdateDto);
             if (!updateResult.Success)
                 return BadRequest(updateResult);
 
@@ -53,7 +53,7 @@ namespace WebAPI.Controllers
         [HttpDelete("delete")]
         public IActionResult Delete(CarImageDeleteDto carImageDeleteDto)
         {
-            var deleteResult = _carImageService.Delete(carImageDeleteDto, _webHostEnvironment);
+            var deleteResult = _carImageService.Delete(carImageDeleteDto);
             if (!deleteResult.Success)
                 return BadRequest(deleteResult);
 
