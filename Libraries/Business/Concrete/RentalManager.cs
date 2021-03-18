@@ -6,6 +6,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
+using System;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -19,45 +20,30 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
-        /// <summary>
-        /// Aracın stokta olup olmadığını kontrol eder.
-        /// </summary>
-        /// <param name="carId"></param>
-        /// <returns>Success True dönerse araç stoktadır, False ise araç stokta değildir.</returns>
-        public IResult CheckVehicle(int carId)
-        {
-            var rentResult = _rentalDal.Get(p => p.Id == carId && p.ReturnDate == null);
-
-            if (rentResult == null)
-                return new SuccessResult(Messages.CarInStock);
-            else
-                return new ErrorResult(Messages.CarNotInStock);
-        }
-
         [CacheRemoveAspect("IRentalService.Get")]
-        public IResult Add(RentalCreateDto rentalCreateDto)
+        public IDataResult<Rental> Add(RentalCreateDto rentalCreateDto)
         {
-            if (!CheckVehicle(rentalCreateDto.CarId).Success)
-                return new ErrorResult(Messages.CarNotInStock);
+            if (!CheckDate(rentalCreateDto.CarId, rentalCreateDto.RentDate).Success)
+                return new ErrorDataResult<Rental>(null, Messages.CarNotInStock);
 
             var rentalToAdd = new Rental()
             {
                 CarId = rentalCreateDto.CarId,
                 CustomerId = rentalCreateDto.CustomerId,
                 RentDate = rentalCreateDto.RentDate,
-                ReturnDate = null
+                ReturnDate = rentalCreateDto.ReturnDate
             };
 
             bool addResult = _rentalDal.Add(rentalToAdd);
 
             if (addResult == true)
-                return new SuccessResult(Messages.RentalAdded);
+                return new SuccessDataResult<Rental>(rentalToAdd, Messages.RentalAdded);
             else
-                return new ErrorResult(Messages.RentalNotAdded);
+                return new ErrorDataResult<Rental>(null, Messages.RentalNotAdded);
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<Rental>> GetAll()
         {
             var data = _rentalDal.GetAll();
@@ -79,7 +65,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<Rental>> GetListReturnDateIsNull()
         {
             var rentals = _rentalDal.GetAll(p => p.ReturnDate == null);
@@ -91,7 +77,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<Rental> GetById(int id)
         {
             var rental = _rentalDal.Get(p => p.Id == id);
@@ -129,10 +115,25 @@ namespace Business.Concrete
         public IDataResult<List<RentalDto>> GetAllDto()
         {
             var getResult = _rentalDal.GetRentalDtos();
-            if (getResult.Count==0)
+            if (getResult.Count == 0)
                 return new ErrorDataResult<List<RentalDto>>(null, Messages.RentalNotFound);
 
             return new SuccessDataResult<List<RentalDto>>(getResult, Messages.RentalListed);
+        }
+
+        private IResult CheckDate(int carId, DateTime rentDate)
+        {
+            var rentals = _rentalDal.GetAllNoTracking(p => p.CarId == carId);
+
+            foreach (var item in rentals)
+            {
+                if (rentDate < item.ReturnDate)
+                {
+                    return new ErrorResult();
+                }
+            }
+
+            return new SuccessResult();
         }
     }
 }

@@ -1,3 +1,13 @@
+<div class="mb-3">
+  <label for="brandFilter" class="form-label">Marka Ara</label>
+  <input
+    type="text"
+    class="form-control"
+    id="brandFilter"
+    placeholder="Arama ifadesi giriniz"
+    [(ngModel)]="filterText"
+  />
+</div>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -6,7 +16,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let brand of brands">
+    <tr *ngFor="let brand of brands | brandFilter: filterText">
       <td>{{ brand.id }}</td>
       <td>{{ brand.name }}</td>
     </tr>

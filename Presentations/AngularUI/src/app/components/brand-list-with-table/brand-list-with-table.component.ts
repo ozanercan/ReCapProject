@@ -16,6 +16,7 @@ export class BrandListWithTableComponent implements OnInit {
 
   brands: Brand[] = [];
 
+  filterText: string = '';
   getBrands() {
     this.brandService.getBrands().subscribe((response) => {
       this.brands = response.data;

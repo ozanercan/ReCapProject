@@ -15,6 +15,7 @@ export class ColorListWithTableComponent implements OnInit {
   ngOnInit(): void {}
 
   colors: Color[] = [];
+  filterText: string = '';
   getColors() {
     this.colorService.getColors().subscribe((response) => {
       this.colors = response.data;

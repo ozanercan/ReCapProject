@@ -56,7 +56,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<User>> GetAll()
         {
             var data = _userDal.GetAll();
@@ -68,7 +68,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<User> GetById(int id)
         {
             var getResult = this.GetById(id);
@@ -83,7 +83,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<User> GetByMail(string mail)
         {
             var user = _userDal.Get(p => p.Email.Equals(mail));
@@ -94,7 +94,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
             var operationClaims = _userDal.GetClaims(user);
@@ -105,7 +105,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<User> GetLastInsertUser()
         {
             User user = _userDal.GetAll().Last();

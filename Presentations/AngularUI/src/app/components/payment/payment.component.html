@@ -1,0 +1,52 @@
+<div class="card">
+  <div class="card-top border-bottom text-center"></div>
+  <div class="card-body">
+    <div class="row upper">
+      <span><i class="fa fa-check-circle-o"></i> Shopping bag</span>
+      <span><i class="fa fa-check-circle-o"></i> Order details</span>
+      <span id="payment"><span id="three">3</span>Payment</span>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="left border">
+          <div class="row">
+            <span class="header">Online Ödeme</span>
+            <div class="icons">
+              <img src="https://img.icons8.com/color/48/000000/visa.png" />
+              <img
+                src="https://img.icons8.com/color/48/000000/mastercard-logo.png"
+              />
+              <img src="https://img.icons8.com/color/48/000000/maestro.png" />
+            </div>
+          </div>
+          <span>Kart Üzerinde Yazan Ad-Soyad</span>
+          <input
+            type="text"
+            placeholder="Ozan ERCAN"
+            [(ngModel)]="nameSurname"
+          />
+          <span>Kart Numarası:</span>
+          <input
+            type="text"
+            placeholder="0125 6780 4567 9909"
+            [(ngModel)]="cardNumber"
+          />
+          <div class="row">
+            <div class="col-4">
+              <span>Son Kullanım Tarihi:</span>
+              <input type="text" placeholder="YY/MM" [(ngModel)]="expiryDate" />
+            </div>
+            <div class="col-4">
+              <span>CVV:</span>
+              <input type="text" id="cvv" placeholder="123" [(ngModel)]="cvv" />
+            </div>
+          </div>
+          <a class="btn btn-success" (click)="completePayment()"
+            >ÖDEMEYİ TAMAMLA</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div></div>
+</div>

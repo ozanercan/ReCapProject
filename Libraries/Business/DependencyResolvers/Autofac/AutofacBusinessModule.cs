@@ -29,6 +29,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfRentalDal>().As<IRentalDal>();
             builder.RegisterType<EfUserDal>().As<IUserDal>();
             builder.RegisterType<EfCarImageDal>().As<ICarImageDal>();
+            builder.RegisterType<EfPaymentDal>().As<IPaymentDal>();
 
 
             builder.RegisterType<BrandManager>().As<IBrandService>();
@@ -38,6 +39,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<RentalManager>().As<IRentalService>();
             builder.RegisterType<UserManager>().As<IUserService>();
             builder.RegisterType<CarImageManager>().As<ICarImageService>();
+            builder.RegisterType<PaymentManager>().As<IPaymentService>();
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

@@ -10,6 +10,8 @@
         public static string AccessTokenCreated = "Access Token başarıyla oluşturuldu.";
         public static string CarNotFoundById = "Idsi verilen araç bulunamadı.";
         public static string CarBroughtById = "Idsi verilen araç getirildi.";
+        public static string PaymentCancelled = "Ödeme iptal edildi.";
+        public static string PaymentSuccessful = "Ödeme tamamlandı.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";

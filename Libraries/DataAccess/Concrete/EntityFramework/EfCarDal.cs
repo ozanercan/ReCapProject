@@ -104,5 +104,53 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.AsNoTracking().FirstOrDefault();
             }
         }
+
+        public List<CarDetailDto> GetCarDetailsByBrandName(string brandName)
+        {
+            using (ReCapContext context = new ReCapContext())
+            {
+
+                var result = from car in context.Cars
+                             join color in context.Colors
+                             on car.ColorId equals color.Id
+                             join brand in context.Brands
+                             on car.BrandId equals brand.Id
+                             where brand.Name == brandName
+                             select new CarDetailDto
+                             {
+                                 BrandName = brand.Name,
+                                 ColorName = color.Name,
+                                 ModelYear = car.ModelYear,
+                                 DailyPrice = car.DailyPrice,
+                                 Description = car.Description,
+                                 Id = car.Id
+                             };
+                return result.AsNoTracking().ToList();
+            }
+        }
+
+        public List<CarDetailDto> GetCarDetailsByColorName(string colorName)
+        {
+            using (ReCapContext context = new ReCapContext())
+            {
+
+                var result = from car in context.Cars
+                             join color in context.Colors
+                             on car.ColorId equals color.Id
+                             join brand in context.Brands
+                             on car.BrandId equals brand.Id
+                             where color.Name == colorName
+                             select new CarDetailDto
+                             {
+                                 BrandName = brand.Name,
+                                 ColorName = color.Name,
+                                 ModelYear = car.ModelYear,
+                                 DailyPrice = car.DailyPrice,
+                                 Description = car.Description,
+                                 Id = car.Id
+                             };
+                return result.AsNoTracking().ToList();
+            }
+        }
     }
 }

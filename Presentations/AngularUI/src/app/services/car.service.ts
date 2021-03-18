@@ -14,16 +14,22 @@ export class CarService {
 
   getUrl: string = 'https://localhost:5001/api/cars/getdetails';
 
-  getCarDetailsByBrandUrl: string =
+  getCarDetailsByBrandUrlIdUrl: string =
     'https://localhost:5001/api/cars/getcardetailsbybrandid';
 
-  getCarDetailsByColorUrl: string =
+  getCarDetailsByBrandNameIdUrl: string =
+    'https://localhost:5001/api/cars/getcardetailsbybrandname';
+
+  getCarDetailsByColorIdUrl: string =
     'https://localhost:5001/api/cars/getcardetailsbycolorid';
 
-  getCarDetailByCarUrl: string =
+  getCarDetailsByColorNameUrl: string =
+    'https://localhost:5001/api/cars/getcardetailsbycolorname';
+
+  getCarDetailByCarIdUrl: string =
     'https://localhost:5001/api/cars/getcardetailsbycarid';
 
-  getCarImagesByColorUrl: string =
+  getCarImagesByCarIdUrl: string =
     'https://localhost:5001/api/carimages/getlistbycarid';
 
   getCarDetails(): Observable<DataResponseModel<CarDetailDto[]>> {
@@ -34,7 +40,15 @@ export class CarService {
     brandId: number
   ): Observable<DataResponseModel<CarDetailDto[]>> {
     return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(
-      `${this.getCarDetailsByBrandUrl}?brandId=${brandId}`
+      `${this.getCarDetailsByBrandUrlIdUrl}?brandId=${brandId}`
+    );
+  }
+
+  getCarDetailsByBrandName(
+    brandName: string
+  ): Observable<DataResponseModel<CarDetailDto[]>> {
+    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(
+      `${this.getCarDetailsByBrandNameIdUrl}?brandName=${brandName}`
     );
   }
 
@@ -42,7 +56,15 @@ export class CarService {
     colorId: number
   ): Observable<DataResponseModel<CarDetailDto[]>> {
     return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(
-      `${this.getCarDetailsByColorUrl}?colorId=${colorId}`
+      `${this.getCarDetailsByColorIdUrl}?colorId=${colorId}`
+    );
+  }
+
+  getCarDetailsByColorName(
+    colorName: string
+  ): Observable<DataResponseModel<CarDetailDto[]>> {
+    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(
+      `${this.getCarDetailsByColorNameUrl}?colorName=${colorName}`
     );
   }
 
@@ -50,7 +72,7 @@ export class CarService {
     carId: number
   ): Observable<DataResponseModel<CarDetailDto>> {
     return this.httpClient.get<DataResponseModel<CarDetailDto>>(
-      `${this.getCarDetailByCarUrl}?carId=${carId}`
+      `${this.getCarDetailByCarIdUrl}?carId=${carId}`
     );
   }
 
@@ -58,7 +80,7 @@ export class CarService {
     carId: number
   ): Observable<DataResponseModel<CarImage[]>> {
     return this.httpClient.get<DataResponseModel<CarImage[]>>(
-      `${this.getCarImagesByColorUrl}?carId=${carId}`
+      `${this.getCarImagesByCarIdUrl}?carId=${carId}`
     );
   }
 }

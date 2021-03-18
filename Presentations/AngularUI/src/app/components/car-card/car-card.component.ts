@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { CarDetailDto } from 'src/app/models/carDetailDto';
 
@@ -8,11 +8,12 @@ import { CarDetailDto } from 'src/app/models/carDetailDto';
   styleUrls: ['./car-card.component.css'],
 })
 export class CarCardComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor() {}
 
   @Input() carDetail!: CarDetailDto;
 
-  ngOnInit(): void {}
+  ngOnInit(){
+  }
 
   navigateToCarDetailPage() {
     window.location.href = '/carDetail/car/' + this.carDetail.id;

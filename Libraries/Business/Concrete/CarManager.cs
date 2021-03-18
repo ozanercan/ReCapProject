@@ -125,6 +125,19 @@ namespace Business.Concrete
             });
         }
 
+        private void SetImages(CarDetailDto carDetail, List<CarImage> carImages)
+        {
+            var findedCarImages = carImages.Where(p => p.CarId == carDetail.Id).ToList();
+            if (findedCarImages.Count == 0)
+            {
+                carDetail.ImagePaths.Add(_carImageService.GetDefaultCarImage(carDetail.Id).Data);
+            }
+            else
+            {
+                carDetail.ImagePaths = findedCarImages;
+            }
+        }
+
         private void CheckDefaultImage(List<CarDetailDto> data)
         {
             foreach (var item in data)
@@ -133,6 +146,13 @@ namespace Business.Concrete
                 {
                     item.ImagePaths = new List<CarImage>() { _carImageService.GetDefaultCarImage(item.Id).Data };
                 }
+            }
+        }
+        private void CheckDefaultImage(CarDetailDto data)
+        {
+            if (data.ImagePaths.Count == 0)
+            {
+                data.ImagePaths = new List<CarImage>() { _carImageService.GetDefaultCarImage(data.Id).Data };
             }
         }
 
@@ -222,10 +242,10 @@ namespace Business.Concrete
         public IDataResult<CarDetailDto> GetCarDetailById(int id)
         {
             var carDetail = _carDal.GetCarDetailById(id);
-            var carImages = _carImageService.GetAll().Data;
+            var carImages = _carImageService.GetAllNoTracking().Data;
 
-            //SetImages(carDetails, carImages);
-            //CheckDefaultImage(carDetails);
+            SetImages(carDetail, carImages);
+            CheckDefaultImage(carDetail);
 
             if (carDetail == null)
                 return new ErrorDataResult<CarDetailDto>(null, Messages.CarNotFoundById);
@@ -243,5 +263,32 @@ namespace Business.Concrete
             return oldCar;
         }
 
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandName(string brandName)
+        {
+            var carDetails = _carDal.GetCarDetailsByBrandName(brandName);
+            var carImages = _carImageService.GetAllNoTracking().Data;
+
+            SetImages(carDetails, carImages);
+            CheckDefaultImage(carDetails);
+
+            if (carDetails.Count == 0)
+                return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFoundByBrand);
+
+            return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByBrand);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorName(string colorName)
+        {
+            var carDetails = _carDal.GetCarDetailsByColorName(colorName);
+            var carImages = _carImageService.GetAllNoTracking().Data;
+
+            SetImages(carDetails, carImages);
+            CheckDefaultImage(carDetails);
+
+            if (carDetails.Count == 0)
+                return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFoundByColor);
+
+            return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByColor);
+        }
     }
 }

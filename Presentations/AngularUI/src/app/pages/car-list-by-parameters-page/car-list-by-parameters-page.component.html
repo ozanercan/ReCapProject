@@ -1,10 +1,49 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 my-3">
-      <app-color-list-horizontal></app-color-list-horizontal>
-    </div>
     <div class="col-md-3">
-      <app-brand-list-vertical></app-brand-list-vertical>
+      <br />
+      <div id="filterElements" class="row">
+        <div class="col-md-12">
+          <label for="colorSelect" class="form-label d-block"
+            >Renk Seçimi</label
+          >
+          <select
+            [(ngModel)]="selectedColor"
+            class="form-select d-inline-block"
+            id="colorSelect"
+            style="width: 65%"
+          >
+            <option *ngFor="let color of colors">{{ color.name }}</option>
+          </select>
+          <button
+            class="ms-1 mb-1 btn btn-success d-inline-block"
+            style="width: 30%"
+            routerLink="carListWithCard/colorName/{{selectedColor}}"
+          >
+            Filtrele
+          </button>
+        </div>
+        <div class="col-md-12 mt-1">
+          <label for="colorSelect" class="form-label d-block"
+            >Marka Seçimi</label
+          >
+          <select
+            [(ngModel)]="selectedBrand"
+            class="form-select d-inline-block"
+            id="colorSelect"
+            style="width: 65%"
+          >
+            <option *ngFor="let brand of brands">{{ brand.name }}</option>
+          </select>
+          <button
+            class="ms-1 mb-1 btn btn-success d-inline-block"
+            style="width: 30%"
+           routerLink="carListWithCard/brandName/{{selectedBrand}}"
+          >
+            Filtrele
+          </button>
+        </div>
+      </div>
     </div>
     <div class="col-md-9">
       <router-outlet></router-outlet>

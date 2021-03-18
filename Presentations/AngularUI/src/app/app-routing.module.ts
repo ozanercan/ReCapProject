@@ -1,13 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CarCardComponent } from './components/car-card/car-card.component';
 import { CarDetailComponent } from './components/car-detail/car-detail.component';
 import { CarListWithCardComponent } from './components/car-list-with-card/car-list-with-card.component';
+import { PaymentComponent } from './components/payment/payment.component';
 import { BrandListWithTablePageComponent } from './pages/brand-list-with-table-page/brand-list-with-table-page.component';
+import { CarListByBrandPageComponent } from './pages/car-list-by-brand-page/car-list-by-brand-page.component';
+import { CarListByColorPageComponent } from './pages/car-list-by-color-page/car-list-by-color-page.component';
 import { CarListByParametersPageComponent } from './pages/car-list-by-parameters-page/car-list-by-parameters-page.component';
 import { CarListWithTablePageComponent } from './pages/car-list-with-table-page/car-list-with-table-page.component';
 import { ColorListWithTablePageComponent } from './pages/color-list-with-table-page/color-list-with-table-page.component';
 import { CustomerListWithTablePageComponent } from './pages/customer-list-with-table-page/customer-list-with-table-page.component';
 import { RentalListWithTablePageComponent } from './pages/rental-list-with-table-page/rental-list-with-table-page.component';
+import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.component';
 
 const routes: Routes = [
   { path: 'brandListWithTable', component: BrandListWithTablePageComponent },
@@ -19,10 +24,36 @@ const routes: Routes = [
   { path: 'carListWithTable', component: CarListWithTablePageComponent },
   { path: 'rentalListWithTable', component: RentalListWithTablePageComponent },
   { path: 'carDetail/car/:carId', component: CarDetailComponent },
-  { path: '', pathMatch:'full', redirectTo: 'carListByParameters/carListWithCard' },
   {
-    path: 'carListByParameters',
-    component: CarListByParametersPageComponent,
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'carListByParameters/carListWithCard',
+  },
+  {
+    path: 'rental/new/:carId',
+    component: RentalNewPageComponent,
+  },
+  {
+    path: 'payment/:rentalId',
+    component: PaymentComponent,
+  },
+  {
+    path: 'carListByColor',
+    component: CarListByColorPageComponent,
+    children: [
+      {
+        path: 'carListWithCard',
+        component: CarListWithCardComponent,
+      },
+      {
+        path: 'carListWithCard/color/:colorId',
+        component: CarListWithCardComponent,
+      },
+    ],
+  },
+  {
+    path: 'carListByBrand',
+    component: CarListByBrandPageComponent,
     children: [
       {
         path: 'carListWithCard',
@@ -32,8 +63,30 @@ const routes: Routes = [
         path: 'carListWithCard/brand/:brandId',
         component: CarListWithCardComponent,
       },
+    ],
+  },
+  {
+    path: 'carListByParameters',
+    component: CarListByParametersPageComponent,
+    children: [
       {
-        path: 'carListWithCard/color/:colorId',
+        path: 'carListWithCard',
+        component: CarListWithCardComponent,
+      },
+      {
+        path: 'carListWithCard/brandName/:brandName',
+        component: CarListWithCardComponent,
+      },
+      {
+        path: 'carListWithCard/brandId/:brandId',
+        component: CarListWithCardComponent,
+      },
+      {
+        path: 'carListWithCard/colorId/:colorId',
+        component: CarListWithCardComponent,
+      },
+      {
+        path: 'carListWithCard/colorName/:colorName',
         component: CarListWithCardComponent,
       },
     ],

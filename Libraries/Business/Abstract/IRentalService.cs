@@ -10,7 +10,7 @@ namespace Business.Abstract
         IDataResult<List<Rental>> GetAll();
         IDataResult<List<RentalDto>> GetAllDto();
 
-        IResult Add(RentalCreateDto rentalCreateDto);
+        IDataResult<Rental> Add(RentalCreateDto rentalCreateDto);
 
         IDataResult<List<Rental>> GetListReturnDateIsNull();
 

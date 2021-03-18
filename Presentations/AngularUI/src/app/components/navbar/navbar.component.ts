@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DropDownNav } from 'src/app/models/navbar/DropDownNav';
+import { DropDownNav } from 'src/app/models/navbar/dropDownNav';
 import { Nav } from 'src/app/models/navbar/nav';
 
 @Component({
@@ -18,7 +18,9 @@ export class NavbarComponent implements OnInit {
       title: 'Araç İşlemleri',
       childNavs: [
         { title: 'Tablolu Liste', route: 'carListWithTable' },
-        { title: 'Gelişmiş Liste', route: 'carListByParameters/carListWithCard' },
+        { title: 'Renge Göre Liste', route: 'carListByColor' },
+        { title: 'Markaya Göre Liste', route: 'carListByBrand' },
+        { title: 'Gelişmiş Liste', route: 'carListByParameters/carListWithCard' }
       ],
     },
     {

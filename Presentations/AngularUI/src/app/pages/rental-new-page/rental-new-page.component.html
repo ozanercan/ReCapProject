@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-3">
+    <app-car-card
+      *ngIf="carDetailDto"
+      [carDetail]="carDetailDto"
+    ></app-car-card>
+  </div>
+  <div class="col-md-9">
+    
+    <div class="h-50 overflow-auto">
+      <app-customer-list-with-table (selectedCustomer)="setCustomerDetailDto($event)"></app-customer-list-with-table>
+    </div>
+    
+    <div class="mb-3">
+      <label for="rentalStartDateTime" class="form-label">Kiralama Başlangıç Tarihi</label>
+      <input type="datetime-local" class="form-control" id="rentalStartDateTime" [(ngModel)]="rentDate">
+    </div>
+    <div class="mb-3">
+      <label for="rentalEndDateTime" class="form-label">Kira Bitiş Tarihi</label>
+      <input type="datetime-local" class="form-control" id="rentalEndDateTime" [(ngModel)]="returnDate">
+    </div>
+
+    <a class="btn btn-success" (click)="create()">
+      Kayıt Et
+    </a>
+  </div>
+</div>

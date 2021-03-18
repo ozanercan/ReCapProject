@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let customerDetail of customerDetails">
+    <tr *ngFor="let customerDetail of customerDetails" (click)="setCustomer(customerDetail)">
       <td>{{ customerDetail.id }}</td>
       <td>{{ customerDetail.companyName }}</td>
       <td>{{ customerDetail.firstName }}</td>

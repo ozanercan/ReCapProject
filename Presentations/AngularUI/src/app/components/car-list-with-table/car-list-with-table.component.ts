@@ -15,7 +15,7 @@ export class CarListWithTableComponent implements OnInit {
   ngOnInit(): void {}
 
   carDetails: CarDetailDto[] = [];
-
+  filterText: string = '';
   getCarDetails() {
     this.carService.getCarDetails().subscribe((response) => {
       this.carDetails = response.data;

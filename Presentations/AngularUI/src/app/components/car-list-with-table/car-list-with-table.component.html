@@ -1,3 +1,13 @@
+<div class="mb-3">
+  <label for="colorFilter" class="form-label">Otomobil Ara</label>
+  <input
+    type="text"
+    class="form-control"
+    id="colorFilter"
+    placeholder="Arama ifadesi giriniz"
+    [(ngModel)]="filterText"
+  />
+</div>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -10,7 +20,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let carDetail of carDetails">
+    <tr *ngFor="let carDetail of carDetails | carFilter: filterText">
       <td>{{ carDetail.id }}</td>
       <td>{{ carDetail.brandName }}</td>
       <td>{{ carDetail.colorName }}</td>

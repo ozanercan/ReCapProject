@@ -22,7 +22,9 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-header">
-        <p class="fs-3 text-center"><b>{{ carDetailDto.dailyPrice }}</b> Türk Lirası</p>
+        <p class="fs-3 text-center">
+          <b>{{ carDetailDto.dailyPrice }}</b> Türk Lirası
+        </p>
       </div>
       <div class="card-body">
         <p class="card-text"><b>Otomobil Id:</b> {{ carDetailDto.id }}</p>
@@ -35,6 +37,14 @@
         <hr />
         <p class="card-text"><b>Açıklama; </b>{{ carDetailDto.description }}</p>
       </div>
+    </div>
+    <div class="text-center">
+      <button
+        class="btn btn-success mt-3"
+        routerLink="/rental/new/{{ carDetailDto.id }}"
+      >
+        Kirala
+    </button>
     </div>
   </div>
 </div>
