@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -81,6 +82,16 @@ namespace WebAPI.Controllers
         public IActionResult GetCarDetailsById(int carId)
         {
             var result = _carService.GetCarDetailById(carId);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("getcardetailsbyfilters")]
+        public IActionResult GetCarDetailsByFilters(CarFilterDto carFilterDto)
+        {
+            var result = _carService.GetCarDetailsByFilters(carFilterDto);
             if (result.Success)
                 return Ok(result);
 

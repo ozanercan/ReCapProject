@@ -290,5 +290,19 @@ namespace Business.Concrete
 
             return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByColor);
         }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByFilters(CarFilterDto carFilterDto)
+        {
+            var carDetails = _carDal.GetCarDetailsByFilter(carFilterDto);
+            var carImages = _carImageService.GetAllNoTracking().Data;
+
+            SetImages(carDetails, carImages);
+            CheckDefaultImage(carDetails);
+
+            if (carDetails.Count == 0)
+                return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFoundByFilters);
+
+            return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByFilters);
+        }
     }
 }

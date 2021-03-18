@@ -12,6 +12,8 @@
         public static string CarBroughtById = "Idsi verilen araç getirildi.";
         public static string PaymentCancelled = "Ödeme iptal edildi.";
         public static string PaymentSuccessful = "Ödeme tamamlandı.";
+        public static string CarNotFoundByFilters = "Filtrelere uygun araç bulunamadı.";
+        public static string CarGetListByFilters = "Filtrelere uygun araçlar listelendi.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";

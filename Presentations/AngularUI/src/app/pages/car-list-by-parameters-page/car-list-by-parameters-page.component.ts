@@ -37,8 +37,4 @@ export class CarListByParametersPageComponent implements OnInit {
       this.brands = p.data;
     });
   }
-  
-  getCarsByBrandName(brandName:string){
-    
-  }
 }

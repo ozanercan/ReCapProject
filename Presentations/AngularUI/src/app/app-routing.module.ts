@@ -24,6 +24,7 @@ const routes: Routes = [
   { path: 'carListWithTable', component: CarListWithTablePageComponent },
   { path: 'rentalListWithTable', component: RentalListWithTablePageComponent },
   { path: 'carDetail/car/:carId', component: CarDetailComponent },
+  { path: 'carDetail/car/:carId', component: CarDetailComponent },
   {
     path: '',
     pathMatch: 'full',
@@ -87,6 +88,10 @@ const routes: Routes = [
       },
       {
         path: 'carListWithCard/colorName/:colorName',
+        component: CarListWithCardComponent,
+      },
+      {
+        path: 'carListWithCard/filters/:colorName/:brandName',
         component: CarListWithCardComponent,
       },
     ],

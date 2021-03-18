@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CarDetailDto } from 'src/app/models/carDetailDto';
+import { CarFilterDto } from 'src/app/models/carFilterDto';
 import { DataResponseModel } from 'src/app/models/responseModels/dataResponseModel';
 import { ResponseModel } from 'src/app/models/responseModels/responseModel';
 import { CarService } from 'src/app/services/car.service';
@@ -19,8 +20,17 @@ export class CarListWithCardComponent implements OnInit {
   errorResponse!: ResponseModel | undefined;
 
   ngOnInit(): void {
+    console.log('CarListWithCard init.');
+
     this.activatedRoute.params.subscribe((parameter) => {
-      if (parameter['brandId']) {
+      console.log(parameter);
+
+      if (parameter['brandName'] && parameter['colorName']) {
+        this.getCarDetailsByFilters(
+          parameter['colorName'],
+          parameter['brandName']
+        );
+      } else if (parameter['brandId']) {
         this.getCarDetailsByBrandId(parameter['brandId']);
       } else if (parameter['colorId']) {
         this.getCarDetailsByColorId(parameter['colorId']);
@@ -41,8 +51,6 @@ export class CarListWithCardComponent implements OnInit {
 
   requestResult!: ResponseModel;
 
-
-  
   getCarDetailsByColorName(colorName: string) {
     this.carService.getCarDetailsByColorName(colorName).subscribe(
       (response) => {
@@ -68,7 +76,6 @@ export class CarListWithCardComponent implements OnInit {
     );
   }
 
-  
   getCarDetailsByBrandId(brandId: number) {
     this.carService.getCarDetailsByBrandId(brandId).subscribe(
       (response) => {
@@ -95,6 +102,25 @@ export class CarListWithCardComponent implements OnInit {
   }
   getCarDetails() {
     this.carService.getCarDetails().subscribe(
+      (response) => {
+        this.carDetails = response.data;
+      },
+      (error) => {
+        this.errorResponse = error.error;
+
+        this.carDetails = [];
+      }
+    );
+  }
+
+  getCarDetailsByFilters(colorName: string, brandName: string) {
+    console.log('getCarDetailsByFilters run.');
+
+    let carFilterDto: CarFilterDto = new CarFilterDto();
+    carFilterDto.brandName = brandName;
+    carFilterDto.colorName = colorName;
+
+    this.carService.getCarDetailsByFilters(carFilterDto).subscribe(
       (response) => {
         this.carDetails = response.data;
       },

@@ -9,19 +9,11 @@
           >
           <select
             [(ngModel)]="selectedColor"
-            class="form-select d-inline-block"
+            class="form-select"
             id="colorSelect"
-            style="width: 65%"
           >
             <option *ngFor="let color of colors">{{ color.name }}</option>
           </select>
-          <button
-            class="ms-1 mb-1 btn btn-success d-inline-block"
-            style="width: 30%"
-            routerLink="carListWithCard/colorName/{{selectedColor}}"
-          >
-            Filtrele
-          </button>
         </div>
         <div class="col-md-12 mt-1">
           <label for="colorSelect" class="form-label d-block"
@@ -31,17 +23,19 @@
             [(ngModel)]="selectedBrand"
             class="form-select d-inline-block"
             id="colorSelect"
-            style="width: 65%"
           >
             <option *ngFor="let brand of brands">{{ brand.name }}</option>
           </select>
-          <button
-            class="ms-1 mb-1 btn btn-success d-inline-block"
-            style="width: 30%"
-           routerLink="carListWithCard/brandName/{{selectedBrand}}"
+        </div>
+        <div class="col-md-12 mt-3">
+          <a
+            class="btn btn-success w-100"
+            routerLink="carListWithCard/filters/{{ selectedColor }}/{{
+              selectedBrand
+            }}"
           >
             Filtrele
-          </button>
+          </a>
         </div>
       </div>
     </div>

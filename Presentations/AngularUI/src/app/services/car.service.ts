@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Brand } from '../models/brand';
 import { CarDetailDto } from '../models/carDetailDto';
+import { CarFilterDto } from '../models/carFilterDto';
 import { CarImage } from '../models/carImage';
 import { DataResponseModel } from '../models/responseModels/dataResponseModel';
 
@@ -28,6 +29,9 @@ export class CarService {
 
   getCarDetailByCarIdUrl: string =
     'https://localhost:5001/api/cars/getcardetailsbycarid';
+
+  getCarDetailByFiltersUrl: string =
+    'https://localhost:5001/api/cars/getcardetailsbyfilters';
 
   getCarImagesByCarIdUrl: string =
     'https://localhost:5001/api/carimages/getlistbycarid';
@@ -73,6 +77,14 @@ export class CarService {
   ): Observable<DataResponseModel<CarDetailDto>> {
     return this.httpClient.get<DataResponseModel<CarDetailDto>>(
       `${this.getCarDetailByCarIdUrl}?carId=${carId}`
+    );
+  }
+
+  getCarDetailsByFilters(
+    carFilterDto: CarFilterDto
+  ): Observable<DataResponseModel<CarDetailDto[]>> {
+    return this.httpClient.post<DataResponseModel<CarDetailDto[]>>(
+      `${this.getCarDetailByFiltersUrl}`, carFilterDto
     );
   }
 
