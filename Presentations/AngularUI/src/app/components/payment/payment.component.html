@@ -1,14 +1,9 @@
 <div class="card">
-  <div class="card-top border-bottom text-center"></div>
+  <div class="card-top border-bottom text-center p-0"></div>
   <div class="card-body">
-    <div class="row upper">
-      <span><i class="fa fa-check-circle-o"></i> Shopping bag</span>
-      <span><i class="fa fa-check-circle-o"></i> Order details</span>
-      <span id="payment"><span id="three">3</span>Payment</span>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="left border">
+    <div class="row mt-5">
+      <div class="col-md-12 col-lg-6">
+        <div class="left border" style="border-radius: 5px;">
           <div class="row">
             <span class="header">Online Ödeme</span>
             <div class="icons">
@@ -19,26 +14,40 @@
               <img src="https://img.icons8.com/color/48/000000/maestro.png" />
             </div>
           </div>
-          <span>Kart Üzerinde Yazan Ad-Soyad</span>
+          <span>Kart Sahibinin Adı ve Soyadı</span>
           <input
             type="text"
             placeholder="Ozan ERCAN"
             [(ngModel)]="nameSurname"
+            class="text-capitalize"
+            maxlength="50"
           />
           <span>Kart Numarası:</span>
           <input
             type="text"
             placeholder="0125 6780 4567 9909"
             [(ngModel)]="cardNumber"
+            maxlength="16"
           />
           <div class="row">
-            <div class="col-4">
+            <div class="col-6">
               <span>Son Kullanım Tarihi:</span>
-              <input type="text" placeholder="YY/MM" [(ngModel)]="expiryDate" />
+              <input
+                type="text"
+                placeholder="YY/MM"
+                [(ngModel)]="expiryDate"
+                maxlength="5"
+              />
             </div>
-            <div class="col-4">
+            <div class="col-6">
               <span>CVV:</span>
-              <input type="text" id="cvv" placeholder="123" [(ngModel)]="cvv" />
+              <input
+                type="text"
+                id="cvv"
+                placeholder="123"
+                [(ngModel)]="cvv"
+                maxlength="3"
+              />
             </div>
           </div>
           <a class="btn btn-success" (click)="completePayment()"
@@ -46,7 +55,40 @@
           >
         </div>
       </div>
+      <div class="col-md-12 col-lg-6">
+        <div class="creditCart text-light row">
+          <div class="col-12 row">
+            <div class="col-4">
+              <img
+                src="https://img.icons8.com/color/48/000000/mastercard-logo.png"
+                class="img-fluid mt-2"
+              />
+            </div>
+            <div class="col-8">
+              <p class="mt-2 fs-2 fw-bold float-end">Credit Cart</p>
+            </div>
+          </div>
+          <div class="col-12">
+            <img
+              src="assets/images/icons/chip.png"
+              class="float-start ms-3"
+              style="width: 15%"
+            />
+          </div>
+          <div class="col-12">
+            <h3 class="creditCartFont fs-2 ms-3">{{cardNumber}}</h3>
+          </div>
+          <div class="col-12 row">
+            <div class="col-8">
+              <p class="ms-3 creditCartFont">{{nameSurname}}</p>
+            </div>
+            <div class="col-4 creditCartFont">
+              <p>{{expiryDate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <div></div>
   </div>
-  <div></div>
 </div>

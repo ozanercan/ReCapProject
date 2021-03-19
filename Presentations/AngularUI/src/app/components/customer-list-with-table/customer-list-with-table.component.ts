@@ -15,6 +15,8 @@ export class CustomerListWithTableComponent implements OnInit {
   ngOnInit(): void {}
 
   customerDetails: CustomerDetailDto[] = [];
+  
+  selectedCustomerDetailDto!: CustomerDetailDto;
 
   @Output()
   selectedCustomer: EventEmitter<CustomerDetailDto> = new EventEmitter();
@@ -26,6 +28,17 @@ export class CustomerListWithTableComponent implements OnInit {
   }
 
   setCustomer(customerDetailDto: CustomerDetailDto) {
-    this.selectedCustomer.emit(customerDetailDto);
+    this.selectedCustomerDetailDto = customerDetailDto;
+    this.selectedCustomer.emit(this.selectedCustomerDetailDto);
+  }
+
+
+  getTableRowClass(customerDetailDto: CustomerDetailDto): string {
+    if (this.selectedCustomerDetailDto !== undefined) {
+      if (this.selectedCustomerDetailDto.id == customerDetailDto.id) {
+        return 'table-success';
+      }
+    }
+    return '';
   }
 }

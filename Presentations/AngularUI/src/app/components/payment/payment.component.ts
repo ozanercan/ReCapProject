@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { timer } from 'rxjs';
 import { PaymentAddDto } from 'src/app/models/paymentAddDto';
 import { PaymentService } from 'src/app/services/payment.service';
 
@@ -47,6 +48,10 @@ export class PaymentComponent implements OnInit {
     this.paymentService.addPayment(paymentAddDto).subscribe(
       (p) => {
         this.toastrService.success(p.message);
+        this.toastrService.success("Ana sayfaya yönlendiriliyorsunuz.");
+        timer(3000).subscribe(p=>{
+          window.location.href="";
+        });
       },
       (error) => {
         this.toastrService.error(error.error.message);
