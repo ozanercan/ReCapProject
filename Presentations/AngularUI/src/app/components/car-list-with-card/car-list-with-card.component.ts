@@ -20,11 +20,7 @@ export class CarListWithCardComponent implements OnInit {
   errorResponse!: ResponseModel | undefined;
 
   ngOnInit(): void {
-    console.log('CarListWithCard init.');
-
     this.activatedRoute.params.subscribe((parameter) => {
-      console.log(parameter);
-
       if (parameter['brandName'] && parameter['colorName']) {
         this.getCarDetailsByFilters(
           parameter['colorName'],
@@ -114,8 +110,6 @@ export class CarListWithCardComponent implements OnInit {
   }
 
   getCarDetailsByFilters(colorName: string, brandName: string) {
-    console.log('getCarDetailsByFilters run.');
-
     let carFilterDto: CarFilterDto = new CarFilterDto();
     carFilterDto.brandName = brandName;
     carFilterDto.colorName = colorName;

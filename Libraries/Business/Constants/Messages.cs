@@ -30,7 +30,7 @@
         public static string CarImageNotUploaded => "Resim yüklenemedi.";
         public static string RegisteredCarImageNotDeleted => "Kayıtlı araç resmi silinemedi.";
 
-        public static string CarNotInStock => "Araç stokta yok.";
+        public static string CarAlreadyRented => "Araç belirlenen tarihler arasında zaten kiralanmış.";
         public static string CarInStock => "Araç stokta.";
         public static string CarAdded => "Araç kayıt edildi.";
         public static string CarNotAdded => "Araç kayıt edilemedi.";

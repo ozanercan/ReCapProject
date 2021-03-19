@@ -10,13 +10,17 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let customerDetail of customerDetails" (click)="setCustomer(customerDetail)" [class]="getTableRowClass(customerDetail)">
+    <tr
+      *ngFor="let customerDetail of customerDetails"
+      (click)="setCustomer(customerDetail)"
+      [class]="getTableRowClass(customerDetail)"
+    >
       <td>{{ customerDetail.id }}</td>
       <td>{{ customerDetail.companyName }}</td>
       <td>{{ customerDetail.firstName }}</td>
       <td>{{ customerDetail.lastName }}</td>
       <td>{{ customerDetail.email }}</td>
-      <td>{{ customerDetail.status }}</td>
+      <td>{{ customerDetail.status}}</td>
     </tr>
   </tbody>
 </table>

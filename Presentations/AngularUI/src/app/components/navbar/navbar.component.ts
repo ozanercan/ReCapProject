@@ -18,8 +18,8 @@ export class NavbarComponent implements OnInit {
       title: 'Araç İşlemleri',
       childNavs: [
         { title: 'Tablolu Liste', route: 'carListWithTable' },
-        { title: 'Renge Göre Liste', route: 'carListByColor' },
-        { title: 'Markaya Göre Liste', route: 'carListByBrand' },
+        { title: 'Renge Göre Liste', route: 'carListByColor/carListWithCard' },
+        { title: 'Markaya Göre Liste', route: 'carListByBrand/carListWithCard' },
         { title: 'Gelişmiş Liste', route: 'carListByParameters/carListWithCard' }
       ],
     },

@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Brand } from 'src/app/models/brand';
 import { Color } from 'src/app/models/color';
 import { BrandService } from 'src/app/services/brand.service';
@@ -12,7 +14,9 @@ import { ColorService } from 'src/app/services/color.service';
 export class CarListByParametersPageComponent implements OnInit {
   constructor(
     private colorService: ColorService,
-    private brandService: BrandService
+    private brandService: BrandService,
+    private toastrService: ToastrService,
+    private router: Router
   ) {
     this.getColors();
     this.getBrands();
@@ -21,8 +25,8 @@ export class CarListByParametersPageComponent implements OnInit {
   colors: Color[] = [];
   brands: Brand[] = [];
 
-  selectedBrand: string = '';
-  selectedColor: string = '';
+  selectedBrand!: string;
+  selectedColor!: string;
 
   ngOnInit(): void {}
 
@@ -36,5 +40,20 @@ export class CarListByParametersPageComponent implements OnInit {
     this.brandService.getBrands().subscribe((p) => {
       this.brands = p.data;
     });
+  }
+
+  filter() {
+    if (this.selectedBrand !== undefined && this.selectedColor !== undefined) {
+
+      let routePath =
+        'carListByParameters/carListWithCard/filters/' +
+        this.selectedColor +
+        '/' +
+        this.selectedBrand;
+
+      this.router.navigateByUrl(routePath);
+    } else {
+      this.toastrService.warning('Lütfen Renk ve Marka seçimi yapınız.');
+    }
   }
 }

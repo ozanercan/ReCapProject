@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiUrlHelper } from '../helpers/api-url-helper';
 import { PaymentAddDto } from '../models/paymentAddDto';
 import { ResponseModel } from '../models/responseModels/responseModel';
 
@@ -10,9 +11,9 @@ import { ResponseModel } from '../models/responseModels/responseModel';
 export class PaymentService {
   constructor(private httpClient: HttpClient) {}
 
-  addUrl: string = 'https://localhost:5001/api/payments/add';
+  paymentAddPath: string = 'payments/add';
 
   addPayment(paymentAddDto: PaymentAddDto): Observable<ResponseModel> {
-    return this.httpClient.post<ResponseModel>(this.addUrl, paymentAddDto);
+    return this.httpClient.post<ResponseModel>(ApiUrlHelper.getUrl(this.paymentAddPath), paymentAddDto);
   }
 }

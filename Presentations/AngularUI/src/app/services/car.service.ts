@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiUrlHelper } from '../helpers/api-url-helper';
 import { Brand } from '../models/brand';
 import { CarDetailDto } from '../models/carDetailDto';
 import { CarFilterDto } from '../models/carFilterDto';
@@ -13,86 +14,116 @@ import { DataResponseModel } from '../models/responseModels/dataResponseModel';
 export class CarService {
   constructor(private httpClient: HttpClient) {}
 
-  getUrl: string = 'https://localhost:5001/api/cars/getdetails';
+  getUrl: string = 'cars/getdetails';
 
-  getCarDetailsByBrandUrlIdUrl: string =
-    'https://localhost:5001/api/cars/getcardetailsbybrandid';
+  getCarDetailsByBrandIdPath: string = 'cars/getcardetailsbybrandid';
 
-  getCarDetailsByBrandNameIdUrl: string =
-    'https://localhost:5001/api/cars/getcardetailsbybrandname';
+  getCarDetailsByBrandNameIdPath: string = 'cars/getcardetailsbybrandname';
 
-  getCarDetailsByColorIdUrl: string =
-    'https://localhost:5001/api/cars/getcardetailsbycolorid';
+  getCarDetailsByColorIdPath: string = 'cars/getcardetailsbycolorid';
 
-  getCarDetailsByColorNameUrl: string =
-    'https://localhost:5001/api/cars/getcardetailsbycolorname';
+  getCarDetailsByColorNamePath: string = 'cars/getcardetailsbycolorname';
 
-  getCarDetailByCarIdUrl: string =
-    'https://localhost:5001/api/cars/getcardetailsbycarid';
+  getCarDetailByCarIdPath: string = 'cars/getcardetailsbycarid';
 
-  getCarDetailByFiltersUrl: string =
-    'https://localhost:5001/api/cars/getcardetailsbyfilters';
+  getCarDetailByFiltersPath: string = 'cars/getcardetailsbyfilters';
 
-  getCarImagesByCarIdUrl: string =
-    'https://localhost:5001/api/carimages/getlistbycarid';
+  getCarImagesByCarIdPath: string = 'carimages/getlistbycarid';
 
   getCarDetails(): Observable<DataResponseModel<CarDetailDto[]>> {
-    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(this.getUrl);
+    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(
+      ApiUrlHelper.getUrl(this.getUrl)
+    );
   }
 
   getCarDetailsByBrandId(
     brandId: number
   ): Observable<DataResponseModel<CarDetailDto[]>> {
-    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(
-      `${this.getCarDetailsByBrandUrlIdUrl}?brandId=${brandId}`
+    let url = ApiUrlHelper.getUrlWithParameters(
+      this.getCarDetailsByBrandIdPath,
+      [{ key: 'brandId', value: brandId }]
     );
+
+    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(url);
+
+    //`${this.getCarDetailsByBrandIdPath}?brandId=${brandId}`
   }
 
   getCarDetailsByBrandName(
     brandName: string
   ): Observable<DataResponseModel<CarDetailDto[]>> {
-    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(
-      `${this.getCarDetailsByBrandNameIdUrl}?brandName=${brandName}`
+    let url = ApiUrlHelper.getUrlWithParameters(
+      this.getCarDetailsByBrandNameIdPath,
+      [{ key: 'brandName', value: brandName }]
     );
+
+    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(url);
+
+    //`${this.getCarDetailsByBrandNameIdPath}?brandName=${brandName}`
   }
 
   getCarDetailsByColorId(
     colorId: number
   ): Observable<DataResponseModel<CarDetailDto[]>> {
-    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(
-      `${this.getCarDetailsByColorIdUrl}?colorId=${colorId}`
+    let url = ApiUrlHelper.getUrlWithParameters(
+      this.getCarDetailsByColorIdPath,
+      [{ key: 'colorId', value: colorId }]
     );
+
+    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(url);
+    //`${this.getCarDetailsByColorIdPath}?colorId=${colorId}`
   }
 
   getCarDetailsByColorName(
     colorName: string
   ): Observable<DataResponseModel<CarDetailDto[]>> {
-    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(
-      `${this.getCarDetailsByColorNameUrl}?colorName=${colorName}`
+    let url = ApiUrlHelper.getUrlWithParameters(
+      this.getCarDetailsByColorNamePath,
+      [{ key: 'colorName', value: colorName }]
     );
+
+    return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(url);
+
+    //`${this.getCarDetailsByColorNamePath}?colorName=${colorName}`
   }
 
   getCarDetailByCarId(
     carId: number
   ): Observable<DataResponseModel<CarDetailDto>> {
-    return this.httpClient.get<DataResponseModel<CarDetailDto>>(
-      `${this.getCarDetailByCarIdUrl}?carId=${carId}`
+    let url = ApiUrlHelper.getUrlWithParameters(
+      this.getCarDetailByCarIdPath,
+      [{ key: 'carId', value: carId }]
     );
+
+    return this.httpClient.get<DataResponseModel<CarDetailDto>>(url);
+
+    // `${this.getCarDetailByCarIdPath}?carId=${carId}`
   }
 
   getCarDetailsByFilters(
     carFilterDto: CarFilterDto
   ): Observable<DataResponseModel<CarDetailDto[]>> {
+    
     return this.httpClient.post<DataResponseModel<CarDetailDto[]>>(
-      `${this.getCarDetailByFiltersUrl}`, carFilterDto
+      ApiUrlHelper.getUrl(this.getCarDetailByFiltersPath),
+      carFilterDto
     );
   }
 
   getCarImagesByCarId(
     carId: number
   ): Observable<DataResponseModel<CarImage[]>> {
-    return this.httpClient.get<DataResponseModel<CarImage[]>>(
-      `${this.getCarImagesByCarIdUrl}?carId=${carId}`
+
+    let url = ApiUrlHelper.getUrlWithParameters(
+      this.getCarImagesByCarIdPath,
+      [{ key: 'carId', value: carId }]
     );
+
+    return this.httpClient.get<DataResponseModel<CarImage[]>>(
+      url
+    );
+
+      // `${this.getCarImagesByCarIdPath}?carId=${carId}`
+       
   }
 }

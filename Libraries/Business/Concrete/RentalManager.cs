@@ -24,7 +24,7 @@ namespace Business.Concrete
         public IDataResult<Rental> Add(RentalCreateDto rentalCreateDto)
         {
             if (!CheckDate(rentalCreateDto.CarId, rentalCreateDto.RentDate).Success)
-                return new ErrorDataResult<Rental>(null, Messages.CarNotInStock);
+                return new ErrorDataResult<Rental>(null, Messages.CarAlreadyRented);
 
             var rentalToAdd = new Rental()
             {

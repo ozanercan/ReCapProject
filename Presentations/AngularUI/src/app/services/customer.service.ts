@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiUrlHelper } from '../helpers/api-url-helper';
 import { CustomerDetailDto } from '../models/customerDetailDto';
 import { DataResponseModel } from '../models/responseModels/dataResponseModel';
 
@@ -10,11 +11,11 @@ import { DataResponseModel } from '../models/responseModels/dataResponseModel';
 export class CustomerService {
   constructor(private httpClient: HttpClient) {}
 
-  getUrl: string = 'https://localhost:5001/api/customers/getdetailcustomers';
+  getCustomerDetailsPath: string = 'customers/getdetailcustomers';
 
-  getColors(): Observable<DataResponseModel<CustomerDetailDto[]>> {
+  getCustomerDetailDtos(): Observable<DataResponseModel<CustomerDetailDto[]>> {
     return this.httpClient.get<DataResponseModel<CustomerDetailDto[]>>(
-      this.getUrl
+      ApiUrlHelper.getUrl(this.getCustomerDetailsPath)
     );
   }
 }

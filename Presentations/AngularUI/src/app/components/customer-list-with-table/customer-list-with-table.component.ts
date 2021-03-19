@@ -22,7 +22,7 @@ export class CustomerListWithTableComponent implements OnInit {
   selectedCustomer: EventEmitter<CustomerDetailDto> = new EventEmitter();
 
   getCustomerDetails() {
-    this.customerService.getColors().subscribe((response) => {
+    this.customerService.getCustomerDetailDtos().subscribe((response) => {
       this.customerDetails = response.data;
     });
   }
