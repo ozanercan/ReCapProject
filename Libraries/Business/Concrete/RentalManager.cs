@@ -112,6 +112,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalDeleted);
         }
 
+
         public IDataResult<List<RentalDto>> GetAllDto()
         {
             var getResult = _rentalDal.GetRentalDtos();
@@ -135,5 +136,7 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
+
+
     }
 }

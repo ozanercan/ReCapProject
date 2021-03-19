@@ -23,6 +23,8 @@ namespace Business.Abstract
 
         IDataResult<CarDetailDto> GetCarDetailById(int id);
 
+        IDataResult<decimal> GetMoneyToPaidByRentalId(int rentalId);
+
         IDataResult<Car> GetById(int id);
 
         IDataResult<List<Car>> GetAll();

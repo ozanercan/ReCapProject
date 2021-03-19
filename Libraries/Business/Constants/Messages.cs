@@ -14,6 +14,7 @@
         public static string PaymentSuccessful = "Ödeme tamamlandı.";
         public static string CarNotFoundByFilters = "Filtrelere uygun araç bulunamadı.";
         public static string CarGetListByFilters = "Filtrelere uygun araçlar listelendi.";
+        public static string CarRentPriceCalculated = "Aracın kira fiyatı hesaplandı.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";
@@ -26,10 +27,8 @@
         public static string CarImagesListed => "Araç resimleri listelendi.";
         public static string CarImageBrought => "Araç resmi getirildi.";
         public static string CarImageCountError => "Araç resim sınırını aştınız.";
-
         public static string CarImageNotUploaded => "Resim yüklenemedi.";
         public static string RegisteredCarImageNotDeleted => "Kayıtlı araç resmi silinemedi.";
-
         public static string CarAlreadyRented => "Araç belirlenen tarihler arasında zaten kiralanmış.";
         public static string CarInStock => "Araç stokta.";
         public static string CarAdded => "Araç kayıt edildi.";
@@ -78,8 +77,6 @@
         public static string UserNotUpdated => "Kullanıcı güncellenemedi.";
         public static string UserGet => "Kullanıcı getirildi.";
         public static string UserGetListByRegistered => "Kayıtlı kullanıcılar getirildi.";
-
-
         public static string CustomerAdded => "Müşteri kayıt edildi.";
         public static string CustomerDeleted => "Müşteri silindi.";
         public static string CustomerUpdated => "Müşteri güncellendi.";
@@ -89,7 +86,6 @@
         public static string CustomerNotUpdated => "Müşteri güncellenemedi.";
         public static string CustomerGet => "Müşteri getirildi.";
         public static string CustomerGetListByRegistered => "Kayıtlı müşteriler getirildi.";
-
         public static string RentalAdded => "Kiralama kayıt edildi.";
         public static string RentalDeleted => "Kiralama silindi.";
         public static string RentalUpdated => "Kiralama güncellendi.";

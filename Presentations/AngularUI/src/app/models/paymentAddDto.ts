@@ -4,4 +4,5 @@ export class PaymentAddDto {
   cardNumber!: string;
   expiryDate!: string;
   cvv!: string;
+  moneyPaid!: number;
 }

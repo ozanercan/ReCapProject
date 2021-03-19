@@ -29,7 +29,8 @@ namespace Business.Concrete
                 NameSurname = paymentAddDto.NameSurname,
                 CardNumber = paymentAddDto.CardNumber,
                 Cvv = paymentAddDto.Cvv,
-                ExpiryDate = paymentAddDto.ExpiryDate
+                ExpiryDate = paymentAddDto.ExpiryDate,
+                MoneyPaid = paymentAddDto.MoneyPaid
             };
 
             var addResult = _paymentDal.Add(paymentToAdd);

@@ -11,20 +11,20 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+
 namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
         private readonly ICarDal _carDal;
         private readonly IRentalService _rentalService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICarImageService _carImageService;
 
         public CarManager(ICarDal carDal, IRentalService rentalService, ICarImageService carImageService)
         {
             _carDal = carDal;
             _rentalService = rentalService;
-            _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
             _carImageService = carImageService;
         }
 
@@ -303,6 +303,33 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFoundByFilters);
 
             return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByFilters);
+        }
+
+        public IDataResult<decimal> GetMoneyToPaidByRentalId(int rentalId)
+        {
+            var rentalResult = _rentalService.GetById(rentalId);
+            if (!rentalResult.Success)
+                return new ErrorDataResult<decimal>(0, rentalResult.Message);
+
+            int carId = rentalResult.Data.CarId;
+
+            var carResult = this.GetById(carId);
+            if (!carResult.Success)
+                return new ErrorDataResult<decimal>(0, carResult.Message);
+
+            decimal price = CalculateRent(carResult.Data.DailyPrice, rentalResult.Data.RentDate, rentalResult.Data.ReturnDate.Value);
+
+            price = Math.Ceiling(price);
+            return new SuccessDataResult<decimal>(price, Messages.CarRentPriceCalculated);
+        }
+
+        private decimal CalculateRent(decimal dailyPrice, DateTime rentDate, DateTime returnDate)
+        {
+            TimeSpan timeSpan = returnDate - rentDate;
+
+            decimal perMinutePrice = (dailyPrice / 24) / 60;
+
+            return Convert.ToDecimal(timeSpan.TotalMinutes) * perMinutePrice;
         }
     }
 }

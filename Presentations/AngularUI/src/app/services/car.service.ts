@@ -30,9 +30,21 @@ export class CarService {
 
   getCarImagesByCarIdPath: string = 'carimages/getlistbycarid';
 
+  getMoneyToPaidByRentalIdPath: string = 'cars/getcarrentpricebyrentalid';
+
   getCarDetails(): Observable<DataResponseModel<CarDetailDto[]>> {
     return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(
       ApiUrlHelper.getUrl(this.getUrl)
+    );
+  }
+
+  GetMoneyToPaidByRentalId(
+    rentalId: number
+  ): Observable<DataResponseModel<number>> {
+    return this.httpClient.get<DataResponseModel<number>>(
+      ApiUrlHelper.getUrlWithParameters(this.getMoneyToPaidByRentalIdPath, [
+        { key: 'rentalId', value: rentalId },
+      ])
     );
   }
 
@@ -90,10 +102,9 @@ export class CarService {
   getCarDetailByCarId(
     carId: number
   ): Observable<DataResponseModel<CarDetailDto>> {
-    let url = ApiUrlHelper.getUrlWithParameters(
-      this.getCarDetailByCarIdPath,
-      [{ key: 'carId', value: carId }]
-    );
+    let url = ApiUrlHelper.getUrlWithParameters(this.getCarDetailByCarIdPath, [
+      { key: 'carId', value: carId },
+    ]);
 
     return this.httpClient.get<DataResponseModel<CarDetailDto>>(url);
 
@@ -103,7 +114,6 @@ export class CarService {
   getCarDetailsByFilters(
     carFilterDto: CarFilterDto
   ): Observable<DataResponseModel<CarDetailDto[]>> {
-    
     return this.httpClient.post<DataResponseModel<CarDetailDto[]>>(
       ApiUrlHelper.getUrl(this.getCarDetailByFiltersPath),
       carFilterDto
@@ -113,17 +123,12 @@ export class CarService {
   getCarImagesByCarId(
     carId: number
   ): Observable<DataResponseModel<CarImage[]>> {
+    let url = ApiUrlHelper.getUrlWithParameters(this.getCarImagesByCarIdPath, [
+      { key: 'carId', value: carId },
+    ]);
 
-    let url = ApiUrlHelper.getUrlWithParameters(
-      this.getCarImagesByCarIdPath,
-      [{ key: 'carId', value: carId }]
-    );
+    return this.httpClient.get<DataResponseModel<CarImage[]>>(url);
 
-    return this.httpClient.get<DataResponseModel<CarImage[]>>(
-      url
-    );
-
-      // `${this.getCarImagesByCarIdPath}?carId=${carId}`
-       
+    // `${this.getCarImagesByCarIdPath}?carId=${carId}`
   }
 }
