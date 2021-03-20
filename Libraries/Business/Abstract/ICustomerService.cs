@@ -11,7 +11,7 @@ namespace Business.Abstract
 
         IDataResult<List<Customer>> GetAll();
 
-        IResult Add(CustomerCreateDto customerCreateDto);
+        IResult Add(CustomerAddDto customerCreateDto);
 
         IResult Update(Customer customer);
 

@@ -51,7 +51,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<Brand>> GetAll()
         {
             var data = _brandDal.GetAll();
@@ -63,7 +63,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<Brand> GetById(int id)
         {
             var getResult = this.GetById(id);

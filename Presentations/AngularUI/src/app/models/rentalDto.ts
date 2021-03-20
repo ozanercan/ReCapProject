@@ -3,5 +3,5 @@ export class RentalDto {
   brandName!: string;
   customer!: string;
   rentDate!: Date;
-  returnDate: Date | undefined;
+  returnDate!: Date;
 }

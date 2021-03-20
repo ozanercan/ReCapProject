@@ -135,10 +135,12 @@ namespace Business.Concrete
 
                 return new SuccessDataResult<List<CarImage>>(new List<CarImage> { defaultCarImage.Data });
             }
+            else
+            {
+                GetImagePathScheme(_httpContextAccessor.HttpContext.Request, getCarList);
 
-            GetImagePathScheme(_httpContextAccessor.HttpContext.Request, getCarList);
-
-            return new SuccessDataResult<List<CarImage>>(getCarList);
+                return new SuccessDataResult<List<CarImage>>(getCarList);
+            }
         }
 
         public IDataResult<CarImage> GetById(int id)

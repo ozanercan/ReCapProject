@@ -22,7 +22,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICustomerService.Get")]
-        public IResult Add(CustomerCreateDto customerCreateDto)
+        public IResult Add(CustomerAddDto customerCreateDto)
         {
             var lastUserInsertIdResult = _userService.GetLastInsertUser();
 

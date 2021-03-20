@@ -6,6 +6,6 @@ namespace Business.Constants
 {
     public class DefaultValues
     {
-        public static string DefaultCarImageUrl = "https://cdn1.iconfinder.com/data/icons/cars-journey/91/Cars__Journey_68-512.png";
+        public static string DefaultCarImageUrl = "https://d3jvxfsgjxj1vz.cloudfront.net/news/wp-content/uploads/2020/06/24104443/Jaguar-car-770663.jpg";
     }
 }
