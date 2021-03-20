@@ -15,6 +15,7 @@
         public static string CarNotFoundByFilters = "Filtrelere uygun araç bulunamadı.";
         public static string CarGetListByFilters = "Filtrelere uygun araçlar listelendi.";
         public static string CarRentPriceCalculated = "Aracın kira fiyatı hesaplandı.";
+        public static string ReturnDateCantLessThanReturnDate = "Kira Bitiş tarihi, Kira Başlangıç tarihinden küçük olamaz.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";

@@ -52,7 +52,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(RentalCreateDto rentalCreateDto)
+        public IActionResult Add(RentalAddDto rentalCreateDto)
         {
             var result = _rentalService.Add(rentalCreateDto);
             if (result.Success)

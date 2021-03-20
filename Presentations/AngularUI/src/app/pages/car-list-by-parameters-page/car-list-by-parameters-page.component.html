@@ -4,36 +4,37 @@
       <br />
       <div id="filterElements" class="row">
         <div class="col-md-12">
-          <label for="colorSelect" class="form-label d-block"
-            >Renk Seçimi</label
-          >
-          <select
-            [(ngModel)]="selectedColor"
-            class="form-select"
-            id="colorSelect"
-          >
-            <option *ngFor="let color of colors">{{ color.name }}</option>
-          </select>
+          <div class="form-floating">
+            <select
+              class="form-select"
+              id="colorSelect"
+              aria-label="Floating label select "
+              [(ngModel)]="selectedColor"
+            >
+              <option selected>Renk Seçiniz.</option>
+
+              <option *ngFor="let color of colors">{{ color.name }}</option>
+            </select>
+            <label for="colorSelect">Renk Seçimi</label>
+          </div>
         </div>
-        <div class="col-md-12 mt-1">
-          <label for="colorSelect" class="form-label d-block"
-            >Marka Seçimi</label
-          >
-          <select
-            [(ngModel)]="selectedBrand"
-            class="form-select d-inline-block"
-            id="colorSelect"
-          >
-            <option *ngFor="let brand of brands">{{ brand.name }}</option>
-          </select>
+        <div class="col-md-12 mt-2">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              id="brandSelect"
+              aria-label="Floating label select "
+              [(ngModel)]="selectedBrand"
+            >
+              <option selected>Marka Seçiniz.</option>
+
+              <option *ngFor="let brand of brands">{{ brand.name }}</option>
+            </select>
+            <label for="brandSelect">Marka Seçimi</label>
+          </div>
         </div>
         <div class="col-md-12 mt-3">
-          <a
-            class="btn btn-success w-100"
-            (click)="filter()"
-          >
-            Filtrele
-          </a>
+          <a class="btn btn-success w-100" (click)="filter()"> Filtrele </a>
         </div>
       </div>
     </div>

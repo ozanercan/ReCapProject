@@ -43,8 +43,12 @@ export class CarListByParametersPageComponent implements OnInit {
   }
 
   filter() {
-    if (this.selectedBrand !== undefined && this.selectedColor !== undefined) {
-
+    if (
+      this.selectedBrand !== undefined &&
+      this.selectedBrand.toLocaleLowerCase().indexOf('seçiniz') == -1 &&
+      this.selectedColor !== undefined &&
+      this.selectedColor.toLocaleLowerCase().indexOf('seçiniz') == -1
+    ) {
       let routePath =
         'carListByParameters/carListWithCard/filters/' +
         this.selectedColor +

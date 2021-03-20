@@ -58,18 +58,19 @@ export class RentalNewPageComponent implements OnInit {
 
   create() {
     if (this.customerDetailDto === undefined) {
-      this.toastrService.warning('Lütfen otomobili kiralayacağınız müşteriyi seçin.');
-    }
-    else if(this.rentDate === undefined){
+      this.toastrService.warning(
+        'Lütfen otomobili kiralayacağınız müşteriyi seçin.'
+      );
+    } else if (this.rentDate === undefined) {
       this.toastrService.warning('Lütfen Kira Başlangıç Tarihini seçin.');
-    }
-    else if(this.returnDate === undefined){
+    } else if (this.returnDate === undefined) {
       this.toastrService.warning('Lütfen Kira Bitiş Tarihini seçin.');
     } else {
       let rentalCreateDto: RentalCreateDto = new RentalCreateDto();
       rentalCreateDto.carId = this.carDetailDto.id;
       rentalCreateDto.customerId = this.customerDetailDto.id;
       rentalCreateDto.rentDate = this.rentDate;
+
       rentalCreateDto.returnDate = this.returnDate;
       this.rentalService.addRental(rentalCreateDto).subscribe(
         async (p) => {

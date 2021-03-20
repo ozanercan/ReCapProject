@@ -1,7 +1,10 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -21,10 +24,13 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IRentalService.Get")]
-        public IDataResult<Rental> Add(RentalCreateDto rentalCreateDto)
+        [ValidationAspect(typeof(RentalAddDtoValidator))]
+        public IDataResult<Rental> Add(RentalAddDto rentalCreateDto)
         {
-            if (!CheckDate(rentalCreateDto.CarId, rentalCreateDto.RentDate).Success)
-                return new ErrorDataResult<Rental>(null, Messages.CarAlreadyRented);
+            var ruleResult = BusinessRules.Run(CheckRentDate(rentalCreateDto.CarId, rentalCreateDto.RentDate), CheckIfReturnDateSmallOfRentDate(rentalCreateDto.RentDate, rentalCreateDto.ReturnDate.Value));
+
+            if (!ruleResult.Success)
+                return new ErrorDataResult<Rental>(null, ruleResult.Message);
 
             var rentalToAdd = new Rental()
             {
@@ -122,7 +128,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<RentalDto>>(getResult, Messages.RentalListed);
         }
 
-        private IResult CheckDate(int carId, DateTime rentDate)
+        private IResult CheckRentDate(int carId, DateTime rentDate)
         {
             var rentals = _rentalDal.GetAllNoTracking(p => p.CarId == carId);
 
@@ -130,9 +136,17 @@ namespace Business.Concrete
             {
                 if (rentDate < item.ReturnDate)
                 {
-                    return new ErrorResult();
+                    return new ErrorResult(Messages.CarAlreadyRented);
                 }
             }
+
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfReturnDateSmallOfRentDate(DateTime rentDate, DateTime returnDate)
+        {
+            if (returnDate < rentDate)
+                return new ErrorResult(Messages.ReturnDateCantLessThanReturnDate);
 
             return new SuccessResult();
         }
