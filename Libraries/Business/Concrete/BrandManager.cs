@@ -1,10 +1,14 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -19,14 +23,24 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IBrandService.Get")]
-        public IResult Add(Brand brand)
+        [ValidationAspect(typeof(BrandAddDtoValidator))]
+        public IResult Add(BrandAddDto brandAddDto)
         {
-            bool addResult = _brandDal.Add(brand);
+            var ruleResult = BusinessRules.Run(CheckBrandNameExist(brandAddDto.Name));
+            if (!ruleResult.Success)
+                return ruleResult;
+
+            Brand brandToAdd = new Brand()
+            {
+                Name = brandAddDto.Name
+            };
+
+            bool addResult = _brandDal.Add(brandToAdd);
 
             if (addResult == true)
                 return new SuccessResult(Messages.BrandAdded);
             else
-                return new ErrorResult(Messages.BrandAdded);
+                return new ErrorResult(Messages.BrandNotAdded);
         }
 
         [CacheRemoveAspect("IBrandService.Get")]
@@ -37,7 +51,7 @@ namespace Business.Concrete
             if (deleteResult == true)
                 return new SuccessResult(Messages.BrandDeleted);
             else
-                return new ErrorResult(Messages.BrandDeleted);
+                return new ErrorResult(Messages.BrandNotDeleted);
         }
 
         [CacheRemoveAspect("IBrandService.Get")]
@@ -106,6 +120,15 @@ namespace Business.Concrete
         {
             oldBrand.Name = newBrand.Name;
             return oldBrand;
+        }
+
+        private IResult CheckBrandNameExist(string brandName)
+        {
+            var findedBrand = _brandDal.Get(p => p.Name.Equals(brandName));
+            if (findedBrand == null)
+                return new SuccessResult();
+
+            return new ErrorResult(Messages.BrandNameAlreadyExist);
         }
     }
 }

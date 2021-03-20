@@ -21,13 +21,17 @@ namespace DataAccess.Concrete.EntityFramework
                             on rental.CarId equals car.Id
                             join brand in context.Brands
                             on car.BrandId equals brand.Id
+                            join payment in context.Payments
+                            on rental.Id equals payment.RentalId into lj
+                            from paymentJoin in lj.DefaultIfEmpty()
                             select new RentalDto
                             {
                                 Id = rental.Id,
                                 BrandName = brand.Name,
                                 Customer = string.Join(" ", user.FirstName, user.LastName),
                                 RentDate = rental.RentDate,
-                                ReturnDate = rental.ReturnDate
+                                ReturnDate = rental.ReturnDate,
+                                Price = paymentJoin.MoneyPaid
                             };
 
                 return query.ToList();

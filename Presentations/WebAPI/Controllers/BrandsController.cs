@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -41,9 +43,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Brand brand)
+        public IActionResult Add(BrandAddDto brandAddDto)
         {
-            var result = _brandService.Add(brand);
+            var result = _brandService.Add(brandAddDto);
+
+            if(result == null)
+                return ValidationProblem(Messages.ModelInvalid);
+
             if (result.Success)
                 return Ok(result);
 

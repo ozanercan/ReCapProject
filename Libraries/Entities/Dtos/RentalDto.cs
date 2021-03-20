@@ -10,5 +10,6 @@ namespace Entities.Dtos
         public string Customer { get; set; }
         public DateTime RentDate { get; set; }
         public DateTime? ReturnDate { get; set; }
+        public decimal Price { get; set; }
     }
 }

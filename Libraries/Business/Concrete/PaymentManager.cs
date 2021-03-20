@@ -25,7 +25,7 @@ namespace Business.Concrete
         {
             Payment paymentToAdd = new Payment()
             {
-                RentId = int.Parse(paymentAddDto.RentId),
+                RentalId = int.Parse(paymentAddDto.RentalId),
                 NameSurname = paymentAddDto.NameSurname,
                 CardNumber = paymentAddDto.CardNumber,
                 Cvv = paymentAddDto.Cvv,

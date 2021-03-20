@@ -2,10 +2,10 @@
 
 namespace Entities.Concrete
 {
-    public class Payment:IEntity
+    public class Payment : IEntity
     {
         public int Id { get; set; }
-        public int RentId { get; set; }
+        public int RentalId { get; set; }
         public string NameSurname { get; set; }
         public string CardNumber { get; set; }
         public string ExpiryDate { get; set; }

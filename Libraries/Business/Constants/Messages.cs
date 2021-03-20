@@ -1,4 +1,6 @@
-﻿namespace Business.Constants
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+namespace Business.Constants
 {
     public static class Messages
     {
@@ -16,6 +18,8 @@
         public static string CarGetListByFilters = "Filtrelere uygun araçlar listelendi.";
         public static string CarRentPriceCalculated = "Aracın kira fiyatı hesaplandı.";
         public static string ReturnDateCantLessThanReturnDate = "Kira Bitiş tarihi, Kira Başlangıç tarihinden küçük olamaz.";
+        public static string BrandNameAlreadyExist = "Böyle bir Marka Adı zaten kayıtlı.";
+        public static string ModelInvalid = "Gönderdiğiniz model onaylanmadı, lütfen alanları kontrol edip tekrar deneyin.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";

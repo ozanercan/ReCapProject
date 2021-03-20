@@ -4,4 +4,5 @@ export class RentalDto {
   customer!: string;
   rentDate!: Date;
   returnDate!: Date;
+  price!: number;
 }

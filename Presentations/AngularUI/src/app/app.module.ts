@@ -34,6 +34,7 @@ import { CarListByColorPageComponent } from './pages/car-list-by-color-page/car-
 import { CarListByBrandPageComponent } from './pages/car-list-by-brand-page/car-list-by-brand-page.component';
 import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { BrandAddWithFormComponent } from './components/brand-add-with-form/brand-add-with-form.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { PaymentComponent } from './components/payment/payment.component';
     CarListByBrandPageComponent,
     RentalNewPageComponent,
     PaymentComponent,
+    BrandAddWithFormComponent,
   ],
   imports: [
     BrowserModule,

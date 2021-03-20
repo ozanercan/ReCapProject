@@ -1,5 +1,5 @@
 export class PaymentAddDto {
-  rentId!: string;
+  rentalId!: string;
   nameSurname!: string;
   cardNumber!: string;
   expiryDate!: string;

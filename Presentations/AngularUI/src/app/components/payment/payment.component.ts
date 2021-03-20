@@ -54,7 +54,7 @@ export class PaymentComponent implements OnInit {
   }
   completePayment() {
     let paymentAddDto: PaymentAddDto = new PaymentAddDto();
-    paymentAddDto.rentId = this.rentalId;
+    paymentAddDto.rentalId = this.rentalId;
     paymentAddDto.nameSurname = this.nameSurname;
     paymentAddDto.cardNumber = this.cardNumber;
     paymentAddDto.cvv = this.cvv;

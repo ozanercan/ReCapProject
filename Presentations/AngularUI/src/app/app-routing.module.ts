@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BrandAddWithFormComponent } from './components/brand-add-with-form/brand-add-with-form.component';
 import { CarCardComponent } from './components/car-card/car-card.component';
 import { CarDetailComponent } from './components/car-detail/car-detail.component';
 import { CarListWithCardComponent } from './components/car-list-with-card/car-list-with-card.component';
@@ -15,6 +16,7 @@ import { RentalListWithTablePageComponent } from './pages/rental-list-with-table
 import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.component';
 
 const routes: Routes = [
+  { path: 'brandAddWithForm', component: BrandAddWithFormComponent },
   { path: 'brandListWithTable', component: BrandListWithTablePageComponent },
   { path: 'colorListWithTable', component: ColorListWithTablePageComponent },
   {

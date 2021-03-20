@@ -1,5 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.Dtos;
 using System.Collections.Generic;
 
 namespace Business.Abstract
@@ -10,7 +11,7 @@ namespace Business.Abstract
 
         IDataResult<List<Brand>> GetAll();
 
-        IResult Add(Brand brand);
+        IResult Add(BrandAddDto brandAddDto);
 
         IResult Update(Brand brand);
 
