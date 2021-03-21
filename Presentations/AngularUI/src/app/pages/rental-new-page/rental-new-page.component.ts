@@ -25,6 +25,9 @@ export class RentalNewPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    
+    let nowDate = new Date().toLocaleString()
+
     this.activatedRoute.params.subscribe((parameter) => {
       if (parameter['carId']) {
         this.getCarDetailDtoFromService(parameter['carId']);
@@ -33,6 +36,8 @@ export class RentalNewPageComponent implements OnInit {
       }
     });
   }
+
+  dateTimeNow : string = new Date().toISOString();
 
   carDetailDto!: CarDetailDto;
 

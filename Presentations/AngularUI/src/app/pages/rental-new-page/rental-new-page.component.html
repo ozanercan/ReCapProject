@@ -6,22 +6,37 @@
     ></app-car-card>
   </div>
   <div class="col-md-9">
-    
     <div class="h-50 overflow-auto">
-      <app-customer-list-with-table (selectedCustomer)="setCustomerDetailDto($event)"></app-customer-list-with-table>
-    </div>
-    
-    <div class="mb-3">
-      <label for="rentalStartDateTime" class="form-label">Kira Başlangıç Tarihi</label>
-      <input type="datetime-local" class="form-control" id="rentalStartDateTime" [(ngModel)]="rentDate">
-    </div>
-    <div class="mb-3">
-      <label for="rentalEndDateTime" class="form-label">Kira Bitiş Tarihi</label>
-      <input type="datetime-local" class="form-control" id="rentalEndDateTime" [(ngModel)]="returnDate">
+      <app-customer-list-with-table
+        (selectedCustomer)="setCustomerDetailDto($event)"
+      ></app-customer-list-with-table>
     </div>
 
-    <a class="btn btn-success" (click)="create()">
-      Kayıt Et
-    </a>
+    <div class="mb-3">
+      <label for="rentalStartDateTime" class="form-label"
+        >Kira Başlangıç Tarihi</label
+      >
+      <input
+        type="datetime-local"
+        class="form-control"
+        id="rentalStartDateTime"
+        [(ngModel)]="rentDate"
+        min="{{ dateTimeNow |  date: 'YYYY-MM-ddThh:mm' }}"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="rentalEndDateTime" class="form-label"
+        >Kira Bitiş Tarihi</label
+      >
+      <input
+        type="datetime-local"
+        class="form-control"
+        id="rentalEndDateTime"
+        [(ngModel)]="returnDate"
+        min="{{ rentDate |  date: 'YYYY-MM-ddThh:mm' }}"
+      />
+    </div>
+
+    <a class="btn btn-success" (click)="create()"> Kayıt Et </a>
   </div>
 </div>
