@@ -47,9 +47,6 @@ namespace WebAPI.Controllers
         {
             var result = _brandService.Add(brandAddDto);
 
-            if(result == null)
-                return ValidationProblem(Messages.ModelInvalid);
-
             if (result.Success)
                 return Ok(result);
 

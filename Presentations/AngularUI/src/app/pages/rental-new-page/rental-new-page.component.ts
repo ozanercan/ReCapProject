@@ -8,6 +8,7 @@ import { CarService } from 'src/app/services/car.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { RentalService } from 'src/app/services/rental.service';
 import { timer } from 'rxjs';
+import { ErrorHelper } from 'src/app/helpers/errorHelper';
 
 @Component({
   selector: 'app-rental-new-page',
@@ -85,7 +86,7 @@ export class RentalNewPageComponent implements OnInit {
           );
         },
         (error) => {
-          this.toastrService.error(error.error.message);
+          this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
         }
       );
     }

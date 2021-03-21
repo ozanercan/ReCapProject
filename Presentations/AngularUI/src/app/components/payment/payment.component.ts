@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { PaymentAddDto } from 'src/app/models/paymentAddDto';
 import { CarService } from 'src/app/services/car.service';
 import { PaymentService } from 'src/app/services/payment.service';
@@ -70,7 +71,7 @@ export class PaymentComponent implements OnInit {
         });
       },
       (error) => {
-        this.toastrService.error(error.error.message);
+        this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
       }
     );
   }

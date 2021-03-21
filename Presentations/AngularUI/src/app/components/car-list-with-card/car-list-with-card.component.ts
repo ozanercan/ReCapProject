@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { CarDetailDto } from 'src/app/models/carDetailDto';
 import { CarFilterDto } from 'src/app/models/carFilterDto';
 import { DataResponseModel } from 'src/app/models/responseModels/dataResponseModel';
@@ -14,7 +16,8 @@ import { CarService } from 'src/app/services/car.service';
 export class CarListWithCardComponent implements OnInit {
   constructor(
     private carService: CarService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastrService: ToastrService
   ) {}
 
   errorResponse!: ResponseModel | undefined;
@@ -119,6 +122,7 @@ export class CarListWithCardComponent implements OnInit {
         this.carDetails = response.data;
       },
       (error) => {
+        this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
         this.errorResponse = error.error;
 
         this.carDetails = [];

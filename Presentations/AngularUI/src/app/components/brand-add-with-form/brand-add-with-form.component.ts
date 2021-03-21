@@ -1,5 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { BrandAddDto } from 'src/app/models/brandAddDto';
@@ -13,24 +19,37 @@ import { BrandService } from 'src/app/services/brand.service';
 export class BrandAddWithFormComponent implements OnInit {
   constructor(
     private brandService: BrandService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private formBuilder: FormBuilder
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.createBrandAddForm();
+  }
 
-  brandName!: string;
+  brandAddForm!: FormGroup;
+
+  createBrandAddForm() {
+    this.brandAddForm = this.formBuilder.group({
+      name: ['', Validators.required],
+    });
+  }
 
   addBrand() {
-    let brandAddDto = new BrandAddDto();
-    brandAddDto.name = this.brandName;
+    if (this.brandAddForm.valid) {
+      
+      let brandAddDto: BrandAddDto = this.brandAddForm.value;
 
-    this.brandService.addBrand(brandAddDto).subscribe(
-      (p) => {
-        this.toastrService.success(p.message);
-      },
-      (error:HttpErrorResponse) => {
-       this.toastrService.error(ErrorHelper.getMessage(error));
-      }
-    );
+      this.brandService.addBrand(brandAddDto).subscribe(
+        (p) => {
+          this.toastrService.success(p.message);
+        },
+        (error) => {
+          this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
+        }
+      );
+    } else {
+      this.toastrService.warning('Validasyon Hatası');
+    }
   }
 }
