@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BrandAddWithFormComponent } from './components/brand-add-with-form/brand-add-with-form.component';
+import { BrandUpdateWithFormComponent } from './components/brand-update-with-form/brand-update-with-form.component';
+import { CarAddWithFormComponent } from './components/car-add-with-form/car-add-with-form.component';
 import { CarCardComponent } from './components/car-card/car-card.component';
 import { CarDetailComponent } from './components/car-detail/car-detail.component';
 import { CarListWithCardComponent } from './components/car-list-with-card/car-list-with-card.component';
+import { CarUpdateWithFormComponent } from './components/car-update-with-form/car-update-with-form.component';
+import { ColorAddWithFormComponent } from './components/color-add-with-form/color-add-with-form.component';
+import { ColorUpdateWithFormComponent } from './components/color-update-with-form/color-update-with-form.component';
+import { CustomerListWithTableComponent } from './components/customer-list-with-table/customer-list-with-table.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { BrandListWithTablePageComponent } from './pages/brand-list-with-table-page/brand-list-with-table-page.component';
 import { CarListByBrandPageComponent } from './pages/car-list-by-brand-page/car-list-by-brand-page.component';
@@ -17,12 +23,14 @@ import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.
 
 const routes: Routes = [
   { path: 'brandAddWithForm', component: BrandAddWithFormComponent },
+  { path: 'brandUpdateWithForm/:brandId', component: BrandUpdateWithFormComponent },
   { path: 'brandListWithTable', component: BrandListWithTablePageComponent },
+  { path: 'carAddWithForm', component: CarAddWithFormComponent },
+  { path: 'carUpdateWithForm/:carId', component: CarUpdateWithFormComponent },
   { path: 'colorListWithTable', component: ColorListWithTablePageComponent },
-  {
-    path: 'customerListWithTable',
-    component: CustomerListWithTablePageComponent,
-  },
+  { path: 'colorUpdateWithForm/:colorId', component: ColorUpdateWithFormComponent },
+  { path: 'customerListWithTable', component: CustomerListWithTablePageComponent },
+  { path: 'colorAddWithForm', component: ColorAddWithFormComponent },
   { path: 'carListWithTable', component: CarListWithTablePageComponent },
   { path: 'rentalListWithTable', component: RentalListWithTablePageComponent },
   { path: 'carDetail/car/:carId', component: CarDetailComponent },

@@ -1,4 +1,4 @@
-﻿using Business.Abstract;
+﻿    using Business.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -129,19 +129,19 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Car car)
+        public IActionResult Add(CarAddDto carAddDto)
         {
-            var result = _carService.Add(car);
+            var result = _carService.Add(carAddDto);
             if (result.Success)
                 return Ok(result);
 
             return BadRequest(result);
         }
 
-        [HttpPut("update")]
-        public IActionResult Update(Car car)
+        [HttpPatch("update")]
+        public IActionResult Update(CarUpdateDto carUpdateDto)
         {
-            var result = _carService.Update(car);
+            var result = _carService.Update(carUpdateDto);
             if (result.Success)
                 return Ok(result);
 

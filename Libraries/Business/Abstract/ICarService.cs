@@ -29,11 +29,9 @@ namespace Business.Abstract
 
         IDataResult<List<Car>> GetAll();
 
-        IResult Add(Car car);
+        IResult Add(CarAddDto carAddDto);
 
-        IResult Update(Car car);
-
-        IResult Update(int id, Car newCar);
+        IResult Update(CarUpdateDto carUpdateDto);
 
         IResult Delete(Car car);
 

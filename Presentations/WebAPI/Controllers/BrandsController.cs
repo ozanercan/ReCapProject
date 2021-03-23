@@ -53,10 +53,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPut("update")]
-        public IActionResult Update(Brand brand)
+        [HttpPatch("update")]
+        public IActionResult Update(BrandUpdateDto brandUpdateDto)
         {
-            var result = _brandService.Update(brand);
+            var result = _brandService.Update(brandUpdateDto);
             if (result.Success)
                 return Ok(result);
 

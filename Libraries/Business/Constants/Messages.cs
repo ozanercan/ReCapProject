@@ -20,6 +20,7 @@ namespace Business.Constants
         public static string ReturnDateCantLessThanReturnDate = "Kira Bitiş tarihi, Kira Başlangıç tarihinden küçük olamaz.";
         public static string BrandNameAlreadyExist = "Böyle bir Marka Adı zaten kayıtlı.";
         public static string ModelInvalid = "Gönderdiğiniz model onaylanmadı, lütfen alanları kontrol edip tekrar deneyin.";
+        public static string ColorNameAlreadyExist = "Bu renk zaten kullanılıyor.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";
@@ -49,8 +50,8 @@ namespace Business.Constants
         public static string CarGetListByBrand => "Markaya ait araçlar getirildi.";
         public static string CarGetListByRegistered => "Kayıtlı araçlar getirildi.";
         public static string CarGetListByColor => "Bu renkte olan araçlar getirildi.";
-        public static string CarDailyPriceInvalid => "Aracın günlük fiyatı 0'dan büyük olmalıdır. İşleminiz başarısız.";
-        public static string CarDescriptionInvalid => "Aracın açıklaması 2 karakterden fazla olmalıdır. İşleminiz başarısız.";
+        public static string CarDailyPriceInvalid => "Aracın günlük fiyatı 0'dan büyük olmalıdır.";
+        public static string CarDescriptionInvalid => "Aracın açıklaması 2 karakterden fazla olmalıdır.";
 
         public static string BrandAdded => "Marka kayıt edildi.";
         public static string BrandDeleted => "Marka silindi.";

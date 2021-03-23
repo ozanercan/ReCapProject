@@ -39,7 +39,7 @@ namespace Core.Extensions
             IEnumerable<ValidationFailure> errors;
             if (e.GetType() == typeof(ValidationException))
             {
-                message = "Model Validation Hatası";
+                message = "Model Doğrulama Hatası";
                 errors = ((ValidationException)e).Errors;
                 httpContext.Response.StatusCode = 400;
 
@@ -49,7 +49,6 @@ namespace Core.Extensions
                     Message = message,
                     ValidationErrors = errors
                 }.ToString());
-
             }
 
             return httpContext.Response.WriteAsync(new ErrorDetails

@@ -1,0 +1,77 @@
+<form [formGroup]="carUpdateForm" class="row">
+  <div class="col-6 mb-3">
+    <div class="form-floating">
+      <select
+        class="form-select"
+        id="colorSelect"
+        aria-label="Floating label select "
+        formControlName="colorName"
+      >
+        <option [ngValue]="null">Renk Seçiniz.</option>
+
+        <option
+          *ngFor="let color of colors"
+          [attr.selected]="color.name === selectedColor ? true : null"
+        >
+          {{ color.name }}
+        </option>
+      </select>
+      <label for="colorSelect">Renk Seçimi</label>
+    </div>
+  </div>
+  <div class="col-6 mb-3">
+    <div class="form-floating">
+      <select
+        class="form-select"
+        id="brandSelect"
+        aria-label="Floating label select "
+        formControlName="brandName"
+      >
+        <option [ngValue]="null">Marka Seçiniz.</option>
+
+        <option
+          *ngFor="let brand of brands"
+          [attr.selected]="brand.name === selectedBrand ? true : null"
+        >
+          {{ brand.name }}
+        </option>
+      </select>
+      <label for="brandSelect">Marka Seçimi</label>
+    </div>
+  </div>
+  <div class="col-6 mb-3">
+    <label for="modelYearInput" class="form-label">Model Yılı</label>
+    <input
+      type="number"
+      class="form-control"
+      id="modelYearInput"
+      formControlName="modelYear"
+      [ngModel]="car.modelYear"
+    />
+  </div>
+  <div class="col-6 mb-3">
+    <label for="dailyPriceInput" class="form-label">Günlük Fiyat</label>
+    <input
+      type="number"
+      class="form-control"
+      id="dailyPriceInput"
+      formControlName="dailyPrice"
+      [ngModel]="car.dailyPrice"
+    />
+  </div>
+  <div class="mb-3">
+    <div class="form-floating">
+      <textarea
+        class="form-control"
+        placeholder="Leave a comment here"
+        formControlName="description"
+        id="descriptionTextArea"
+        style="height: 100px"
+        maxlength="500"
+        [ngModel]="car.description"
+      ></textarea>
+      <label for="descriptionTextArea">Açıklama</label>
+    </div>
+  </div>
+  <button class="btn btn-primary" (click)="updateCar()">Düzenle</button>
+</form>

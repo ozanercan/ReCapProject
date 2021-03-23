@@ -37,18 +37,13 @@ export class CarListByParametersPageComponent implements OnInit {
   }
 
   getBrands() {
-    this.brandService.getBrands().subscribe((p) => {
+    this.brandService.getList().subscribe((p) => {
       this.brands = p.data;
     });
   }
 
   filter() {
-    if (
-      this.selectedBrand !== undefined &&
-      this.selectedBrand.toLocaleLowerCase().indexOf('seçiniz') == -1 &&
-      this.selectedColor !== undefined &&
-      this.selectedColor.toLocaleLowerCase().indexOf('seçiniz') == -1
-    ) {
+    if (this.selectedBrand !== null && this.selectedColor !== null) {
       let routePath =
         'carListByParameters/carListWithCard/filters/' +
         this.selectedColor +

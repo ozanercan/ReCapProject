@@ -40,7 +40,7 @@ export class BrandAddWithFormComponent implements OnInit {
       
       let brandAddDto: BrandAddDto = this.brandAddForm.value;
 
-      this.brandService.addBrand(brandAddDto).subscribe(
+      this.brandService.add(brandAddDto).subscribe(
         (p) => {
           this.toastrService.success(p.message);
         },

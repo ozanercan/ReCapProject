@@ -1,5 +1,4 @@
 ﻿using Core.Entities.Abstract;
-using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Concrete
 {
@@ -9,10 +8,7 @@ namespace Entities.Concrete
         public int BrandId { get; set; }
         public int ColorId { get; set; }
         public int ModelYear { get; set; }
-
-        [DataType("decimal(10, 2)")]
         public decimal DailyPrice { get; set; }
-
         public string Description { get; set; }
     }
 }

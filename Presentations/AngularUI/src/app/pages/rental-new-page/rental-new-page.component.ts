@@ -59,7 +59,6 @@ export class RentalNewPageComponent implements OnInit {
 
   setCustomerDetailDto(customerDetailDto: CustomerDetailDto) {
     this.customerDetailDto = customerDetailDto;
-    console.log(this.customerDetailDto);
   }
 
   create() {

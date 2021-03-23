@@ -9,13 +9,15 @@ import { ColorService } from 'src/app/services/color.service';
 })
 export class ColorListWithTableComponent implements OnInit {
   constructor(private colorService: ColorService) {
+  }
+
+  ngOnInit(): void {
     this.getColors();
   }
 
-  ngOnInit(): void {}
-
   colors: Color[] = [];
   filterText: string = '';
+
   getColors() {
     this.colorService.getColors().subscribe((response) => {
       this.colors = response.data;

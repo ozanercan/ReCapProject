@@ -13,12 +13,21 @@
     <tr>
       <th>Id</th>
       <th>Marka Adı</th>
+      <th>Aksiyonlar</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let brand of brands | brandFilter: filterText">
       <td>{{ brand.id }}</td>
       <td>{{ brand.name }}</td>
+      <td>
+        <a
+          type="button"
+          class="btn btn-dark btn-sm"
+          routerLink="/brandUpdateWithForm/{{ brand.id }}"
+          ><i class="bi bi-pencil-square"></i> Güncelle</a
+        >
+      </td>
     </tr>
   </tbody>
 </table>

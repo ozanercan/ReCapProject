@@ -1,0 +1,13 @@
+<form [formGroup]="colorAddForm">
+    <div class="mb-3">
+      <label for="colorNameInput" class="form-label">Renk Adı</label>
+      <input
+        type="text"
+        class="form-control"
+        id="colorNameInput"
+        formControlName="name"
+      />
+    </div>
+    <button class="btn btn-primary" (click)="addColor()">Kayıt Et</button>
+  </form>
+  

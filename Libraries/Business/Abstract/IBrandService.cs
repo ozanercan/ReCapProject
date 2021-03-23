@@ -8,14 +8,13 @@ namespace Business.Abstract
     public interface IBrandService
     {
         IDataResult<Brand> GetById(int id);
+        IDataResult<Brand> GetByName(string name);
 
         IDataResult<List<Brand>> GetAll();
 
         IResult Add(BrandAddDto brandAddDto);
 
-        IResult Update(Brand brand);
-
-        IResult Update(int id, Brand newBrand);
+        IResult Update(BrandUpdateDto brandUpdateDto);
 
         IResult Delete(Brand brand);
 

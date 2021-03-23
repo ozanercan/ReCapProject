@@ -1,10 +1,14 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -19,14 +23,20 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IColorService.Get")]
-        public IResult Add(Color color)
+        [ValidationAspect(typeof(ColorAddDtoValidator))]
+        public IResult Add(ColorAddDto colorAddDto)
         {
-            bool addResult = _colorDal.Add(color);
+            Color colorToAdd = new Color()
+            {
+                Name = colorAddDto.Name
+            };
 
-            if (addResult == true)
-                return new SuccessResult(Messages.ColorAdded);
-            else
+            bool addResult = _colorDal.Add(colorToAdd);
+
+            if (!addResult)
                 return new ErrorResult(Messages.ColorNotAdded);
+
+            return new SuccessResult(Messages.ColorAdded);
         }
 
         [CacheRemoveAspect("IColorService.Get")]
@@ -34,10 +44,10 @@ namespace Business.Concrete
         {
             bool deleteResult = _colorDal.Delete(color);
 
-            if (deleteResult == true)
-                return new SuccessResult(Messages.ColorDeleted);
-            else
+            if (!deleteResult)
                 return new ErrorResult(Messages.ColorNotDeleted);
+
+            return new SuccessResult(Messages.ColorDeleted);
         }
 
         [CacheRemoveAspect("IColorService.Get")]
@@ -52,59 +62,66 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<Color>> GetAll()
         {
             var data = _colorDal.GetAll();
 
-            if (data == null || data.Count <= 0)
+            if (data.Count == 0)
                 return new ErrorDataResult<List<Color>>(data, Messages.ColorNotFound);
             else
                 return new SuccessDataResult<List<Color>>(data, Messages.ColorGetListByRegistered);
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<Color> GetById(int id)
         {
-            var dataResult = this.GetById(id);
+            var findedColor = _colorDal.Get(p => p.Id == id);
 
-            if (!dataResult.Success)
-                return dataResult;
+            if (findedColor == null)
+                return new ErrorDataResult<Color>(null, Messages.ColorNotFound);
 
-            if (dataResult == null)
-                return new ErrorDataResult<Color>(dataResult.Data, Messages.ColorNotFound);
-            else
-                return new SuccessDataResult<Color>(dataResult.Data, Messages.ColorGetListByRegistered);
+            return new SuccessDataResult<Color>(findedColor, Messages.ColorGet);
+        }
+
+        public IDataResult<Color> GetByName(string name)
+        {
+            var color = _colorDal.Get(p => p.Name.Equals(name));
+
+            if (color == null)
+                return new ErrorDataResult<Color>(null, Messages.ColorNotFound);
+
+            return new SuccessDataResult<Color>(color, Messages.ColorGet);
         }
 
         [CacheRemoveAspect("IColorService.Get")]
-        public IResult Update(Color brand)
+        public IResult Update(ColorUpdateDto colorUpdateDto)
         {
-            bool updateResult = _colorDal.Update(brand);
+            var ruleResult = BusinessRules.Run(CheckColorNameExistButIgnoreById(colorUpdateDto.Id, colorUpdateDto.Name));
+            if (!ruleResult.Success)
+                return ruleResult;
 
-            if (updateResult == true)
-                return new SuccessResult(Messages.ColorUpdated);
-            else
+            var findedColor = _colorDal.Get(p => p.Id == colorUpdateDto.Id);
+            if (findedColor == null)
+                return new ErrorResult(Messages.ColorNotFound);
+
+            findedColor.Name = colorUpdateDto.Name;
+
+            bool updateResult = _colorDal.Update(findedColor);
+
+            if (!updateResult)
                 return new ErrorResult(Messages.ColorNotUpdated);
+
+            return new SuccessResult(Messages.ColorUpdated);
         }
-
-        [CacheRemoveAspect("IColorService.Get")]
-        public IResult Update(int id, Color newColor)
+        private IResult CheckColorNameExistButIgnoreById(int colorId, string colorName)
         {
-            var findedEntityResult = GetById(id);
-            if (!findedEntityResult.Success)
-                return findedEntityResult;
+            var findedColor = _colorDal.Get(p => p.Id != colorId && p.Name.Equals(colorName));
+            if (findedColor == null)
+                return new SuccessResult();
 
-            Color colorToUpdate = InputToCar(findedEntityResult.Data, newColor);
-
-            return Update(colorToUpdate);
-        }
-
-        private Color InputToCar(Color oldColor, Color newColor)
-        {
-            oldColor.Name = newColor.Name;
-            return oldColor;
+            return new ErrorResult(Messages.ColorNameAlreadyExist);
         }
     }
 }

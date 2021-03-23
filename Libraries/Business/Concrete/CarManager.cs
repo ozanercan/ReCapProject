@@ -1,17 +1,16 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Performance;
-using Core.Utilities.IoC;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
-using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Business.Concrete
 {
@@ -20,40 +19,57 @@ namespace Business.Concrete
         private readonly ICarDal _carDal;
         private readonly IRentalService _rentalService;
         private readonly ICarImageService _carImageService;
+        private readonly IBrandService _brandService;
+        private readonly IColorService _colorService;
 
-        public CarManager(ICarDal carDal, IRentalService rentalService, ICarImageService carImageService)
+        public CarManager(ICarDal carDal, IRentalService rentalService, ICarImageService carImageService, IBrandService brandService, IColorService colorService)
         {
             _carDal = carDal;
             _rentalService = rentalService;
             _carImageService = carImageService;
+            _brandService = brandService;
+            _colorService = colorService;
         }
 
         [CacheRemoveAspect("ICarService.Get")]
-        public IResult Add(Car car)
+        [ValidationAspect(typeof(CarAddDtoValidator))]
+        public IResult Add(CarAddDto carAddDto)
         {
-            if (car.DailyPrice <= 0)
-                return new ErrorResult(Messages.CarDailyPriceInvalid);
+            var brandResult = GetBrandIdByBrandName(carAddDto.BrandName);
+            if (!brandResult.Success)
+                return new ErrorResult(brandResult.Message);
 
-            if (car.Description.Length <= 2)
-                return new ErrorResult(Messages.CarDescriptionInvalid);
+            var colorResult = GetColorIdByColorName(carAddDto.ColorName);
+            if (!colorResult.Success)
+                return new ErrorResult(colorResult.Message);
 
-            bool addResult = _carDal.Add(car);
+            Car carToAdd = new Car()
+            {
+                BrandId = brandResult.Data.Id,
+                ColorId = colorResult.Data.Id,
+                DailyPrice = carAddDto.DailyPrice,
+                Description = carAddDto.Description,
+                ModelYear = carAddDto.ModelYear
+            };
+            bool addResult = _carDal.Add(carToAdd);
 
-            if (addResult == true)
-                return new SuccessResult(Messages.CarAdded);
-            else
-                return new ErrorResult(Messages.CarAdded);
+            if (!addResult)
+                return new ErrorResult(Messages.CarNotAdded);
+
+            return new SuccessResult(Messages.CarAdded);
         }
+
+
 
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Delete(Car car)
         {
             bool deleteResult = _carDal.Delete(car);
 
-            if (deleteResult == true)
-                return new SuccessResult(Messages.CarDeleted);
-            else
+            if (!deleteResult)
                 return new ErrorResult(Messages.CarNotAdded);
+
+            return new SuccessResult(Messages.CarDeleted);
         }
 
         [CacheRemoveAspect("ICarService.Get")]
@@ -201,29 +217,34 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICarService.Get")]
-        public IResult Update(Car car)
+        [ValidationAspect(typeof(CarUpdateDtoValidator))]
+        public IResult Update(CarUpdateDto carUpdateDto)
         {
-            bool updateResult = _carDal.Update(car);
+            var findedEntity = _carDal.Get(p => p.Id == carUpdateDto.Id);
+            if (findedEntity == null)
+                return new ErrorResult(Messages.CarNotFound);
+
+            var colorResult = _colorService.GetByName(carUpdateDto.ColorName);
+            if (!colorResult.Success)
+                return colorResult;
+
+            var brandResult = _brandService.GetByName(carUpdateDto.BrandName);
+            if (!brandResult.Success)
+                return brandResult;
+
+            findedEntity.BrandId = brandResult.Data.Id;
+            findedEntity.ColorId = colorResult.Data.Id;
+            findedEntity.ModelYear = carUpdateDto.ModelYear;
+            findedEntity.DailyPrice = carUpdateDto.DailyPrice;
+            findedEntity.Description = carUpdateDto.Description;
+
+            bool updateResult = _carDal.Update(findedEntity);
 
             if (updateResult == true)
                 return new SuccessResult(Messages.CarUpdated);
             else
                 return new ErrorResult(Messages.CarNotUpdated);
         }
-
-        [CacheRemoveAspect("ICarService.Get")]
-        public IResult Update(int id, Car newCar)
-        {
-            var findedEntityResult = GetById(id);
-
-            if (!findedEntityResult.Success)
-                return findedEntityResult;
-
-            Car carToUpdate = InputToCar(findedEntityResult.Data, newCar);
-
-            return Update(carToUpdate);
-        }
-
 
         public IDataResult<List<CarDetailDto>> GetCarDetailsByColorId(int colorId)
         {
@@ -330,6 +351,15 @@ namespace Business.Concrete
             decimal perMinutePrice = (dailyPrice / 24) / 60;
 
             return Convert.ToDecimal(timeSpan.TotalMinutes) * perMinutePrice;
+        }
+
+        private IDataResult<Brand> GetBrandIdByBrandName(string brandName)
+        {
+            return _brandService.GetByName(brandName);
+        }
+        private IDataResult<Color> GetColorIdByColorName(string colorName)
+        {
+            return _colorService.GetByName(colorName);
         }
     }
 }

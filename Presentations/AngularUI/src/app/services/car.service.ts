@@ -1,20 +1,35 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { ApiUrlHelper } from '../helpers/api-url-helper';
 import { Brand } from '../models/brand';
+import { Car } from '../models/car';
+import { CarAddDto } from '../models/carAddDto';
 import { CarDetailDto } from '../models/carDetailDto';
 import { CarFilterDto } from '../models/carFilterDto';
 import { CarImage } from '../models/carImage';
+import { CarUpdateDto } from '../models/CarUpdateDto';
+import { ColorAddDto } from '../models/colorAddDto';
 import { DataResponseModel } from '../models/responseModels/dataResponseModel';
+import { ResponseModel } from '../models/responseModels/responseModel';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private toastrService: ToastrService
+  ) {}
 
   getUrl: string = 'cars/getdetails';
+
+  getUpdateCarPath: string = 'cars/update';
+
+  getByIdUrl: string = 'cars/getbyid';
+
+  getCarAddPath: string = 'cars/add';
 
   getCarDetailsByBrandIdPath: string = 'cars/getcardetailsbybrandid';
 
@@ -31,6 +46,33 @@ export class CarService {
   getCarImagesByCarIdPath: string = 'carimages/getlistbycarid';
 
   getMoneyToPaidByRentalIdPath: string = 'cars/getcarrentpricebyrentalid';
+
+  addCar(carAddDto: CarAddDto) {
+    return this.httpClient.post<ResponseModel>(
+      ApiUrlHelper.getUrl(this.getCarAddPath),
+      carAddDto
+    );
+  }
+
+  update(carUpdateDto: CarUpdateDto): Observable<ResponseModel> {
+    if (carUpdateDto !== undefined) {
+      return this.httpClient.patch<ResponseModel>(
+        ApiUrlHelper.getUrl(this.getUpdateCarPath),
+        carUpdateDto
+      );
+    }
+
+    this.toastrService.error('Lütfen gerekli alanları doldurunuz.');
+    throw new Error('');
+  }
+
+  getById(id: number): Observable<DataResponseModel<Car>> {
+    return this.httpClient.get<DataResponseModel<Car>>(
+      ApiUrlHelper.getUrlWithParameters(this.getByIdUrl, [
+        { key: 'id', value: id },
+      ])
+    );
+  }
 
   getCarDetails(): Observable<DataResponseModel<CarDetailDto[]>> {
     return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(

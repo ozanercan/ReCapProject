@@ -21,7 +21,7 @@ export class BrandListVerticalComponent implements OnInit {
   @Output() outCurrentBrand = new EventEmitter<Brand>();
 
   getBrands() {
-    this.brandService.getBrands().subscribe((response) => {
+    this.brandService.getList().subscribe((response) => {
       this.brands = response.data;
     });
   }

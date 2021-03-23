@@ -17,6 +17,7 @@
       <th>Model Yılı</th>
       <th>Günlük Fiyat</th>
       <th>Açıklama</th>
+      <th>Aksiyonlar</th>
     </tr>
   </thead>
   <tbody>
@@ -27,6 +28,14 @@
       <td>{{ carDetail.modelYear }}</td>
       <td>{{ carDetail.dailyPrice }}</td>
       <td>{{ carDetail.description }}</td>
+      <td>
+        <a
+          type="button"
+          class="btn btn-dark btn-sm"
+          routerLink="/carUpdateWithForm/{{ carDetail.id }}"
+          ><i class="bi bi-pencil-square"></i> Güncelle</a
+        >
+      </td>
     </tr>
   </tbody>
 </table>

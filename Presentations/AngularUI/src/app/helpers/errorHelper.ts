@@ -2,7 +2,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 export class ErrorHelper {
   static getMessage(error: HttpErrorResponse): string {
-    console.log(error);
+    if (error.status === 401) {
+      return 'Bu işlem için yetkiniz yok.';
+    }
+
+    // Bad Request
+    if(error.error.message!==undefined){
+      return error.error.message;
+    }
+    
     // Validation Hata Yakalama
     if (error.error.ValidationErrors != null) {
       let validationErrors = error.error.ValidationErrors;

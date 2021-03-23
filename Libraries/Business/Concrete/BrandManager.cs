@@ -70,7 +70,7 @@ namespace Business.Concrete
         {
             var data = _brandDal.GetAll();
 
-            if (data == null || data.Count <= 0)
+            if (data.Count == 0)
                 return new ErrorDataResult<List<Brand>>(data, Messages.BrandNotFound);
             else
                 return new SuccessDataResult<List<Brand>>(data, Messages.BrandGetListByRegistered);
@@ -80,51 +80,60 @@ namespace Business.Concrete
         //[CacheAspect]
         public IDataResult<Brand> GetById(int id)
         {
-            var getResult = this.GetById(id);
+            var findedBrand = _brandDal.Get(p => p.Id == id);
 
-            if (!getResult.Success)
-                return new ErrorDataResult<Brand>(getResult.Data, Messages.BrandNotFound);
+            if (findedBrand == null)
+                return new ErrorDataResult<Brand>(null, Messages.BrandNotFound);
 
-            if (getResult == null)
-                return new ErrorDataResult<Brand>(getResult.Data, Messages.BrandNotFound);
-            else
-                return new SuccessDataResult<Brand>(getResult.Data, Messages.BrandGetListByRegistered);
+            return new SuccessDataResult<Brand>(findedBrand, Messages.BrandGet);
         }
 
         [CacheRemoveAspect("IBrandService.Get")]
-        public IResult Update(Brand brand)
+        [ValidationAspect(typeof(BrandUpdateDtoValidator))]
+        public IResult Update(BrandUpdateDto brandUpdateDto)
         {
-            bool updateResult = _brandDal.Update(brand);
+            var ruleResult = BusinessRules.Run(CheckBrandNameExistButIgnoreById(brandUpdateDto.Id, brandUpdateDto.Name));
+            if (!ruleResult.Success)
+                return ruleResult;
 
-            if (updateResult == true)
-                return new SuccessResult(Messages.BrandUpdated);
-            else
+            var findedBrandResult = this.GetById(brandUpdateDto.Id);
+            if (!findedBrandResult.Success)
+                return new ErrorResult(findedBrandResult.Message);
+
+            findedBrandResult.Data.Name = brandUpdateDto.Name;
+
+            bool updateResult = _brandDal.Update(findedBrandResult.Data);
+
+            if (!updateResult)
                 return new ErrorResult(Messages.BrandNotUpdated);
+
+            return new SuccessResult(Messages.BrandUpdated);
         }
 
-        [CacheRemoveAspect("IBrandService.Get")]
-        public IResult Update(int id, Brand newBrand)
+
+
+        public IDataResult<Brand> GetByName(string name)
         {
-            var findedCarResult = GetById(id);
+            var findedBrand = _brandDal.Get(p => p.Name.Equals(name));
 
-            if (!findedCarResult.Success)
-                return findedCarResult;
-
-
-            Brand brandToUpdate = InputToCar(findedCarResult.Data, newBrand);
-
-            return Update(brandToUpdate);
-        }
-
-        private Brand InputToCar(Brand oldBrand, Brand newBrand)
-        {
-            oldBrand.Name = newBrand.Name;
-            return oldBrand;
+            if (findedBrand == null)
+                return new ErrorDataResult<Brand>(null, Messages.BrandNotFound);
+            else
+                return new SuccessDataResult<Brand>(findedBrand, Messages.BrandGet);
         }
 
         private IResult CheckBrandNameExist(string brandName)
         {
             var findedBrand = _brandDal.Get(p => p.Name.Equals(brandName));
+            if (findedBrand == null)
+                return new SuccessResult();
+
+            return new ErrorResult(Messages.BrandNameAlreadyExist);
+        }
+
+        private IResult CheckBrandNameExistButIgnoreById(int brandId, string brandName)
+        {
+            var findedBrand = _brandDal.Get(p => p.Id != brandId && p.Name.Equals(brandName));
             if (findedBrand == null)
                 return new SuccessResult();
 
