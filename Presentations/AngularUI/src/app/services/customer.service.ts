@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiUrlHelper } from '../helpers/api-url-helper';
-import { CustomerDetailDto } from '../models/customerDetailDto';
+import { CustomerDetailDto } from '../models/Dtos/customerDetailDto';
 import { DataResponseModel } from '../models/responseModels/dataResponseModel';
 
 @Injectable({

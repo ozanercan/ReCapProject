@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
-import { PaymentAddDto } from 'src/app/models/paymentAddDto';
+import { PaymentAddDto } from 'src/app/models/Dtos/paymentAddDto';
 import { CarService } from 'src/app/services/car.service';
 import { PaymentService } from 'src/app/services/payment.service';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CarDetailDto } from 'src/app/models/carDetailDto';
-import { CarImage } from 'src/app/models/carImage';
+import { CarDetailDto } from 'src/app/models/Dtos/carDetailDto';
+import { CarImageDto } from 'src/app/models/Dtos/carImageDto';
 import { CarService } from 'src/app/services/car.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class CarDetailComponent implements OnInit {
     });
   }
 
-  carImages!: CarImage[];
+  carImages!: CarImageDto[];
   carDetailDto!: CarDetailDto;
 
   parentImageUrl!: string;
@@ -43,7 +43,7 @@ export class CarDetailComponent implements OnInit {
     });
   }
 
-  getCarouselItemClass(carImage: CarImage): string {
+  getCarouselItemClass(carImage: CarImageDto): string {
     let defaultClass: string = 'carousel-item';
     if (this.carImages.sort((p) => p.id)[0].id == carImage.id) {
       return `${defaultClass} active`;
@@ -51,7 +51,7 @@ export class CarDetailComponent implements OnInit {
     return defaultClass;
   }
 
-  setParentImage(carImage: CarImage) {
+  setParentImage(carImage: CarImageDto) {
     this.parentImageUrl = carImage.imagePath;
   }
 

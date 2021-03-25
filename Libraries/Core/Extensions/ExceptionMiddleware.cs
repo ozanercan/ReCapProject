@@ -50,6 +50,11 @@ namespace Core.Extensions
                     ValidationErrors = errors
                 }.ToString());
             }
+            else if (e is UnauthorizedAccessException accessException)
+            {
+                message = accessException.Message;
+                httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            }
 
             return httpContext.Response.WriteAsync(new ErrorDetails
             {

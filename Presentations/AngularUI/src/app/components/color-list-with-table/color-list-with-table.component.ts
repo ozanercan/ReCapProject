@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Color } from 'src/app/models/color';
+import { ColorDto } from 'src/app/models/Dtos/colorDto';
 import { ColorService } from 'src/app/services/color.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class ColorListWithTableComponent implements OnInit {
     this.getColors();
   }
 
-  colors: Color[] = [];
+  colors: ColorDto[] = [];
   filterText: string = '';
 
   getColors() {

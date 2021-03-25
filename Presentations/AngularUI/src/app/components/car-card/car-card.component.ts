@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { CarDetailDto } from 'src/app/models/carDetailDto';
+import { CarDetailDto } from 'src/app/models/Dtos/carDetailDto';
 
 @Component({
   selector: 'app-car-card',

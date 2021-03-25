@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiUrlHelper } from '../helpers/api-url-helper';
-import { PaymentAddDto } from '../models/paymentAddDto';
+import { PaymentAddDto } from '../models/Dtos/paymentAddDto';
 import { ResponseModel } from '../models/responseModels/responseModel';
 
 @Injectable({

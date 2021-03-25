@@ -1,4 +1,4 @@
-import { CarImage } from "./carImage";
+import { CarImageDto } from "./carImageDto";
 
 export class CarDetailDto {
   id!: number;
@@ -8,5 +8,5 @@ export class CarDetailDto {
   dailyPrice!: number;
   description!: string;
 
-  imagePaths!: CarImage[];
+  imagePaths!: CarImageDto[];
 }

@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Core.Entities.Concrete;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.Jwt;
@@ -43,9 +44,12 @@ namespace Business.Concrete
 
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto)
         {
-            byte[] passwordHash, passwordSalt;
+            var rulesResult = BusinessRules.Run(this.UserExist(userForRegisterDto.Email));
+            if (!rulesResult.Success)
+                return new ErrorDataResult<User>(null, rulesResult.Message);
 
-            HashingHelper.CreatePasswordHash(userForRegisterDto.Password, out passwordHash, out passwordSalt);
+
+            HashingHelper.CreatePasswordHash(userForRegisterDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             var userToCreate = new User()
             {
@@ -68,10 +72,10 @@ namespace Business.Concrete
         public IResult UserExist(string email)
         {
             var userToCheck = _userService.GetByMail(email);
-            if (userToCheck.Success && userToCheck.Data != null)
-                return new SuccessResult(Messages.UserAlreadyExist);
+            if (userToCheck.Success)
+                return new ErrorResult(Messages.UserAlreadyExist);
 
-            return new ErrorResult(Messages.UserNotFound);
+            return new SuccessResult(Messages.UserNotFound);
         }
     }
 }

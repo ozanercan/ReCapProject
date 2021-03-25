@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
-import { BrandAddDto } from 'src/app/models/brandAddDto';
+import { BrandAddDto } from 'src/app/models/Dtos/brandAddDto';
 import { BrandService } from 'src/app/services/brand.service';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Color } from 'src/app/models/color';
+import { ColorDto } from 'src/app/models/Dtos/colorDto';
 import { ColorService } from 'src/app/services/color.service';
 
 @Component({
@@ -14,9 +14,9 @@ export class ColorListVerticalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  colors: Color[] = [];
+  colors: ColorDto[] = [];
 
-  currentColor: Color | undefined;
+  currentColor: ColorDto | undefined;
 
   getColors() {
     this.colorService.getColors().subscribe((response) => {
@@ -24,7 +24,7 @@ export class ColorListVerticalComponent implements OnInit {
     });
   }
 
-  setCurrentColor(color: Color) {
+  setCurrentColor(color: ColorDto) {
     this.currentColor = color;
   }
 }

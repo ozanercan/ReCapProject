@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
-import { Color } from 'src/app/models/color';
-import { ColorUpdateDto } from 'src/app/models/ColorUpdateDto';
+import { ColorDto } from 'src/app/models/Dtos/colorDto';
+import { ColorUpdateDto } from 'src/app/models/Dtos/colorUpdateDto';
 import { ColorService } from 'src/app/services/color.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class ColorUpdateWithFormComponent implements OnInit {
     });
   }
 
-  color!: Color;
+  color!: ColorDto;
 
   colorUpdateForm!: FormGroup;
 

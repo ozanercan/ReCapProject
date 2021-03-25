@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Brand } from 'src/app/models/brand';
+import { BrandDto } from 'src/app/models/Dtos/brandDto';
 import { BrandService } from 'src/app/services/brand.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class BrandListWithTableComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  brands: Brand[] = [];
+  brands: BrandDto[] = [];
 
   filterText: string = '';
   getBrands() {

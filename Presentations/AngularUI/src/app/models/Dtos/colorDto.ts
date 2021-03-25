@@ -1,4 +1,4 @@
-export class Brand {
+export class ColorDto {
   id!: number;
   name!: string;
 }

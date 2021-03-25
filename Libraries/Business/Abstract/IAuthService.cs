@@ -17,7 +17,7 @@ namespace Business.Abstract
         /// Mail adresine göre kullanıcının olup olmadığını kontrol eder.
         /// </summary>
         /// <param name="email"></param>
-        /// <returns>Kullanıcı varsa SuccessResult, kullanıcı yoksa ErrorResult döner.</returns>
+        /// <returns>Kullanıcı varsa ErrorResult, kullanıcı yoksa SuccessResult döner.</returns>
         IResult UserExist(string email);
     }
 }

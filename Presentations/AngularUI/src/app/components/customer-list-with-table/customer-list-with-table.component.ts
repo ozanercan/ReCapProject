@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { CustomerDetailDto } from 'src/app/models/customerDetailDto';
+import { CustomerDetailDto } from 'src/app/models/Dtos/customerDetailDto';
 import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({

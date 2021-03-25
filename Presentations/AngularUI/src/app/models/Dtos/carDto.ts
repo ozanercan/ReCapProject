@@ -1,4 +1,4 @@
-export class Car {
+export class CarDto {
   id!: number;
   brandId!: number;
   colorId!: number;

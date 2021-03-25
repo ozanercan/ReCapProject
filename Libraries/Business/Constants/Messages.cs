@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Runtime.Serialization;
 
 namespace Business.Constants
 {
@@ -21,6 +22,7 @@ namespace Business.Constants
         public static string BrandNameAlreadyExist = "Böyle bir Marka Adı zaten kayıtlı.";
         public static string ModelInvalid = "Gönderdiğiniz model onaylanmadı, lütfen alanları kontrol edip tekrar deneyin.";
         public static string ColorNameAlreadyExist = "Bu renk zaten kullanılıyor.";
+        public static string AuthorizationDenied = "Yetkiniz yok.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";

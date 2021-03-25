@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { ApiUrlHelper } from '../helpers/api-url-helper';
-import { Color } from '../models/color';
-import { ColorAddDto } from '../models/colorAddDto';
-import { ColorUpdateDto } from '../models/ColorUpdateDto';
+import { ColorDto } from '../models/Dtos/colorDto';
+import { ColorAddDto } from '../models/Dtos/colorAddDto';
+import { ColorUpdateDto } from '../models/Dtos/colorUpdateDto';
 import { DataResponseModel } from '../models/responseModels/dataResponseModel';
 import { ResponseModel } from '../models/responseModels/responseModel';
 
@@ -13,18 +13,15 @@ import { ResponseModel } from '../models/responseModels/responseModel';
   providedIn: 'root',
 })
 export class ColorService {
-  constructor(
-    private httpClient: HttpClient,
-    private toastrService: ToastrService
-  ) {}
+  constructor(private httpClient: HttpClient, private toastrService:ToastrService) {}
 
   getColorByIdPath: string = 'colors/getbyid';
   getColorsPath: string = 'colors/getall';
   getColorAddPath: string = 'colors/add';
   getColorUpdatePath: string = 'colors/update';
 
-  getColors(): Observable<DataResponseModel<Color[]>> {
-    return this.httpClient.get<DataResponseModel<Color[]>>(
+  getColors(): Observable<DataResponseModel<ColorDto[]>> {
+    return this.httpClient.get<DataResponseModel<ColorDto[]>>(
       ApiUrlHelper.getUrl(this.getColorsPath)
     );
   }
@@ -36,8 +33,8 @@ export class ColorService {
     );
   }
 
-  getById(id: number): Observable<DataResponseModel<Color>> {
-    return this.httpClient.get<DataResponseModel<Color>>(
+  getById(id: number): Observable<DataResponseModel<ColorDto>> {
+    return this.httpClient.get<DataResponseModel<ColorDto>>(
       ApiUrlHelper.getUrlWithParameters(this.getColorByIdPath, [
         { key: 'id', value: id },
       ])

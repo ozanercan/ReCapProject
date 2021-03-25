@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataResponseModel } from '../models/responseModels/dataResponseModel';
-import { Brand } from '../models/brand';
+import { BrandDto } from '../models/Dtos/brandDto';
 import { Observable } from 'rxjs';
 import { ApiUrlHelper } from '../helpers/api-url-helper';
-import { BrandAddDto } from '../models/brandAddDto';
 import { ResponseModel } from '../models/responseModels/responseModel';
 import { ToastrService } from 'ngx-toastr';
-import { BrandUpdateDto } from '../models/brandUpdateDto';
+import { BrandUpdateDto } from '../models/Dtos/brandUpdateDto';
+import { BrandAddDto } from '../models/Dtos/brandAddDto';
 @Injectable({
   providedIn: 'root',
 })
@@ -22,16 +22,16 @@ export class BrandService {
   getBrandAddPath: string = 'brands/add';
   getBrandUpdatePath: string = 'brands/update';
 
-  getById(id: number): Observable<DataResponseModel<Brand>> {
-    return this.httpClient.get<DataResponseModel<Brand>>(
+  getById(id: number): Observable<DataResponseModel<BrandDto>> {
+    return this.httpClient.get<DataResponseModel<BrandDto>>(
       ApiUrlHelper.getUrlWithParameters(this.getBrandByIdPath, [
         { key: 'id', value: id },
       ])
     );
   }
 
-  getList(): Observable<DataResponseModel<Brand[]>> {
-    return this.httpClient.get<DataResponseModel<Brand[]>>(
+  getList(): Observable<DataResponseModel<BrandDto[]>> {
+    return this.httpClient.get<DataResponseModel<BrandDto[]>>(
       ApiUrlHelper.getUrl(this.getBrandsPath)
     );
   }

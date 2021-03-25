@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
-import { Brand } from 'src/app/models/brand';
-import { Car } from 'src/app/models/car';
-import { CarUpdateDto } from 'src/app/models/CarUpdateDto';
-import { Color } from 'src/app/models/color';
+import { BrandDto } from 'src/app/models/Dtos/brandDto';
+import { CarDto } from 'src/app/models/Dtos/carDto';
+import { CarUpdateDto } from 'src/app/models/Dtos/carUpdateDto';
+import { ColorDto } from 'src/app/models/Dtos/colorDto';
 import { BrandService } from 'src/app/services/brand.service';
 import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
@@ -40,12 +40,12 @@ export class CarUpdateWithFormComponent implements OnInit {
     this.getBrands();
   }
 
-  car!: Car;
+  car!: CarDto;
 
   carUpdateForm!: FormGroup;
 
-  colors: Color[] = [];
-  brands: Brand[] = [];
+  colors: ColorDto[] = [];
+  brands: BrandDto[] = [];
 
   selectedBrand!: string;
   selectedColor!: string;

@@ -1,0 +1,24 @@
+<div class="text-center">
+    <div class="form-signin">
+      <form [formGroup]="loginForm">
+        <img class="mb-4" src="https://www.jcxml.online/images/php-mysql-logo2.png" alt="" width="72" height="57">
+        <h1 class="h3 mb-3 fw-normal">Giriş Yap</h1>
+    
+        <div class="form-floating">
+          <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email">
+          <label for="email">E-Posta</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+          <label for="password">Şifre</label>
+        </div>
+    
+        <div class="checkbox mb-3">
+          <label>
+            <input type="checkbox" value="remember-me"> Beni Hatırla
+          </label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" (click)="login()">Giriş Yap</button>
+      </form>
+    </div>
+</div>

@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataResponseModel } from '../models/responseModels/dataResponseModel';
 import { Observable } from 'rxjs';
-import { RentalDto } from '../models/rentalDto';
-import { RentalCreateDto } from '../models/rentalCreateDto';
-import { Rental } from '../models/rental';
+import { RentalDto } from '../models/Dtos/rentalDto';
+import { RentalCreateDto } from '../models/Dtos/rentalCreateDto';
 import { ApiUrlHelper } from '../helpers/api-url-helper';
 
 @Injectable({
@@ -24,8 +23,8 @@ export class RentalService {
 
   addRental(
     rentalCreateDto: RentalCreateDto
-  ): Observable<DataResponseModel<Rental>> {
-    return this.httpClient.post<DataResponseModel<Rental>>(
+  ): Observable<DataResponseModel<RentalDto>> {
+    return this.httpClient.post<DataResponseModel<RentalDto>>(
       ApiUrlHelper.getUrl(this.rentalAddPath),
       rentalCreateDto
     );

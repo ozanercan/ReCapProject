@@ -13,7 +13,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        IAuthService _authService;
+        private readonly IAuthService _authService;
 
         public AuthController(IAuthService authService)
         {
@@ -25,32 +25,27 @@ namespace WebAPI.Controllers
         {
             var userToLoginResult = _authService.Login(userForLoginDto);
             if (!userToLoginResult.Success)
-                return BadRequest(userToLoginResult.Message);
+                return BadRequest(userToLoginResult);
 
             var accessTokenResult = _authService.CreateAccessToken(userToLoginResult.Data);
             if (accessTokenResult.Success)
-                return Ok(accessTokenResult.Data);
+                return Ok(accessTokenResult);
 
-
-            return BadRequest(accessTokenResult.Message);
+            return BadRequest(accessTokenResult);
         }
 
         [HttpPost("register")]
         public IActionResult Register(UserForRegisterDto userForRegisterDto)
         {
-            var userExistResult = _authService.UserExist(userForRegisterDto.Email);
-            if (userExistResult.Success)
-                return BadRequest(userExistResult.Message);
-
             var registerResult = _authService.Register(userForRegisterDto);
             if (!registerResult.Success)
-                return BadRequest(registerResult.Message);
+                return BadRequest(registerResult);
 
             var createAccessTokenResult = _authService.CreateAccessToken(registerResult.Data);
             if (createAccessTokenResult.Success)
-                return Ok(createAccessTokenResult.Data);
+                return Ok(createAccessTokenResult);
 
-            return BadRequest(createAccessTokenResult.Message);
+            return BadRequest(createAccessTokenResult);
         }
     }
 }

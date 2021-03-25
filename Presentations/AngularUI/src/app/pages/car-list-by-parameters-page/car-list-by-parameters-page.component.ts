@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Brand } from 'src/app/models/brand';
-import { Color } from 'src/app/models/color';
+import { BrandDto } from 'src/app/models/Dtos/brandDto';
+import { ColorDto } from 'src/app/models/Dtos/colorDto';
 import { BrandService } from 'src/app/services/brand.service';
 import { ColorService } from 'src/app/services/color.service';
 
@@ -22,8 +22,8 @@ export class CarListByParametersPageComponent implements OnInit {
     this.getBrands();
   }
 
-  colors: Color[] = [];
-  brands: Brand[] = [];
+  colors: ColorDto[] = [];
+  brands: BrandDto[] = [];
 
   selectedBrand!: string;
   selectedColor!: string;
@@ -43,7 +43,7 @@ export class CarListByParametersPageComponent implements OnInit {
   }
 
   filter() {
-    if (this.selectedBrand !== null && this.selectedColor !== null) {
+    if (this.selectedBrand !== null && this.selectedBrand !== undefined && this.selectedColor !== null && this.selectedColor !== undefined) {
       let routePath =
         'carListByParameters/carListWithCard/filters/' +
         this.selectedColor +

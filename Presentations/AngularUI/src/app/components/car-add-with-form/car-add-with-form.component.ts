@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
-import { Brand } from 'src/app/models/brand';
-import { CarAddDto } from 'src/app/models/carAddDto';
-import { Color } from 'src/app/models/color';
+import { BrandDto } from 'src/app/models/Dtos/brandDto';
+import { CarAddDto } from 'src/app/models/Dtos/carAddDto';
+import { ColorDto } from 'src/app/models/Dtos/colorDto';
 import { BrandService } from 'src/app/services/brand.service';
 import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
@@ -31,11 +31,12 @@ export class CarAddWithFormComponent implements OnInit {
 
   carAddForm!: FormGroup;
 
-  colors: Color[] = [];
-  brands: Brand[] = [];
+  colors: ColorDto[] = [];
+  brands: BrandDto[] = [];
 
   selectedBrand!: string;
   selectedColor!: string;
+
 
   createCarAddForm() {
     this.carAddForm = this.formBuilder.group({
@@ -44,6 +45,8 @@ export class CarAddWithFormComponent implements OnInit {
       modelYear: ['', Validators.required],
       dailyPrice: ['', Validators.required],
       description: ['', Validators.maxLength(500)],
+      file: ['', [Validators.required]],
+      fileSource: ['', [Validators.required]],
     });
   }
 

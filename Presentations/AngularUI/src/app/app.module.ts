@@ -39,6 +39,8 @@ import { CarAddWithFormComponent } from './components/car-add-with-form/car-add-
 import { BrandUpdateWithFormComponent } from './components/brand-update-with-form/brand-update-with-form.component';
 import { ColorUpdateWithFormComponent } from './components/color-update-with-form/color-update-with-form.component';
 import { CarUpdateWithFormComponent } from './components/car-update-with-form/car-update-with-form.component';
+import { ImageUploadComponent } from './pages/image-upload/image-upload.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,8 @@ import { CarUpdateWithFormComponent } from './components/car-update-with-form/ca
     BrandUpdateWithFormComponent,
     ColorUpdateWithFormComponent,
     CarUpdateWithFormComponent,
+    ImageUploadComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,7 @@ import { CarUpdateWithFormComponent } from './components/car-update-with-form/ca
 import { ColorAddWithFormComponent } from './components/color-add-with-form/color-add-with-form.component';
 import { ColorUpdateWithFormComponent } from './components/color-update-with-form/color-update-with-form.component';
 import { CustomerListWithTableComponent } from './components/customer-list-with-table/customer-list-with-table.component';
+import { LoginComponent } from './components/login/login.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { BrandListWithTablePageComponent } from './pages/brand-list-with-table-page/brand-list-with-table-page.component';
 import { CarListByBrandPageComponent } from './pages/car-list-by-brand-page/car-list-by-brand-page.component';
@@ -18,10 +19,13 @@ import { CarListByParametersPageComponent } from './pages/car-list-by-parameters
 import { CarListWithTablePageComponent } from './pages/car-list-with-table-page/car-list-with-table-page.component';
 import { ColorListWithTablePageComponent } from './pages/color-list-with-table-page/color-list-with-table-page.component';
 import { CustomerListWithTablePageComponent } from './pages/customer-list-with-table-page/customer-list-with-table-page.component';
+import { ImageUploadComponent } from './pages/image-upload/image-upload.component';
 import { RentalListWithTablePageComponent } from './pages/rental-list-with-table-page/rental-list-with-table-page.component';
 import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.component';
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'imageUpload', component: ImageUploadComponent },
   { path: 'brandAddWithForm', component: BrandAddWithFormComponent },
   { path: 'brandUpdateWithForm/:brandId', component: BrandUpdateWithFormComponent },
   { path: 'brandListWithTable', component: BrandListWithTablePageComponent },

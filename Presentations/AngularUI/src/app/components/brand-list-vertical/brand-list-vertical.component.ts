@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Brand } from 'src/app/models/brand';
+import { BrandDto } from 'src/app/models/Dtos/brandDto';
 import { BrandService } from 'src/app/services/brand.service';
 
 @Component({
@@ -14,11 +14,11 @@ export class BrandListVerticalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  brands: Brand[] = [];
+  brands: BrandDto[] = [];
 
-  currentBrand!: Brand;
+  currentBrand!: BrandDto;
 
-  @Output() outCurrentBrand = new EventEmitter<Brand>();
+  @Output() outCurrentBrand = new EventEmitter<BrandDto>();
 
   getBrands() {
     this.brandService.getList().subscribe((response) => {
@@ -26,7 +26,7 @@ export class BrandListVerticalComponent implements OnInit {
     });
   }
 
-  setCurrentBrand(brand: Brand) {
+  setCurrentBrand(brand: BrandDto) {
     this.currentBrand = brand;
 
     this.outCurrentBrand.emit(brand);

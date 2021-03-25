@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CarDetailDto } from 'src/app/models/carDetailDto';
-import { CustomerDetailDto } from 'src/app/models/customerDetailDto';
-import { RentalCreateDto } from 'src/app/models/rentalCreateDto';
+import { CarDetailDto } from 'src/app/models/Dtos/carDetailDto';
+import { CustomerDetailDto } from 'src/app/models/Dtos/customerDetailDto';
+import { RentalCreateDto } from 'src/app/models/Dtos/rentalCreateDto';
 import { CarService } from 'src/app/services/car.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { RentalService } from 'src/app/services/rental.service';

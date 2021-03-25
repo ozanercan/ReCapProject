@@ -3,16 +3,16 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { ApiUrlHelper } from '../helpers/api-url-helper';
-import { Brand } from '../models/brand';
-import { Car } from '../models/car';
-import { CarAddDto } from '../models/carAddDto';
-import { CarDetailDto } from '../models/carDetailDto';
-import { CarFilterDto } from '../models/carFilterDto';
-import { CarImage } from '../models/carImage';
-import { CarUpdateDto } from '../models/CarUpdateDto';
-import { ColorAddDto } from '../models/colorAddDto';
+import { BrandDto } from '../models/Dtos/brandDto';
+import { CarDto } from '../models/Dtos/carDto';
+import { CarAddDto } from '../models/Dtos/carAddDto';
+import { CarDetailDto } from '../models/Dtos/carDetailDto';
+import { CarFilterDto } from '../models/Dtos/carFilterDto';
+import { CarImageDto } from '../models/Dtos/carImageDto';
+import { ColorAddDto } from '../models/Dtos/colorAddDto';
 import { DataResponseModel } from '../models/responseModels/dataResponseModel';
 import { ResponseModel } from '../models/responseModels/responseModel';
+import { CarUpdateDto } from '../models/Dtos/carUpdateDto';
 
 @Injectable({
   providedIn: 'root',
@@ -66,8 +66,8 @@ export class CarService {
     throw new Error('');
   }
 
-  getById(id: number): Observable<DataResponseModel<Car>> {
-    return this.httpClient.get<DataResponseModel<Car>>(
+  getById(id: number): Observable<DataResponseModel<CarDto>> {
+    return this.httpClient.get<DataResponseModel<CarDto>>(
       ApiUrlHelper.getUrlWithParameters(this.getByIdUrl, [
         { key: 'id', value: id },
       ])
@@ -164,12 +164,12 @@ export class CarService {
 
   getCarImagesByCarId(
     carId: number
-  ): Observable<DataResponseModel<CarImage[]>> {
+  ): Observable<DataResponseModel<CarImageDto[]>> {
     let url = ApiUrlHelper.getUrlWithParameters(this.getCarImagesByCarIdPath, [
       { key: 'carId', value: carId },
     ]);
 
-    return this.httpClient.get<DataResponseModel<CarImage[]>>(url);
+    return this.httpClient.get<DataResponseModel<CarImageDto[]>>(url);
 
     // `${this.getCarImagesByCarIdPath}?carId=${carId}`
   }
