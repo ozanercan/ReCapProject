@@ -13,11 +13,18 @@ export class RentalService {
   constructor(private httpClient: HttpClient) {}
 
   getRentalDetailsPath: string = 'rentals/getdetails';
+  getCustomerIdByIdPath: string = 'rentals/getcustomeridbyid';
   rentalAddPath: string = 'rentals/add';
 
   getRentals(): Observable<DataResponseModel<RentalDto[]>> {
     return this.httpClient.get<DataResponseModel<RentalDto[]>>(
       ApiUrlHelper.getUrl(this.getRentalDetailsPath)
+    );
+  }
+
+  getCustomerIdById(id:number): Observable<DataResponseModel<number>> {
+    return this.httpClient.get<DataResponseModel<number>>(
+      ApiUrlHelper.getUrlWithParameters(this.getCustomerIdByIdPath, [{key:'id', value:id}])
     );
   }
 

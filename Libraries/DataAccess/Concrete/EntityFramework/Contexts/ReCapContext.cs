@@ -8,7 +8,8 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB; Database=recapdb; Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB; Database=recapdb; Trusted_Connection=True;",
+                providerOptions => { providerOptions.EnableRetryOnFailure(); });
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,5 +29,6 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<CarCreditScore> CarCreditScores { get; set; }
+        public DbSet<CustomerCreditCard> CustomerCreditCards { get; set; }
     }
 }

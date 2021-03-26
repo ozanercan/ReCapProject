@@ -85,9 +85,7 @@ namespace Business.Concrete
         {
             var rental = _rentalDal.Get(p => p.Id == id);
             if (rental == null)
-            {
                 return new ErrorDataResult<Rental>(rental, Messages.RentalNotFound);
-            }
 
             return new SuccessDataResult<Rental>(rental, Messages.RentalGet);
         }
@@ -162,6 +160,15 @@ namespace Business.Concrete
                 return new SuccessResult(Messages.CustomerCreditScoreEnoughtToRentCar);
 
             return new ErrorResult(Messages.CustomerCreditScoreNotEnoughtToRentCar);
+        }
+
+        public IDataResult<int?> GetCustomerIdById(int id)
+        {
+            var rental = _rentalDal.Get(p => p.Id == id);
+            if (rental == null)
+                return new ErrorDataResult<int?>(null, Messages.RentalNotFound);
+
+            return new SuccessDataResult<int?>(rental.CustomerId);
         }
     }
 }

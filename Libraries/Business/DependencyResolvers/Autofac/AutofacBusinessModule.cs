@@ -31,6 +31,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfCarImageDal>().As<ICarImageDal>();
             builder.RegisterType<EfPaymentDal>().As<IPaymentDal>();
             builder.RegisterType<EfCarCreditScoreDal>().As<ICarCreditScoreDal>();
+            builder.RegisterType<EfCustomerCreditCardDal>().As<ICustomerCreditCardDal>();
 
 
             builder.RegisterType<BrandManager>().As<IBrandService>();
@@ -43,6 +44,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<PaymentManager>().As<IPaymentService>();
             builder.RegisterType<CarCreditScoreManager>().As<ICarCreditScoreService>();
             builder.RegisterType<CustomerCreditScoreManager>().As<ICustomerCreditScoreService>();
+            builder.RegisterType<CustomerCreditCardManager>().As<ICustomerCreditCardService>();
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

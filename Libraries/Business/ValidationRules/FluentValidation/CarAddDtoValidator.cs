@@ -8,6 +8,10 @@ namespace Business.ValidationRules.FluentValidation
     {
         public CarAddDtoValidator()
         {
+            RuleFor(p => p.MinCreditScore).NotEmpty();
+            RuleFor(p => p.MinCreditScore).LessThanOrEqualTo(1900);
+            RuleFor(p => p.MinCreditScore).GreaterThanOrEqualTo(0);
+
             RuleFor(p => p.BrandName).NotEmpty();
             RuleFor(p => p.ColorName).NotEmpty();
             RuleFor(p => p.ModelYear).NotEmpty();

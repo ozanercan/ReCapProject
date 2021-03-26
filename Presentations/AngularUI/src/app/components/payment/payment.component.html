@@ -1,11 +1,14 @@
 <div class="card">
-  <div class="card-top border-bottom text-center p-0"></div>
   <div class="card-body">
     <div class="row mt-5">
-      <div class="col-md-12 col-lg-6">
-        <div class="left border" style="border-radius: 5px;">
+      <div class="col-md-12 col-lg-7">
+        <div class="left border" style="border-radius: 5px">
           <div class="row">
-            <span><h5>Ödenmesi Gereken: <b>{{price}}</b> ₺</h5></span>
+            <span
+              ><h5>
+                Ödenmesi Gereken: <b>{{ price }}</b> ₺
+              </h5></span
+            >
             <span class="header">Online Ödeme</span>
             <div class="icons">
               <img src="https://img.icons8.com/color/48/000000/visa.png" />
@@ -51,12 +54,16 @@
               />
             </div>
           </div>
-          <a class="btn btn-success" (click)="completePayment()"
+          <a
+            class="btn btn-complete"
+            (click)="completePayment()"
+            data-bs-toggle="modal"
+            data-bs-target="#creditCartAddModal"
             >ÖDEMEYİ TAMAMLA</a
           >
         </div>
       </div>
-      <div class="col-md-12 col-lg-6">
+      <div class="col-md-12 col-lg-5">
         <div class="creditCart text-light row">
           <div class="col-12 row">
             <div class="col-4">
@@ -77,19 +84,65 @@
             />
           </div>
           <div class="col-12">
-            <h3 class="creditCartFont fs-2 ms-3">{{cardNumber}}</h3>
+            <h3 class="creditCartFont fs-2 ms-3">{{ cardNumber }}</h3>
           </div>
           <div class="col-12 row">
             <div class="col-8">
-              <p class="ms-3 creditCartFont">{{nameSurname}}</p>
+              <p class="ms-3 creditCartFont">{{ nameSurname }}</p>
             </div>
             <div class="col-4 creditCartFont">
-              <p>{{expiryDate}}</p>
+              <p>{{ expiryDate }}</p>
             </div>
           </div>
+        </div>
+        <h3 class="text-center fs-3 mt-3">Kayıtlı Kartlarınız</h3>
+        <div class="list-group">
+          <button
+            (click)="setCurrentCreditCart(creditCard)"
+            class="list-group-item list-group-item-action"
+            aria-current="true"
+            *ngFor="let creditCard of creditCards"
+          >
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ creditCard.cardOwnerFullName }}</h5>
+              <small>{{ creditCard.cardNumber }}</small>
+            </div>
+          </button>
         </div>
       </div>
     </div>
     <div></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="creditCartAddModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Soru</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">Kredi kartınızı kayıt edelim mi?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Kayıt Etme
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addCreditCard()">
+          Kayıt Et
+        </button>
+      </div>
+    </div>
   </div>
 </div>

@@ -45,8 +45,7 @@ export class CarAddWithFormComponent implements OnInit {
       modelYear: ['', Validators.required],
       dailyPrice: ['', Validators.required],
       description: ['', Validators.maxLength(500)],
-      file: ['', [Validators.required]],
-      fileSource: ['', [Validators.required]],
+      minCreditScore: ['', [Validators.required, Validators.min(0), Validators.max(1900)]],
     });
   }
 

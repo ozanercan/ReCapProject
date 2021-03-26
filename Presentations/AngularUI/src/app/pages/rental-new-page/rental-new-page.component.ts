@@ -62,6 +62,8 @@ export class RentalNewPageComponent implements OnInit {
   }
 
   create() {
+    console.log('create run')
+    console.log(this.customerDetailDto)
     if (this.customerDetailDto === undefined) {
       this.toastrService.warning(
         'Lütfen otomobili kiralayacağınız müşteriyi seçin.'

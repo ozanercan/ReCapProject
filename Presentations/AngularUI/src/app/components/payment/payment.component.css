@@ -7,11 +7,6 @@ body {
   font-size: 0.8rem;
 }
 
-.card {
-  max-width: 1000px;
-  margin: 2vh;
-}
-
 .card-top {
   padding: 0.7rem 5rem;
 }
@@ -130,7 +125,7 @@ input:focus::-webkit-input-placeholder {
   line-height: 2;
 }
 
-.btn {
+.btn-complete {
   background-color: rgb(23, 4, 189);
   border-color: rgb(23, 4, 189);
   color: white;
@@ -141,7 +136,7 @@ input:focus::-webkit-input-placeholder {
   border-radius: 0;
 }
 
-.btn:focus {
+.btn-complete:focus {
   box-shadow: none;
   outline: none;
   box-shadow: none;
@@ -151,7 +146,7 @@ input:focus::-webkit-input-placeholder {
   transition: none;
 }
 
-.btn:hover {
+.btn-complete:hover {
   color: white;
 }
 

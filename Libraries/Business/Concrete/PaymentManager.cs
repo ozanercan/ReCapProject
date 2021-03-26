@@ -26,10 +26,6 @@ namespace Business.Concrete
             Payment paymentToAdd = new Payment()
             {
                 RentalId = int.Parse(paymentAddDto.RentalId),
-                NameSurname = paymentAddDto.NameSurname,
-                CardNumber = paymentAddDto.CardNumber,
-                Cvv = paymentAddDto.Cvv,
-                ExpiryDate = paymentAddDto.ExpiryDate,
                 MoneyPaid = paymentAddDto.MoneyPaid
             };
 

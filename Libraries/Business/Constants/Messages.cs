@@ -31,6 +31,10 @@ namespace Business.Constants
         public static string CustomerCreditScoreEnoughtToRentCar = "Müşterinin Kredi Skoru, Aracı kiralamak için yeterli.";
         public static string CustomerCreditScoreNotEnoughtToRentCar = "Müşterinin Kredi Skoru, Aracı kiralamak için yeterli değil.";
         public static string CustomerDetailBroughth = "Müşteri Detayı getirildi.";
+        public static string CustomerCreditCardAdded = "Kredi Kartı eklendi.";
+        public static string CustomerCreditCardNotAdded = "Kredi Kartı eklenemedi.";
+        public static string CustomerCreditCardFound = "Kredi Kartı bulunamadı.";
+        public static string CreditCardsListed = "Kredi Kartları listelendi.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";

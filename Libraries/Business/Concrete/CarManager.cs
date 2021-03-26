@@ -21,14 +21,16 @@ namespace Business.Concrete
         private readonly ICarImageService _carImageService;
         private readonly IBrandService _brandService;
         private readonly IColorService _colorService;
+        private readonly ICarCreditScoreService _carCreditScoreService;
 
-        public CarManager(ICarDal carDal, IRentalService rentalService, ICarImageService carImageService, IBrandService brandService, IColorService colorService)
+        public CarManager(ICarDal carDal, IRentalService rentalService, ICarImageService carImageService, IBrandService brandService, IColorService colorService, ICarCreditScoreService carCreditScoreService)
         {
             _carDal = carDal;
             _rentalService = rentalService;
             _carImageService = carImageService;
             _brandService = brandService;
             _colorService = colorService;
+            _carCreditScoreService = carCreditScoreService;
         }
 
         [CacheRemoveAspect("ICarService.Get")]
@@ -56,10 +58,23 @@ namespace Business.Concrete
             if (!addResult)
                 return new ErrorResult(Messages.CarNotAdded);
 
+            var carCreditScoreAddResult = AddCarCreditScore(carAddDto, carToAdd);
+            if (!carCreditScoreAddResult.Success)
+                return new ErrorResult(carCreditScoreAddResult.Message);
+
             return new SuccessResult(Messages.CarAdded);
         }
 
+        private IResult AddCarCreditScore(CarAddDto carAddDto, Car carToAdd)
+        {
+            var carCreditScoreResult = _carCreditScoreService.Add(new CarCreditScoreAddDto()
+            {
+                CarId = carToAdd.Id,
+                MinCreditScore = carAddDto.MinCreditScore
+            });
 
+            return carCreditScoreResult;
+        }
 
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Delete(Car car)
