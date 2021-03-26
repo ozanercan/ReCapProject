@@ -1,10 +1,10 @@
-export class CustomerDetailDto {
+
+export class CustomerUpdateWithUserDto {
   id!: number;
   companyName!: string;
   firstName!: string;
   lastName!: string;
   email!: string;
-  status!: boolean;
+  activePassword!: string;
+  newPassword!: string;
 }
-
-

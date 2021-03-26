@@ -1,0 +1,31 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Giriş Yap</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="loginForm">
+          <div class="mb-3">
+            <div class="form-floating">
+                <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email">
+                <label for="email">E-Posta</label>
+              </div>
+              
+          </div>
+          <div class="mb-3">
+            <div class="form-floating">
+                <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+                <label for="password">Şifre</label>
+              </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
+        <button type="button" class="btn btn-primary" (click)="login()">Giriş Yap</button>
+      </div>
+    </div>
+  </div>
+</div>

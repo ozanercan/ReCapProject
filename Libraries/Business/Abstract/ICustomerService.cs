@@ -7,6 +7,8 @@ namespace Business.Abstract
 {
     public interface ICustomerService
     {
+        IDataResult<CustomerDetailDto> GetCustomerDetailByEmail(string email);
+
         IDataResult<Customer> GetById(int id);
 
         IDataResult<List<Customer>> GetAll();
@@ -15,7 +17,7 @@ namespace Business.Abstract
 
         IResult Update(Customer customer);
 
-        IResult Update(int id, Customer newCustomer);
+        IResult UpdateWithUser(CustomerUpdateDto customerUpdateDto);
 
         IResult Delete(Customer customer);
 

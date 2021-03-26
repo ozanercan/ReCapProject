@@ -71,15 +71,12 @@ namespace Business.Concrete
         //[CacheAspect]
         public IDataResult<User> GetById(int id)
         {
-            var getResult = this.GetById(id);
-
-            if (!getResult.Success)
-                return new ErrorDataResult<User>(getResult.Data, Messages.UserNotFound);
+            var getResult = _userDal.Get(p => p.Id == id);
 
             if (getResult == null)
-                return new ErrorDataResult<User>(getResult.Data, Messages.UserNotFound);
-            else
-                return new SuccessDataResult<User>(getResult.Data, Messages.UserGetListByRegistered);
+                return new ErrorDataResult<User>(null, Messages.UserNotFound);
+
+            return new SuccessDataResult<User>(getResult, Messages.UserGet);
         }
 
         [PerformanceAspect(5)]
@@ -126,39 +123,14 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(user);
         }
 
-        [CacheRemoveAspect("IUserService.Get")]
-        public IResult Update(User brand)
+        public IResult Update(User user)
         {
-            bool updateResult = _userDal.Update(brand);
+            bool updateResult = _userDal.Update(user);
 
-            if (updateResult == true)
-                return new SuccessResult(Messages.UserUpdated);
-            else
+            if (!updateResult)
                 return new ErrorResult(Messages.UserNotUpdated);
-        }
 
-        [CacheRemoveAspect("IUserService.Get")]
-        public IResult Update(int id, User newBrand)
-        {
-            var findedEntityResult = GetById(id);
-
-            if (!findedEntityResult.Success)
-                return findedEntityResult;
-
-
-            User userToUpdate = InputToCar(findedEntityResult.Data, newBrand);
-
-            return Update(userToUpdate);
-        }
-
-        private User InputToCar(User oldUser, User newUser)
-        {
-            oldUser.FirstName = newUser.FirstName;
-            oldUser.LastName = newUser.LastName;
-            oldUser.Email = newUser.Email;
-            //oldUser.Password = newUser.Password;
-
-            return oldUser;
+            return new SuccessResult(Messages.UserUpdated);
         }
     }
 }

@@ -67,16 +67,6 @@ namespace Business.Concrete
                 return new SuccessDataResult<List<Rental>>(data, Messages.RentalGetListByRegistered);
         }
 
-        private Rental InputToCar(Rental oldRental, Rental newRental)
-        {
-            oldRental.CarId = newRental.CarId;
-            oldRental.CustomerId = newRental.CustomerId;
-            oldRental.RentDate = newRental.RentDate;
-            oldRental.ReturnDate = newRental.ReturnDate;
-
-            return oldRental;
-        }
-
         [PerformanceAspect(5)]
         //[CacheAspect]
         public IDataResult<List<Rental>> GetListReturnDateIsNull()

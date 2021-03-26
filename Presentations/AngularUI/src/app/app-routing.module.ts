@@ -10,6 +10,8 @@ import { CarUpdateWithFormComponent } from './components/car-update-with-form/ca
 import { ColorAddWithFormComponent } from './components/color-add-with-form/color-add-with-form.component';
 import { ColorUpdateWithFormComponent } from './components/color-update-with-form/color-update-with-form.component';
 import { CustomerListWithTableComponent } from './components/customer-list-with-table/customer-list-with-table.component';
+import { CustomerUpdateSelfWithFormComponent } from './components/customer-update-self-with-form/customer-update-self-with-form.component';
+import { LoginWithModalComponent } from './components/login-with-modal/login-with-modal.component';
 import { LoginComponent } from './components/login/login.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -26,7 +28,9 @@ import { RentalListWithTablePageComponent } from './pages/rental-list-with-table
 import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.component';
 
 const routes: Routes = [
+  { path: 'customerUpdateSelfWithForm', component:CustomerUpdateSelfWithFormComponent },
   { path: 'register', component: RegisterComponent},
+  { path: 'loginwithmodal', component: LoginWithModalComponent},
   { path: 'login', component: LoginComponent },
   { path: 'imageUpload', component: ImageUploadComponent },
   { path: 'brandAddWithForm', component: BrandAddWithFormComponent, canActivate: [LoginGuard] },

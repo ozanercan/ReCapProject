@@ -21,10 +21,30 @@ namespace WebAPI.Controllers
             _customerService = customerService;
         }
 
+        [HttpPatch("updatewithuser")]
+        public IActionResult UpdateWithUser(CustomerUpdateDto customerUpdateDto)
+        {
+            var result = _customerService.UpdateWithUser(customerUpdateDto);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
             var result = _customerService.GetById(id);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("getdetailbyemail")]
+        public IActionResult GetDetailByUserId(string email)
+        {
+            var result = _customerService.GetCustomerDetailByEmail(email);
             if (result.Success)
                 return Ok(result);
 

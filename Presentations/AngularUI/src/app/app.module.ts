@@ -44,6 +44,8 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthorizationInterceptor } from './interceptors/authorization.interceptor';
 import { LoginGuard } from './guards/login.guard';
+import { LoginWithModalComponent } from './components/login-with-modal/login-with-modal.component';
+import { CustomerUpdateSelfWithFormComponent } from './components/customer-update-self-with-form/customer-update-self-with-form.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +84,8 @@ import { LoginGuard } from './guards/login.guard';
     ImageUploadComponent,
     LoginComponent,
     RegisterComponent,
+    LoginWithModalComponent,
+    CustomerUpdateSelfWithFormComponent,
   ],
   imports: [
     BrowserModule,

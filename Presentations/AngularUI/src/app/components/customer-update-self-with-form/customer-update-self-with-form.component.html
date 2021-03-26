@@ -1,0 +1,59 @@
+<div class="text-center">
+    <div class="form-signin">
+      <form class="row" [formGroup]="updateForm">
+          <div class="col-12 mb-4">
+            <img class="img-fluid" src="https://www.shareicon.net/data/2016/06/30/788856_edit_512x512.png" alt="" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal">Profilini Düzenle</h1>
+        </div>
+        <div class="col-6">
+            <div class="mb-4">
+                <div class="form-floating">
+                    <input type="text" class="form-control" [ngModel]="customerDetails.firstName" id="firstName" placeholder="Ozan" formControlName="firstName">
+                    <label for="firstName">İsim</label>
+                  </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-4">
+                <div class="form-floating">
+                    <input type="text" class="form-control" [ngModel]="customerDetails.lastName" id="lastName" placeholder="ERCAN" formControlName="lastName">
+                    <label for="lastName">Soyisim</label>
+                  </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-4">
+                <div class="form-floating">
+                    <input type="text" class="form-control" [ngModel]="customerDetails.companyName" id="companyName" placeholder="x Şirketi" formControlName="companyName">
+                    <label for="companyName">Firma Adı</label>
+                  </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-4">
+                <div class="form-floating">
+                    <input type="email" class="form-control" [ngModel]="customerDetails.email" id="email" placeholder="name@example.com" formControlName="email">
+                    <label for="email">E-Posta</label>
+                  </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-4">
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="activePassword" placeholder="Password" formControlName="activePassword">
+                    <label for="activePassword">Şuanki Şifre</label>
+                  </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-4">
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password" placeholder="Password" formControlName="newPassword">
+                    <label for="password">Yeni Şifre</label>
+                  </div>
+            </div>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" (click)="update()">Güncelle</button>
+      </form>
+    </div>
+</div>

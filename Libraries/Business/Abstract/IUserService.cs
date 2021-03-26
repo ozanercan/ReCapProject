@@ -29,7 +29,6 @@ namespace Business.Abstract
 
         IResult Update(User user);
 
-        IResult Update(int id, User newUser);
 
         IResult Delete(User brand);
 
