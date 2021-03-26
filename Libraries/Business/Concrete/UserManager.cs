@@ -104,6 +104,20 @@ namespace Business.Concrete
             return new SuccessDataResult<List<OperationClaim>>(operationClaims, Messages.ClaimsListed);
         }
 
+        public IDataResult<UserFirstLastNameDto> GetFirstNameLastNameByMail(string mail)
+        {
+            var user = _userDal.Get(p => p.Email.Equals(mail));
+            if (user == null)
+                return new ErrorDataResult<UserFirstLastNameDto>(null, Messages.UserNotFound);
+
+            UserFirstLastNameDto userFirstLastNameDto = new UserFirstLastNameDto()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+            return new SuccessDataResult<UserFirstLastNameDto>(userFirstLastNameDto, Messages.UserGet);
+        }
+
         [PerformanceAspect(5)]
         //[CacheAspect]
         public IDataResult<User> GetLastInsertUser()

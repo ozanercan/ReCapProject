@@ -32,6 +32,16 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getfirstlastnamebyemail")]
+        public IActionResult GetFirstLastNameByEmail(string email)
+        {
+            var result = _userService.GetFirstNameLastNameByMail(email);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
         [HttpGet("getall")]
         public IActionResult GetAll()
         {

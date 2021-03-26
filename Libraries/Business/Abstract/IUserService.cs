@@ -17,6 +17,8 @@ namespace Business.Abstract
         /// <returns>Kullanıcı varsa SuccessResult, kullanıcı yoksa ErrorResult döner.</returns>
         IDataResult<User> GetByMail(string mail);
 
+        IDataResult<UserFirstLastNameDto> GetFirstNameLastNameByMail(string mail);
+
         IDataResult<User> GetById(int id);
 
         IDataResult<User> GetLastInsertUser();

@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -41,6 +41,9 @@ import { ColorUpdateWithFormComponent } from './components/color-update-with-for
 import { CarUpdateWithFormComponent } from './components/car-update-with-form/car-update-with-form.component';
 import { ImageUploadComponent } from './pages/image-upload/image-upload.component';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { AuthorizationInterceptor } from './interceptors/authorization.interceptor';
+import { LoginGuard } from './guards/login.guard';
 
 @NgModule({
   declarations: [
@@ -78,6 +81,7 @@ import { LoginComponent } from './components/login/login.component';
     CarUpdateWithFormComponent,
     ImageUploadComponent,
     LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,7 +94,13 @@ import { LoginComponent } from './components/login/login.component';
     }),
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthorizationInterceptor,
+      multi: true,
+    }, LoginGuard
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

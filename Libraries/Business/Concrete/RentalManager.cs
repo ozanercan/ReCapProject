@@ -17,17 +17,24 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         private readonly IRentalDal _rentalDal;
+        private readonly ICustomerCreditScoreService _customerCreditScoreService;
+        private readonly ICarCreditScoreService _carCreditScoreService;
 
-        public RentalManager(IRentalDal rentalDal)
+        public RentalManager(IRentalDal rentalDal, ICustomerCreditScoreService customerCreditScoreService, ICarCreditScoreService carCreditScoreService)
         {
             _rentalDal = rentalDal;
+            _customerCreditScoreService = customerCreditScoreService;
+            _carCreditScoreService = carCreditScoreService;
         }
 
         [CacheRemoveAspect("IRentalService.Get")]
         [ValidationAspect(typeof(RentalAddDtoValidator))]
         public IDataResult<Rental> Add(RentalAddDto rentalCreateDto)
         {
-            var ruleResult = BusinessRules.Run(CheckRentDate(rentalCreateDto.CarId, rentalCreateDto.RentDate), CheckIfReturnDateSmallOfRentDate(rentalCreateDto.RentDate, rentalCreateDto.ReturnDate.Value));
+            var ruleResult = BusinessRules.Run(
+                CheckRentDate(rentalCreateDto.CarId, rentalCreateDto.RentDate),
+                CheckIfReturnDateSmallOfRentDate(rentalCreateDto.RentDate, rentalCreateDto.ReturnDate.Value),
+                CheckCreditScoreByCustomerId(rentalCreateDto.CustomerId, rentalCreateDto.CarId));
 
             if (!ruleResult.Success)
                 return new ErrorDataResult<Rental>(null, ruleResult.Message);
@@ -151,6 +158,20 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        private IResult CheckCreditScoreByCustomerId(int userId, int carId)
+        {
+            var creditScoreResult = _customerCreditScoreService.CalculateByCustomerId(userId);
+            if (!creditScoreResult.Success)
+                return creditScoreResult;
 
+            var carMinScoreResult = _carCreditScoreService.GetMinScoreByCarId(carId);
+            if (!carMinScoreResult.Success)
+                return carMinScoreResult;
+
+            if (creditScoreResult.Data >= carMinScoreResult.Data)
+                return new SuccessResult(Messages.CustomerCreditScoreEnoughtToRentCar);
+
+            return new ErrorResult(Messages.CustomerCreditScoreNotEnoughtToRentCar);
+        }
     }
 }

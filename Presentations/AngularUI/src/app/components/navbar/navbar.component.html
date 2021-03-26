@@ -45,6 +45,15 @@
           </ul>
         </li>
       </ul>
+      <div class="d-flex">
+        <div *ngIf="!isLoggedIn">
+          <button class="btn btn-outline-success me-3" routerLink="register"><i class="bi bi-person-plus-fill"></i> Kayıt Ol</button>
+          <button class="btn btn-outline-success" routerLink="login"><i class="bi bi-box-arrow-in-right"></i> Giriş Yap</button>
+        </div>
+        <div *ngIf="isLoggedIn">
+          <span class="text-dark fs-6"><i class="bi bi-person-check"></i> {{loggedInUser.firstName}} {{loggedInUser.lastName}}</span>
+        </div>
+      </div>
     </div>
   </div>
 </nav>

@@ -12,6 +12,8 @@ import { ColorUpdateWithFormComponent } from './components/color-update-with-for
 import { CustomerListWithTableComponent } from './components/customer-list-with-table/customer-list-with-table.component';
 import { LoginComponent } from './components/login/login.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { RegisterComponent } from './components/register/register.component';
+import { LoginGuard } from './guards/login.guard';
 import { BrandListWithTablePageComponent } from './pages/brand-list-with-table-page/brand-list-with-table-page.component';
 import { CarListByBrandPageComponent } from './pages/car-list-by-brand-page/car-list-by-brand-page.component';
 import { CarListByColorPageComponent } from './pages/car-list-by-color-page/car-list-by-color-page.component';
@@ -24,9 +26,10 @@ import { RentalListWithTablePageComponent } from './pages/rental-list-with-table
 import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.component';
 
 const routes: Routes = [
+  { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent },
   { path: 'imageUpload', component: ImageUploadComponent },
-  { path: 'brandAddWithForm', component: BrandAddWithFormComponent },
+  { path: 'brandAddWithForm', component: BrandAddWithFormComponent, canActivate: [LoginGuard] },
   { path: 'brandUpdateWithForm/:brandId', component: BrandUpdateWithFormComponent },
   { path: 'brandListWithTable', component: BrandListWithTablePageComponent },
   { path: 'carAddWithForm', component: CarAddWithFormComponent },

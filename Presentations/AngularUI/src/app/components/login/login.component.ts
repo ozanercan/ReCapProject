@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { LoginDto } from 'src/app/models/Dtos/loginDto';
 import { AuthService } from 'src/app/services/auth.service';
+import { RememberMeService } from 'src/app/services/remember-me.service';
 import { TokenService } from 'src/app/services/token.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private toastrService: ToastrService,
     private tokenService:TokenService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private rememberMeService:RememberMeService
   ) {}
 
   loginForm!:FormGroup;
@@ -33,12 +35,13 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-    console.log(this.loginForm.value)
     if(this.loginForm.valid){
       let loginDto : LoginDto = this.loginForm.value;
       this.authService.login(loginDto).subscribe(response=>{
-        this.tokenService.setToken(response.data);
 
+        this.tokenService.setToken(response.data);
+        this.rememberMeService.setEmail(loginDto.email);
+        
         this.toastrService.success('Giriş Yapıldı');
       }, errorResponse=>{
         this.toastrService.error(ErrorHelper.getMessage(errorResponse), 'Hata');

@@ -1,0 +1,43 @@
+<div class="text-center">
+    <div class="form-signin">
+      <form [formGroup]="registerForm" class="row">
+          <div class="col-12 mb-4">
+            <img class="img-fluid" src="https://www.jcxml.online/images/php-mysql-logo2.png" alt="" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal">Kayıt Ol</h1>
+        </div>
+        <div class="col-6">
+            <div class="mb-4">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="firstName" placeholder="Ozan" formControlName="firstName">
+                    <label for="firstName">İsim</label>
+                  </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-4">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="lastName" placeholder="ERCAN" formControlName="lastName">
+                    <label for="lastName">Soyisim</label>
+                  </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-4">
+                <div class="form-floating">
+                    <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email">
+                    <label for="email">E-Posta</label>
+                  </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-4">
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+                    <label for="password">Şifre</label>
+                  </div>
+            </div>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" (click)="register()">Kayıt Ol</button>
+      </form>
+    </div>
+</div>

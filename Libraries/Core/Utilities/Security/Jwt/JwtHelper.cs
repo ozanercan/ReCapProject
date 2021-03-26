@@ -24,11 +24,17 @@ namespace Core.Utilities.Security.Jwt
         {
             Configuration = configuration;
             _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+        }
+
+        private void CalculateTokenExpirateDateTime()
+        {
             _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
         }
 
         public AccessToken CreateToken(User user, List<OperationClaim> operationClaims)
         {
+            CalculateTokenExpirateDateTime();
+
             var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
 
             var signingCredentials = SigningCredentialsHelper.CreateSigningCredentials(securityKey);

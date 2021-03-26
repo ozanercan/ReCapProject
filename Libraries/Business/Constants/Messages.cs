@@ -23,6 +23,13 @@ namespace Business.Constants
         public static string ModelInvalid = "Gönderdiğiniz model onaylanmadı, lütfen alanları kontrol edip tekrar deneyin.";
         public static string ColorNameAlreadyExist = "Bu renk zaten kullanılıyor.";
         public static string AuthorizationDenied = "Yetkiniz yok.";
+        public static string CarCreditScoreNotAdded = "Araç Kredi Skoru oluşturulamadı.";
+        public static string CarCreditScoreAdded = "Araç Kredi Skoru oluşturuldu.";
+        public static string CarCreditScoreNotFound = "Araç Kredi Skoru bulunamadı.";
+        public static string CarCreditScoreBrought = "Araç Kredi Skoru getirildi.";
+        public static string CreditScoreCalculated = "Kredi Skoru hesaplandı.";
+        public static string CustomerCreditScoreEnoughtToRentCar = "Müşterinin Kredi Skoru, Aracı kiralamak için yeterli.";
+        public static string CustomerCreditScoreNotEnoughtToRentCar = "Müşterinin Kredi Skoru, Aracı kiralamak için yeterli değil.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";

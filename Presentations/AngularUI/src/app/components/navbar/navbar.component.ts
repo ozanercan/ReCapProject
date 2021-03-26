@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { CustomerFirstLastNameDto } from 'src/app/models/Dtos/customerFirstLastNameDto';
 import { DropDownNav } from 'src/app/models/navbar/dropDownNav';
 import { Nav } from 'src/app/models/navbar/nav';
+import { AuthService } from 'src/app/services/auth.service';
+import { RememberMeService } from 'src/app/services/remember-me.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,11 +12,27 @@ import { Nav } from 'src/app/models/navbar/nav';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  constructor() {}
-
-  navbarBrandText: string = 'Rental';
+  constructor(private authService:AuthService, private rememberMeService:RememberMeService, private userService:UserService) {
+  }
+  ngOnInit(): void {
+    this.isLoggedIn = this.authService.isAuthentication();
+    if(this.isLoggedIn){
+      this.getLoggedInUserNames();
+    }
+  }
+  isLoggedIn:Boolean = false;
+  loggedInUser!:CustomerFirstLastNameDto;
+  navbarBrandText = 'Rental';
   navs: Nav[] = [{ title: 'Ana Sayfa', route: '' }];
 
+  getLoggedInUserNames() {
+    this.userService.getFirstLastNameByEmail((this.rememberMeService.getEmail()!)).subscribe(
+      response=>{
+        console.log(response)
+        this.loggedInUser = response.data;
+      }
+    );
+  }
   dropDownNavs: DropDownNav[] = [
     {
       title: 'Araç İşlemleri',
@@ -56,5 +76,5 @@ export class NavbarComponent implements OnInit {
       childNavs: [{ title: 'Listele', route: 'rentalListWithTable' }],
     },
   ];
-  ngOnInit(): void {}
+  
 }
