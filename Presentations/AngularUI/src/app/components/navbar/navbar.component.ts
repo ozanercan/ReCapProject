@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CustomerFirstLastNameDto } from 'src/app/models/Dtos/customerFirstLastNameDto';
 import { DropDownNav } from 'src/app/models/navbar/dropDownNav';
 import { Nav } from 'src/app/models/navbar/nav';
@@ -12,7 +13,10 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private authService:AuthService, private rememberMeService:RememberMeService, private userService:UserService) {
+  constructor(private authService:AuthService,
+     private rememberMeService:RememberMeService,
+     private userService:UserService,
+     private router:Router ) {
   }
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isAuthentication();
@@ -32,6 +36,10 @@ export class NavbarComponent implements OnInit {
         this.loggedInUser = response.data;
       }
     );
+  }
+
+  logout(){
+    this.authService.logout();
   }
   dropDownNavs: DropDownNav[] = [
     {

@@ -7,22 +7,22 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginGuard implements CanActivate {
+export class AuthenticationGuard implements CanActivate {
   constructor(private authService:AuthService,
-    private router:Router,
-    private toastrService:ToastrService){
- }
- 
+     private router:Router,
+     private toastrService:ToastrService){
+  }
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if(this.authService.isAuthentication()){
-      this.toastrService.warning('Sisteme zaten giriş yapmışsınız, lütfen çıkış yapıp tekrar deneyin.');
-      this.router.navigate(['carListByParameters/carListWithCard']);
+      return true;
+    }
+    else{
+      this.toastrService.warning("Lütfen önce sisteme giriş yapın.");
+      this.router.navigate(['login']);
       return false;
     }
-
-    return true;
   }
   
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { LoginDto } from 'src/app/models/Dtos/loginDto';
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
     private toastrService: ToastrService,
     private tokenService:TokenService,
     private formBuilder: FormBuilder,
-    private rememberMeService:RememberMeService
+    private rememberMeService:RememberMeService,
+    private router:Router
   ) {}
 
   loginForm!:FormGroup;
@@ -43,6 +45,9 @@ export class LoginComponent implements OnInit {
         this.rememberMeService.setEmail(loginDto.email);
         
         this.toastrService.success('Giriş Yapıldı');
+
+        this.router.navigate(['carListByParameters/carListWithCard'], {skipLocationChange:true});
+
       }, errorResponse=>{
         this.toastrService.error(ErrorHelper.getMessage(errorResponse), 'Hata');
       });

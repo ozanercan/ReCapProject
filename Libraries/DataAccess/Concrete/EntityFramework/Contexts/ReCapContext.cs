@@ -15,7 +15,6 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>(p => p.HasKey(x => x.UserId));
-
         }
 
         public DbSet<Brand> Brands { get; set; }

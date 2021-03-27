@@ -25,7 +25,6 @@
         <li *ngFor="let dropDownNav of dropDownNavs" class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
-            href="#"
             id="navbarDropdown"
             role="button"
             data-bs-toggle="dropdown"
@@ -47,13 +46,14 @@
       </ul>
       <div class="d-flex">
         <div *ngIf="!isLoggedIn">
-          <button class="btn btn-outline-success me-3" routerLink="register"><i class="bi bi-person-plus-fill"></i> Kayıt Ol</button>
-          <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="bi bi-box-arrow-in-right"></i> Giriş Yap</button>
+          <button class="btn btn-sm btn-outline-success me-3" routerLink="register"><i class="bi bi-person-plus-fill"></i> Kayıt Ol</button>
+          <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="bi bi-box-arrow-in-right"></i> Giriş Yap</button>
         </div>
         <div *ngIf="isLoggedIn">
+          <div class="text-center">{{loggedInUser.firstName}} {{loggedInUser.lastName}}</div>
           <span class="text-dark fs-6">
-            {{loggedInUser.firstName}} {{loggedInUser.lastName}}
-             <button class="btn btn-light mb-1" routerLink="customerUpdateSelfWithForm"><i class="bi bi-pencil-square"></i></button>
+             <button class="btn btn-sm btn-outline-dark" routerLink="customerUpdateSelfWithForm"><i class="bi bi-pencil-square"></i> Düzenle</button>
+             <button class="btn btn-sm btn-outline-dark ms-2" (click)="logout()"><i class="bi bi-box-arrow-right"></i> Çıkış</button>
           </span>
         </div>
       </div>

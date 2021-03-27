@@ -14,4 +14,8 @@ export class RememberMeService {
   getEmail(): string | null {
     return localStorage.getItem(this.cacheKey);
   }
+
+  delete() {
+    localStorage.removeItem(this.cacheKey);
+  }
 }

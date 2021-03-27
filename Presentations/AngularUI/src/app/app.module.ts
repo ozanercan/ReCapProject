@@ -43,9 +43,11 @@ import { ImageUploadComponent } from './pages/image-upload/image-upload.componen
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthorizationInterceptor } from './interceptors/authorization.interceptor';
-import { LoginGuard } from './guards/login.guard';
+import { AuthenticationGuard } from './guards/authentication.guard';
 import { LoginWithModalComponent } from './components/login-with-modal/login-with-modal.component';
 import { CustomerUpdateSelfWithFormComponent } from './components/customer-update-self-with-form/customer-update-self-with-form.component';
+import { LoginGuard } from './guards/login.guard';
+import { RegisterGuard } from './guards/register.guard';
 
 @NgModule({
   declarations: [
@@ -103,7 +105,7 @@ import { CustomerUpdateSelfWithFormComponent } from './components/customer-updat
       provide: HTTP_INTERCEPTORS,
       useClass: AuthorizationInterceptor,
       multi: true,
-    }, LoginGuard
+    }, AuthenticationGuard, LoginGuard, RegisterGuard
   ],
   bootstrap: [AppComponent],
 })

@@ -15,7 +15,9 @@ import { LoginWithModalComponent } from './components/login-with-modal/login-wit
 import { LoginComponent } from './components/login/login.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AuthenticationGuard } from './guards/authentication.guard';
 import { LoginGuard } from './guards/login.guard';
+import { RegisterGuard } from './guards/register.guard';
 import { BrandListWithTablePageComponent } from './pages/brand-list-with-table-page/brand-list-with-table-page.component';
 import { CarListByBrandPageComponent } from './pages/car-list-by-brand-page/car-list-by-brand-page.component';
 import { CarListByColorPageComponent } from './pages/car-list-by-color-page/car-list-by-color-page.component';
@@ -28,19 +30,40 @@ import { RentalListWithTablePageComponent } from './pages/rental-list-with-table
 import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.component';
 
 const routes: Routes = [
-  { path: 'customerUpdateSelfWithForm', component:CustomerUpdateSelfWithFormComponent },
-  { path: 'register', component: RegisterComponent},
-  { path: 'loginwithmodal', component: LoginWithModalComponent},
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'customerUpdateSelfWithForm',
+    component: CustomerUpdateSelfWithFormComponent,
+    canActivate: [AuthenticationGuard]
+  },
+  { path: 'register', component: RegisterComponent, canActivate:[RegisterGuard] },
+  {
+    path: 'loginwithmodal',
+    component: LoginWithModalComponent,
+    canActivate: [LoginGuard],
+  },
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'imageUpload', component: ImageUploadComponent },
-  { path: 'brandAddWithForm', component: BrandAddWithFormComponent, canActivate: [LoginGuard] },
-  { path: 'brandUpdateWithForm/:brandId', component: BrandUpdateWithFormComponent },
+  {
+    path: 'brandAddWithForm',
+    component: BrandAddWithFormComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'brandUpdateWithForm/:brandId',
+    component: BrandUpdateWithFormComponent,
+  },
   { path: 'brandListWithTable', component: BrandListWithTablePageComponent },
   { path: 'carAddWithForm', component: CarAddWithFormComponent },
   { path: 'carUpdateWithForm/:carId', component: CarUpdateWithFormComponent },
   { path: 'colorListWithTable', component: ColorListWithTablePageComponent },
-  { path: 'colorUpdateWithForm/:colorId', component: ColorUpdateWithFormComponent },
-  { path: 'customerListWithTable', component: CustomerListWithTablePageComponent },
+  {
+    path: 'colorUpdateWithForm/:colorId',
+    component: ColorUpdateWithFormComponent,
+  },
+  {
+    path: 'customerListWithTable',
+    component: CustomerListWithTablePageComponent,
+  },
   { path: 'colorAddWithForm', component: ColorAddWithFormComponent },
   { path: 'carListWithTable', component: CarListWithTablePageComponent },
   { path: 'rentalListWithTable', component: RentalListWithTablePageComponent },

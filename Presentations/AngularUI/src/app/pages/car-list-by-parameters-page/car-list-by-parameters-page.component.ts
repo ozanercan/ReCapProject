@@ -17,10 +17,7 @@ export class CarListByParametersPageComponent implements OnInit {
     private brandService: BrandService,
     private toastrService: ToastrService,
     private router: Router
-  ) {
-    this.getColors();
-    this.getBrands();
-  }
+  ) {}
 
   colors: ColorDto[] = [];
   brands: BrandDto[] = [];
@@ -28,7 +25,10 @@ export class CarListByParametersPageComponent implements OnInit {
   selectedBrand!: string;
   selectedColor!: string;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getColors();
+    this.getBrands();
+  }
 
   getColors() {
     this.colorService.getColors().subscribe((p) => {
@@ -50,8 +50,21 @@ export class CarListByParametersPageComponent implements OnInit {
         '/' +
         this.selectedBrand;
 
+        this.router.navigateByUrl(routePath);
+    } 
+    else if(this.selectedBrand !== null && this.selectedBrand !== undefined) {
+      let routePath =
+      'carListByParameters/carListWithCard/brandName/' + this.selectedBrand;
+
       this.router.navigateByUrl(routePath);
-    } else {
+    }
+    else if(this.selectedColor !== null && this.selectedColor !== undefined) {
+      let routePath =
+      'carListByParameters/carListWithCard/colorName/' + this.selectedColor;
+
+      this.router.navigateByUrl(routePath);
+    }
+    else{
       this.toastrService.warning('Lütfen Renk ve Marka seçimi yapınız.');
     }
   }
