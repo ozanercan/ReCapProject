@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CarDetailDto } from 'src/app/models/Dtos/carDetailDto';
 import { CustomerDetailDto } from 'src/app/models/Dtos/customerDetailDto';
@@ -21,7 +21,8 @@ export class RentalNewPageComponent implements OnInit {
     private customerService: CustomerService,
     private activatedRoute: ActivatedRoute,
     private toastrService: ToastrService,
-    private rentalService: RentalService
+    private rentalService: RentalService,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -88,7 +89,8 @@ export class RentalNewPageComponent implements OnInit {
           const numbers = timer(3000);
 
           numbers.subscribe(
-            (x) => (window.location.href = 'payment/' + p.data.id)
+            
+            (x) => (this.router.navigate(['payment/add/'+p.data.id]))
           );
         },
         (error) => {

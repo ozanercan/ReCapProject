@@ -97,6 +97,9 @@ import { RegisterGuard } from './guards/register.guard';
     FormsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
+      progressBar: true,
+      progressAnimation: 'decreasing',
+      newestOnTop: false
     }),
     ReactiveFormsModule,
   ],

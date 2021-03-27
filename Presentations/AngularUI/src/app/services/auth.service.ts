@@ -3,7 +3,7 @@ import { tokenize } from '@angular/compiler/src/ml_parser/lexer';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, timer } from 'rxjs';
 import { ApiUrlHelper } from '../helpers/api-url-helper';
 import { AccessTokenDto } from '../models/Dtos/accessTokenDto';
 import { LoginDto } from '../models/Dtos/loginDto';
@@ -50,6 +50,10 @@ export class AuthService {
   logout() {
     this.tokenService.delete();
     this.rememberMeService.delete();
-    this.router.navigate(['login']);
+    this.toastrService.success('Başarıyla çıkış yaptınız.');
+    this.toastrService.info('Giriş Sayfasına yönlendiriliyorsunuz.');
+    timer(1500).subscribe(p=>{
+      window.location.href = "/customer/login/form";
+    });
   }
 }

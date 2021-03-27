@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { timer } from 'rxjs';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { RegisterDto } from 'src/app/models/Dtos/registerDto';
 import { AuthService } from 'src/app/services/auth.service';
@@ -45,6 +46,11 @@ export class RegisterComponent implements OnInit {
         this.rememberMeService.setEmail(registerDto.email);
 
         this.toastrService.success('Kayıt İşlemi Tamamlandı.');
+        this.toastrService.info('Ana Sayfaya yönlendiriliyorsunuz.');
+        
+        timer(3000).subscribe(p=>{
+          window.location.href='';
+        });
       }, errorResponse=>{
         this.toastrService.error(ErrorHelper.getMessage(errorResponse));
       });

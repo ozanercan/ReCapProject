@@ -9,10 +9,11 @@ import { ColorService } from 'src/app/services/color.service';
 })
 export class ColorListVerticalComponent implements OnInit {
   constructor(private colorService: ColorService) {
-    this.getColors();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getColors();
+  }
 
   colors: ColorDto[] = [];
 

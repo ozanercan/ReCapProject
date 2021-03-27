@@ -31,111 +31,110 @@ import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.
 
 const routes: Routes = [
   {
-    path: 'customerUpdateSelfWithForm',
+    path: 'customer/update/form',
     component: CustomerUpdateSelfWithFormComponent,
     canActivate: [AuthenticationGuard]
   },
-  { path: 'register', component: RegisterComponent, canActivate:[RegisterGuard] },
+  { path: 'customer/register', component: RegisterComponent, canActivate:[RegisterGuard] },
   {
-    path: 'loginwithmodal',
+    path: 'customer/login/modal',
     component: LoginWithModalComponent,
     canActivate: [LoginGuard],
   },
-  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+  { path: 'customer/login/form', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'imageUpload', component: ImageUploadComponent },
   {
-    path: 'brandAddWithForm',
+    path: 'brand/add/form',
     component: BrandAddWithFormComponent,
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'brandUpdateWithForm/:brandId',
+    path: 'brand/update/form/:brandId',
     component: BrandUpdateWithFormComponent,
   },
-  { path: 'brandListWithTable', component: BrandListWithTablePageComponent },
-  { path: 'carAddWithForm', component: CarAddWithFormComponent },
-  { path: 'carUpdateWithForm/:carId', component: CarUpdateWithFormComponent },
-  { path: 'colorListWithTable', component: ColorListWithTablePageComponent },
+  { path: 'brand/list/table', component: BrandListWithTablePageComponent },
+  { path: 'car/add/form', component: CarAddWithFormComponent },
+  { path: 'car/update/form/:carId', component: CarUpdateWithFormComponent },
+  { path: 'color/list/table', component: ColorListWithTablePageComponent },
   {
-    path: 'colorUpdateWithForm/:colorId',
+    path: 'color/update/form/:colorId',
     component: ColorUpdateWithFormComponent,
   },
   {
-    path: 'customerListWithTable',
+    path: 'customer/list/table',
     component: CustomerListWithTablePageComponent,
   },
-  { path: 'colorAddWithForm', component: ColorAddWithFormComponent },
-  { path: 'carListWithTable', component: CarListWithTablePageComponent },
-  { path: 'rentalListWithTable', component: RentalListWithTablePageComponent },
-  { path: 'carDetail/car/:carId', component: CarDetailComponent },
-  { path: 'carDetail/car/:carId', component: CarDetailComponent },
+  { path: 'color/add/form', component: ColorAddWithFormComponent },
+  { path: 'car/list/table', component: CarListWithTablePageComponent },
+  { path: 'rental/list/table', component: RentalListWithTablePageComponent },
+  { path: 'car/detail/:carId', component: CarDetailComponent },
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'carListByParameters/carListWithCard',
+    redirectTo: 'car/list/filter/card',
   },
   {
-    path: 'rental/new/:carId',
+    path: 'rental/add/:carId',
     component: RentalNewPageComponent,
   },
   {
-    path: 'payment/:rentalId',
+    path: 'payment/add/:rentalId',
     component: PaymentComponent,
   },
   {
-    path: 'carListByColor',
+    path: 'car/list/color',
     component: CarListByColorPageComponent,
     children: [
       {
-        path: 'carListWithCard',
+        path: 'card',
         component: CarListWithCardComponent,
       },
       {
-        path: 'carListWithCard/color/:colorId',
+        path: 'card/:colorId',
         component: CarListWithCardComponent,
       },
     ],
   },
   {
-    path: 'carListByBrand',
+    path: 'car/list/brand',
     component: CarListByBrandPageComponent,
     children: [
       {
-        path: 'carListWithCard',
+        path: 'card',
         component: CarListWithCardComponent,
       },
       {
-        path: 'carListWithCard/brand/:brandId',
+        path: 'card/:brandId',
         component: CarListWithCardComponent,
       },
     ],
   },
   {
-    path: 'carListByParameters',
+    path: 'car/list/filter',
     component: CarListByParametersPageComponent,
     children: [
       {
-        path: 'carListWithCard',
+        path: 'card',
         component: CarListWithCardComponent,
       },
       {
-        path: 'carListWithCard/brandName/:brandName',
+        path: 'card/brandName/:brandName',
         component: CarListWithCardComponent,
       },
       {
-        path: 'carListWithCard/brandId/:brandId',
+        path: 'card/brandId/:brandId',
         component: CarListWithCardComponent,
       },
       {
-        path: 'carListWithCard/colorId/:colorId',
+        path: 'card/colorId/:colorId',
         component: CarListWithCardComponent,
       },
       {
-        path: 'carListWithCard/colorName/:colorName',
+        path: 'card/colorName/:colorName',
         component: CarListWithCardComponent,
       },
       {
-        path: 'carListWithCard/filters/:colorName/:brandName',
+        path: 'card/:colorName/:brandName',
         component: CarListWithCardComponent,
       },
     ],

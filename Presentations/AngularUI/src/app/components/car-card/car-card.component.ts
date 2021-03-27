@@ -8,7 +8,7 @@ import { CarDetailDto } from 'src/app/models/Dtos/carDetailDto';
   styleUrls: ['./car-card.component.css'],
 })
 export class CarCardComponent implements OnInit {
-  constructor() {}
+  constructor(private router:Router) {}
 
   @Input() carDetail!: CarDetailDto;
 
@@ -16,6 +16,6 @@ export class CarCardComponent implements OnInit {
   }
 
   navigateToCarDetailPage() {
-    window.location.href = '/carDetail/car/' + this.carDetail.id;
+    this.router.navigate(['car/detail'+this.carDetail.id]);
   }
 }

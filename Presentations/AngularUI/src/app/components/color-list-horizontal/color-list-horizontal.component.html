@@ -3,7 +3,7 @@
     class="list-group-item"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
-    routerLink="carListWithCard"
+    routerLink="/car/list/color/card"
   >
     Tüm Renkler
   </li>
@@ -12,7 +12,7 @@
     class="list-group-item"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
-    routerLink="carListWithCard/color/{{ color.id }}"
+    routerLink="/car/list/color/card/{{ color.id }}"
     (click)="setCurrentColor(color)"
   >
     {{ color.name }}

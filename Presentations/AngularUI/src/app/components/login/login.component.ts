@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { timer } from 'rxjs';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { LoginDto } from 'src/app/models/Dtos/loginDto';
 import { AuthService } from 'src/app/services/auth.service';
@@ -44,9 +45,13 @@ export class LoginComponent implements OnInit {
         this.tokenService.setToken(response.data);
         this.rememberMeService.setEmail(loginDto.email);
         
-        this.toastrService.success('Giriş Yapıldı');
+        this.toastrService.success('Giriş yapıldı.');
 
-        this.router.navigate(['carListByParameters/carListWithCard'], {skipLocationChange:true});
+        this.toastrService.info('Ana Sayfaya yönlendiriliyorsunuz.');
+
+        timer(3000).subscribe(p=>{
+          window.location.href='';
+        });
 
       }, errorResponse=>{
         this.toastrService.error(ErrorHelper.getMessage(errorResponse), 'Hata');

@@ -20,7 +20,7 @@ export class AuthenticationGuard implements CanActivate {
     }
     else{
       this.toastrService.warning("Lütfen önce sisteme giriş yapın.");
-      this.router.navigate(['login']);
+      this.router.navigate(['customer/login']);
       return false;
     }
   }

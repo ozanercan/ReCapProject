@@ -27,7 +27,6 @@ export class NavbarComponent implements OnInit {
   isLoggedIn:Boolean = false;
   loggedInUser!:CustomerFirstLastNameDto;
   navbarBrandText = 'Rental';
-  navs: Nav[] = [{ title: 'Ana Sayfa', route: '' }];
 
   getLoggedInUserNames() {
     this.userService.getFirstLastNameByEmail((this.rememberMeService.getEmail()!)).subscribe(
@@ -41,47 +40,50 @@ export class NavbarComponent implements OnInit {
   logout(){
     this.authService.logout();
   }
+
+  navs: Nav[] = [{ title: 'Ana Sayfa', route: '' }];
+
   dropDownNavs: DropDownNav[] = [
     {
       title: 'Araç İşlemleri',
       childNavs: [
-        { title: 'Tablolu Liste', route: 'carListWithTable' },
-        { title: 'Renge Göre Liste', route: 'carListByColor/carListWithCard' },
+        { title: 'Tablolu Liste', route: 'car/list/table' },
+        { title: 'Renge Göre Liste', route: 'car/list/color/card' },
         {
           title: 'Markaya Göre Liste',
-          route: 'carListByBrand/carListWithCard',
+          route: 'car/list/brand/card',
         },
         {
           title: 'Gelişmiş Liste',
-          route: 'carListByParameters/carListWithCard',
+          route: 'car/list/filter/card',
         },
         {
           title: 'Yeni Araç Oluştur',
-          route: 'carAddWithForm',
+          route: 'car/add/form',
         },
       ],
     },
     {
       title: 'Marka İşlemleri',
       childNavs: [
-        { title: 'Listele', route: 'brandListWithTable' },
-        { title: 'Oluştur', route: 'brandAddWithForm' },
+        { title: 'Listele', route: 'brand/list/table' },
+        { title: 'Oluştur', route: 'brand/add/form' },
       ],
     },
     {
       title: 'Renk İşlemleri',
       childNavs: [
-        { title: 'Listele', route: 'colorListWithTable' },
-        { title: 'Oluştur', route: 'colorAddWithForm' },
+        { title: 'Listele', route: 'color/list/table' },
+        { title: 'Oluştur', route: 'color/add/form' },
       ],
     },
     {
       title: 'Müşteri İşlemleri',
-      childNavs: [{ title: 'Listele', route: 'customerListWithTable' }],
+      childNavs: [{ title: 'Listele', route: 'customer/list/table' }],
     },
     {
       title: 'Kiralama İşlemleri',
-      childNavs: [{ title: 'Listele', route: 'rentalListWithTable' }],
+      childNavs: [{ title: 'Listele', route: 'rental/list/table' }],
     },
   ];
   

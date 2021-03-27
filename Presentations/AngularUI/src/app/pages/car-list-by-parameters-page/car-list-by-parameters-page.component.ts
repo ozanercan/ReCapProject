@@ -45,7 +45,7 @@ export class CarListByParametersPageComponent implements OnInit {
   filter() {
     if (this.selectedBrand !== null && this.selectedBrand !== undefined && this.selectedColor !== null && this.selectedColor !== undefined) {
       let routePath =
-        'carListByParameters/carListWithCard/filters/' +
+        'car/list/filter/card/' +
         this.selectedColor +
         '/' +
         this.selectedBrand;
@@ -54,13 +54,13 @@ export class CarListByParametersPageComponent implements OnInit {
     } 
     else if(this.selectedBrand !== null && this.selectedBrand !== undefined) {
       let routePath =
-      'carListByParameters/carListWithCard/brandName/' + this.selectedBrand;
+      'car/list/filter/card/brandName/' + this.selectedBrand;
 
       this.router.navigateByUrl(routePath);
     }
     else if(this.selectedColor !== null && this.selectedColor !== undefined) {
       let routePath =
-      'carListByParameters/carListWithCard/colorName/' + this.selectedColor;
+      'car/list/filter/card/colorName/' + this.selectedColor;
 
       this.router.navigateByUrl(routePath);
     }

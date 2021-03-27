@@ -1,7 +1,7 @@
 <ul class="list-group list-group-flush">
   <li
     class="list-group-item list-group-item-action"
-    routerLink="carListWithCard"
+    routerLink="/car/list/brand/card"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
   >
@@ -13,7 +13,7 @@
     class="list-group-item list-group-item-action"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
-    routerLink="carListWithCard/brand/{{ brand.id }}"
+    routerLink="/car/list/brand/card/{{ brand.id }}"
   >
     {{ brand.name }}
   </li>
