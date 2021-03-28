@@ -87,7 +87,7 @@ import { RegisterGuard } from './guards/register.guard';
     LoginComponent,
     RegisterComponent,
     LoginWithModalComponent,
-    CustomerUpdateSelfWithFormComponent,
+    CustomerUpdateSelfWithFormComponent
   ],
   imports: [
     BrowserModule,

@@ -33,7 +33,8 @@ namespace DataAccess.Concrete.EntityFramework
                                 Customer = string.Join(" ", user.FirstName, user.LastName),
                                 RentDate = rental.RentDate,
                                 ReturnDate = rental.ReturnDate,
-                                Price = paymentJoin.MoneyPaid
+                                Price = paymentJoin.MoneyPaid,
+                                isPaid = (paymentJoin.RentalId == rental.Id) ? true : false
                             };
 
                 return await query.ToListAsync();

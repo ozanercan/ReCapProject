@@ -12,11 +12,20 @@ export class RentalListWithTableComponent implements OnInit {
     this.getRentals();
   }
 
+  paidStatuMap: any = { false: 'Ödenmedi', true: 'Ödendi' };
+
   ngOnInit(): void {}
   rentalDtos: RentalDto[] = [];
   getRentals() {
     this.rentalService.getRentals().subscribe((response) => {
       this.rentalDtos = response.data;
     });
+  }
+  getRentalPaidStatuClass(rentalDto:RentalDto):string{
+    if(rentalDto.isPaid == true){
+      return 'badge bg-success';
+    }else{
+      return 'badge bg-danger';
+    }
   }
 }

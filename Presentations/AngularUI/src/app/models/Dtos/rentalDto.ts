@@ -5,4 +5,5 @@ export class RentalDto {
   rentDate!: Date;
   returnDate!: Date;
   price!: number;
+  isPaid!: boolean;
 }

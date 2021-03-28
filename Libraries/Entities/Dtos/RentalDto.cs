@@ -11,5 +11,6 @@ namespace Entities.Dtos
         public DateTime RentDate { get; set; }
         public DateTime? ReturnDate { get; set; }
         public decimal Price { get; set; }
+        public bool isPaid { get; set; }
     }
 }
