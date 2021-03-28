@@ -9,6 +9,7 @@ import { CustomerService } from 'src/app/services/customer.service';
 import { RentalService } from 'src/app/services/rental.service';
 import { timer } from 'rxjs';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-rental-new-page',
@@ -22,12 +23,12 @@ export class RentalNewPageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private toastrService: ToastrService,
     private rentalService: RentalService,
-    private router:Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    
-    let nowDate = new Date().toLocaleString()
+    let nowDate = new Date().toLocaleString();
 
     this.activatedRoute.params.subscribe((parameter) => {
       if (parameter['carId']) {
@@ -38,7 +39,7 @@ export class RentalNewPageComponent implements OnInit {
     });
   }
 
-  dateTimeNow : string = new Date().toISOString();
+  dateTimeNow: string = new Date().toISOString();
 
   carDetailDto!: CarDetailDto;
 
@@ -63,40 +64,43 @@ export class RentalNewPageComponent implements OnInit {
   }
 
   create() {
-    console.log('create run')
-    console.log(this.customerDetailDto)
-    if (this.customerDetailDto === undefined) {
-      this.toastrService.warning(
-        'Lütfen otomobili kiralayacağınız müşteriyi seçin.'
-      );
-    } else if (this.rentDate === undefined) {
-      this.toastrService.warning('Lütfen Kira Başlangıç Tarihini seçin.');
-    } else if (this.returnDate === undefined) {
-      this.toastrService.warning('Lütfen Kira Bitiş Tarihini seçin.');
-    } else {
-      let rentalCreateDto: RentalCreateDto = new RentalCreateDto();
-      rentalCreateDto.carId = this.carDetailDto.id;
-      rentalCreateDto.customerId = this.customerDetailDto.id;
-      rentalCreateDto.rentDate = this.rentDate;
+    if (this.authService.isAuthentication()) {
+      if (this.customerDetailDto === undefined) {
+        this.toastrService.warning(
+          'Lütfen otomobili kiralayacağınız müşteriyi seçin.'
+        );
+      } else if (this.rentDate === undefined) {
+        this.toastrService.warning('Lütfen Kira Başlangıç Tarihini seçin.');
+      } else if (this.returnDate === undefined) {
+        this.toastrService.warning('Lütfen Kira Bitiş Tarihini seçin.');
+      } else {
+        let rentalCreateDto: RentalCreateDto = new RentalCreateDto();
+        rentalCreateDto.carId = this.carDetailDto.id;
+        rentalCreateDto.customerId = this.customerDetailDto.id;
+        rentalCreateDto.rentDate = this.rentDate;
 
-      rentalCreateDto.returnDate = this.returnDate;
-      this.rentalService.addRental(rentalCreateDto).subscribe(
-        async (p) => {
-          this.toastrService.success(
-            'Kayıt oluşturuldu, ödeme sistemine yönlendiriliyorsunuz.'
-          );
+        rentalCreateDto.returnDate = this.returnDate;
+        this.rentalService.addRental(rentalCreateDto).subscribe(
+          async (p) => {
+            this.toastrService.success(
+              'Kayıt oluşturuldu, ödeme sistemine yönlendiriliyorsunuz.'
+            );
 
-          const numbers = timer(3000);
+            const numbers = timer(3000);
 
-          numbers.subscribe(
-            
-            (x) => (this.router.navigate(['payment/add/'+p.data.id]))
-          );
-        },
-        (error) => {
-          this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
-        }
-      );
+            numbers.subscribe((x) =>
+              this.router.navigate(['payment/add/' + p.data.id])
+            );
+          },
+          (error) => {
+            this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
+          }
+        );
+      }
+    }
+    else{
+      this.toastrService.warning('Lütfen önce giriş yapınız.');
+      document.getElementById('showLoginModal')?.click();
     }
   }
 }

@@ -80,6 +80,7 @@ const routes: Routes = [
   {
     path: 'payment/add/:rentalId',
     component: PaymentComponent,
+    canActivate: [AuthenticationGuard]
   },
   {
     path: 'car/list/color',

@@ -1,120 +1,168 @@
-<div class="card">
-  <div class="card-body">
-    <div class="row mt-5">
-      <div class="col-md-12 col-lg-7">
-        <div class="left border" style="border-radius: 5px">
-          <div class="row">
-            <span
-              ><h5>
-                Ödenmesi Gereken: <b>{{ price }}</b> ₺
-              </h5></span
-            >
-            <span class="header">Online Ödeme</span>
-            <div class="icons">
-              <img src="https://img.icons8.com/color/48/000000/visa.png" />
-              <img
-                src="https://img.icons8.com/color/48/000000/mastercard-logo.png"
-              />
-              <img src="https://img.icons8.com/color/48/000000/maestro.png" />
+<form [formGroup]="paymentForm">
+  <div class="card">
+    <div class="card-body">
+      <div class="row mt-5">
+        <div class="col-md-12 col-lg-7">
+          <div class="left border" style="border-radius: 5px">
+            <div class="row">
+              <span
+                ><h5>
+                  Ödenmesi Gereken: <b>{{ price }}</b> ₺
+                </h5></span
+              >
+              <span class="header text-center">Online Ödeme</span>
+              <div class="icons">
+                <img src="https://img.icons8.com/color/48/000000/visa.png" />
+                <img
+                  src="https://img.icons8.com/color/48/000000/mastercard-logo.png"
+                />
+                <img src="https://img.icons8.com/color/48/000000/maestro.png" />
+              </div>
             </div>
-          </div>
-          <span>Kart Sahibinin Adı ve Soyadı</span>
-          <input
-            type="text"
-            placeholder="Ozan ERCAN"
-            [(ngModel)]="nameSurname"
-            class="text-capitalize"
-            maxlength="50"
-          />
-          <span>Kart Numarası:</span>
-          <input
-            type="text"
-            placeholder="0125 6780 4567 9909"
-            [(ngModel)]="cardNumber"
-            maxlength="16"
-          />
-          <div class="row">
-            <div class="col-6">
-              <span>Son Kullanım Tarihi:</span>
-              <input
-                type="text"
-                placeholder="YY/MM"
-                [(ngModel)]="expiryDate"
-                maxlength="5"
-              />
-            </div>
-            <div class="col-6">
-              <span>CVV:</span>
-              <input
-                type="text"
-                id="cvv"
-                placeholder="123"
-                [(ngModel)]="cvv"
-                maxlength="3"
-              />
-            </div>
-          </div>
-          <a
-            class="btn btn-complete"
-            (click)="completePayment()"
-            data-bs-toggle="modal"
-            data-bs-target="#creditCartAddModal"
-            >ÖDEMEYİ TAMAMLA</a
-          >
-        </div>
-      </div>
-      <div class="col-md-12 col-lg-5">
-        <div class="creditCart text-light row">
-          <div class="col-12 row">
-            <div class="col-4">
-              <img
-                src="https://img.icons8.com/color/48/000000/mastercard-logo.png"
-                class="img-fluid mt-2"
-              />
-            </div>
-            <div class="col-8">
-              <p class="mt-2 fs-2 fw-bold float-end">Credit Cart</p>
-            </div>
-          </div>
-          <div class="col-12">
-            <img
-              src="assets/images/icons/chip.png"
-              class="float-start ms-3"
-              style="width: 15%"
+            <span>Kart Sahibinin Adı ve Soyadı</span>
+            <input
+              type="text"
+              placeholder="Ad Soyad"
+              [(ngModel)]="nameSurname"
+              class="text-capitalize"
+              maxlength="50"
+              formControlName="cardOwnerFullName"
             />
-          </div>
-          <div class="col-12">
-            <h3 class="creditCartFont fs-2 ms-3">{{ cardNumber }}</h3>
-          </div>
-          <div class="col-12 row">
-            <div class="col-8">
-              <p class="ms-3 creditCartFont">{{ nameSurname }}</p>
+            <div *ngIf="form_cardOwnerFullName?.invalid">
+              <div *ngIf="form_cardOwnerFullName?.errors?.required">
+                <p class="text-danger">Kart Sahibi alanı zorunludur.</p>
+              </div>
+              <div *ngIf="form_cardOwnerFullName?.errors?.maxlength">
+                <p class="text-danger">Kart Sahibi alanı 20 karakterden az olmalıdır.</p>
+              </div>
+              <div *ngIf="form_cardOwnerFullName?.errors?.min">
+                <p class="text-danger">Kart Sahibi alanı 3 karakterden uzun olmalıdır.</p>
+              </div>
             </div>
-            <div class="col-4 creditCartFont">
-              <p>{{ expiryDate }}</p>
+            <span>Kart Numarası:</span>
+            <input
+              type="text"
+              placeholder="0125 6780 4567 9909"
+              [(ngModel)]="cardNumber"
+              maxlength="16"
+              formControlName="cardNumber"
+            />
+            <div *ngIf="form_cardNumber?.invalid">
+              <div *ngIf="form_cardNumber?.errors?.required">
+                <p class="text-danger">Kart Numarası alanı zorunludur.</p>
+              </div>
+              <div *ngIf="form_cardNumber?.errors?.maxlength">
+                <p class="text-danger">Kart Numarası alanı 20 karakterden az olmalıdır.</p>
+              </div>
+              <div *ngIf="form_cardNumber?.errors?.minlength">
+                <p class="text-danger">Kart Numarası alanı 10 karakterden uzun olmalıdır.</p>
+              </div>
             </div>
+            <div class="row">
+              <div class="col-6">
+                <span>Son Kullanım Tarihi:</span>
+                <input
+                  type="text"
+                  placeholder="YY/MM"
+                  [(ngModel)]="expiryDate"
+                  maxlength="5"
+                  formControlName="expiryDate"
+                />
+                <div *ngIf="form_cardNumber?.invalid">
+                  <div *ngIf="form_cardNumber?.errors?.required">
+                    <p class="text-danger">Son Kullanım Tarihi alanı zorunludur.</p>
+                  </div>
+                  <div *ngIf="form_cardNumber?.errors?.maxlength">
+                    <p class="text-danger">Son Kullanım Tarihi alanı 5 karakterden az olmalıdır.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <span>CVV:</span>
+                <input
+                  type="text"
+                  id="cvv"
+                  placeholder="123"
+                  [(ngModel)]="cvv"
+                  maxlength="3"
+                  formControlName="cvv"
+                />
+                <div *ngIf="form_cvv?.invalid">
+                  <div *ngIf="form_cvv?.errors?.required">
+                    <p class="text-danger">Cvv alanı zorunludur.</p>
+                  </div>
+                  <div *ngIf="form_cvv?.errors?.maxlength">
+                    <p class="text-danger">Cvv alanı 5 karakterden az olmalıdır.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a class="btn btn-complete" (click)="completePayment()"
+              >ÖDEMEYİ TAMAMLA</a
+            >
           </div>
         </div>
-        <h3 class="text-center fs-3 mt-3">Kayıtlı Kartlarınız</h3>
-        <div class="list-group">
-          <button
-            (click)="setCurrentCreditCart(creditCard)"
-            class="list-group-item list-group-item-action"
-            aria-current="true"
-            *ngFor="let creditCard of creditCards"
-          >
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ creditCard.cardOwnerFullName }}</h5>
-              <small>{{ creditCard.cardNumber }}</small>
+        <div class="col-md-12 col-lg-5">
+          <div class="creditCart text-light row">
+            <div class="col-12 row">
+              <div class="col-4">
+                <img
+                  src="https://img.icons8.com/color/48/000000/mastercard-logo.png"
+                  class="img-fluid mt-2"
+                />
+              </div>
+              <div class="col-8">
+                <p class="mt-2 fs-2 fw-bold float-end">Credit Cart</p>
+              </div>
             </div>
-          </button>
+            <div class="col-12">
+              <img
+                src="assets/images/icons/chip.png"
+                class="float-start ms-3"
+                style="width: 15%"
+              />
+            </div>
+            <div class="col-12">
+              <h3 class="creditCartFont fs-2 ms-3">{{ cardNumber }}</h3>
+            </div>
+            <div class="col-12 row">
+              <div class="col-8">
+                <p class="ms-3 creditCartFont">{{ nameSurname }}</p>
+              </div>
+              <div class="col-4 creditCartFont">
+                <p>{{ expiryDate }}</p>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="creditCards.length > 0">
+            <h3 class="text-center fs-3 mt-3">Kayıtlı Kartlarınız</h3>
+            <div class="list-group">
+              <button
+                (click)="setCurrentCreditCart(creditCard)"
+                class="list-group-item list-group-item-action"
+                aria-current="true"
+                *ngFor="let creditCard of creditCards"
+              >
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ creditCard.cardOwnerFullName }}</h5>
+                  <small>{{ creditCard.cardNumber }}</small>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+      <div></div>
     </div>
-    <div></div>
   </div>
-</div>
+</form>
 
+<button
+  id="creditCartSaveModalTrigger"
+  data-bs-toggle="modal"
+  data-bs-target="#creditCartAddModal"
+  class="btn btn-success invisible"
+></button>
 <!-- Modal -->
 <div
   class="modal fade"
@@ -139,7 +187,12 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Kayıt Etme
         </button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addCreditCard()">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="addCreditCard()"
+        >
           Kayıt Et
         </button>
       </div>

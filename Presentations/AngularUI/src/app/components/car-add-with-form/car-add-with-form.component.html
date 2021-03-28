@@ -12,6 +12,12 @@
         <option *ngFor="let color of colors">{{ color.name }}</option>
       </select>
       <label for="colorSelect">Renk Seçimi</label>
+
+      <div *ngIf="colorName?.status !== 'VALID'">
+        <div *ngIf="colorName?.errors?.required">
+          <p class="text-danger">Renk Adı gereklidir.</p>
+        </div>
+      </div>
     </div>
   </div>
   <div class="col-6 mb-3">
@@ -27,6 +33,12 @@
         <option *ngFor="let brand of brands">{{ brand.name }}</option>
       </select>
       <label for="brandSelect">Marka Seçimi</label>
+
+      <div *ngIf="brandName?.status !== 'VALID'">
+        <div *ngIf="brandName?.errors?.required">
+          <p class="text-danger">Marka Adı gereklidir.</p>
+        </div>
+      </div>
     </div>
   </div>
   <div class="col-4 mb-3">
@@ -37,6 +49,11 @@
       id="modelYearInput"
       formControlName="modelYear"
     />
+    <div *ngIf="colorName?.status !== 'VALID'">
+      <div *ngIf="colorName?.errors?.required">
+        <p class="text-danger">Renk Adı gereklidir.</p>
+      </div>
+    </div>
   </div>
   <div class="col-4 mb-3">
     <label for="dailyPriceInput" class="form-label">Günlük Fiyat</label>
@@ -46,6 +63,14 @@
       id="dailyPriceInput"
       formControlName="dailyPrice"
     />
+    <div *ngIf="dailyPrice?.status !== 'VALID'">
+      <div *ngIf="dailyPrice?.errors?.required">
+        <p class="text-danger">Günlük Fiyat gereklidir.</p>
+      </div>
+      <div *ngIf="dailyPrice?.errors?.min">
+        <p class="text-danger">Günlük Fiyat 0'dan büyük olmalıdır.</p>
+      </div>
+    </div>
   </div>
   <div class="col-4 mb-3">
     <label for="minCreditScore" class="form-label">Min. Findeks Skoru</label>
@@ -55,6 +80,19 @@
       id="minCreditScoreInput"
       formControlName="minCreditScore"
     />
+    <div *ngIf="minCreditScore?.status !== 'VALID'">
+      <div *ngIf="minCreditScore?.errors?.required">
+        <p class="text-danger">Min. Findeks Numarası gereklidir.</p>
+      </div>
+      <div *ngIf="minCreditScore?.errors?.min">
+        <p class="text-danger">Günlük Fiyat 0'a eşit ya da büyük olmalıdır.</p>
+      </div>
+      <div *ngIf="minCreditScore?.errors?.max">
+        <p class="text-danger">
+          Günlük Fiyat 1900'e eşit ya da küçük olmalıdır.
+        </p>
+      </div>
+    </div>
   </div>
   <div class="mb-3">
     <div class="form-floating">
@@ -67,6 +105,11 @@
         maxlength="500"
       ></textarea>
       <label for="descriptionTextArea">Açıklama</label>
+      <div *ngIf="description?.status !== 'VALID'">
+        <div *ngIf="description?.errors?.maxlength">
+          <p class="text-danger">Açıklama 500 karakterden küçük olmalıdır.</p>
+        </div>
+      </div>
     </div>
   </div>
   <button class="btn btn-primary" (click)="addCar()">Kayıt Et</button>

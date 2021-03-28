@@ -16,6 +16,6 @@ export class CarCardComponent implements OnInit {
   }
 
   navigateToCarDetailPage() {
-    this.router.navigate(['car/detail'+this.carDetail.id]);
+    this.router.navigate(['car/detail/'+this.carDetail.id]);
   }
 }

@@ -7,6 +7,17 @@
       id="brandNameInput"
       formControlName="name"
     />
+    <div *ngIf="name?.status !== 'VALID'">
+      <div *ngIf="name?.errors?.required">
+        <p class="text-danger">Marka Adı gereklidir.</p>
+      </div>
+      <div *ngIf="name?.errors?.minlength">
+        <p class="text-danger">Marka Adı 2 karakterden uzun olmalıdır.</p>
+      </div>
+      <div *ngIf="name?.errors?.maxlength">
+        <p class="text-danger">Marka Adı 50 karakterden kısa olmalıdır.</p>
+      </div>
+    </div>
   </div>
   <button class="btn btn-primary" (click)="addBrand()">Kayıt Et</button>
 </form>

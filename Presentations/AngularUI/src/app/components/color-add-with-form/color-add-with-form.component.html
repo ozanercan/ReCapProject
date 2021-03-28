@@ -7,6 +7,17 @@
         id="colorNameInput"
         formControlName="name"
       />
+      <div *ngIf="colorName?.status !== 'VALID'">
+        <div *ngIf="colorName?.errors?.required">
+          <p class="text-danger">Renk Adı gereklidir.</p>
+        </div>
+        <div *ngIf="colorName?.errors?.minlength">
+          <p class="text-danger">Renk Adı 2 karakterden uzun olmalıdır.</p>
+        </div>
+        <div *ngIf="colorName?.errors?.maxlength">
+          <p class="text-danger">Renk Adı 50 karakterden kısa olmalıdır.</p>
+        </div>
+      </div>
     </div>
     <button class="btn btn-primary" (click)="addColor()">Kayıt Et</button>
   </form>

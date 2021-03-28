@@ -15,7 +15,7 @@ export class ColorAddWithFormComponent implements OnInit {
   constructor(
     private colorService: ColorService,
     private toastrService: ToastrService,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -26,8 +26,19 @@ export class ColorAddWithFormComponent implements OnInit {
 
   createColorAddForm() {
     this.colorAddForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.minLength(2),
+        ],
+      ],
     });
+  }
+
+  get colorName() {
+    return this.colorAddForm.get('name');
   }
 
   addColor() {

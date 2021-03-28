@@ -1,5 +1,11 @@
 import { createDirectiveTypeParams } from '@angular/compiler/src/render3/view/compiler';
 import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
@@ -24,34 +30,42 @@ export class PaymentComponent implements OnInit {
     private paymentService: PaymentService,
     private carService: CarService,
     private rentalService: RentalService,
-    private customerCreditCardService: CustomerCreditCardService
+    private customerCreditCardService: CustomerCreditCardService,
+    private formBuilder: FormBuilder
   ) {}
 
+  // Required
   rentalId!: string;
+  customerId!: number;
+
+  // For NgModel
   nameSurname!: string;
   cardNumber!: string;
   expiryDate!: string;
   cvv!: string;
   price!: number;
-  customerId!: number;
+
+  // Model For Form Element Access
+  get form_cardOwnerFullName(){return this.paymentForm.get('cardOwnerFullName');}
+  get form_cvv(){return this.paymentForm.get('cvv');}
+  get form_expiryDate(){return this.paymentForm.get('expiryDate');}
+  get form_cardNumber(){return this.paymentForm.get('cardNumber');}
+
   creditCards!: CustomerCreditCardDto[];
+  paymentForm!: FormGroup;
 
   ngOnInit(): void {
+    this.createPaymentForm();
     this.activatedRoute.params.subscribe((parameter) => {
       if (parameter['rentalId']) {
         this.rentalId = parameter['rentalId'];
         this.GetMoneyToPaidByRentalId(parameter['rentalId']);
-        timer(500).subscribe(
-          p=>{
-            this.getCustomerIdByRentalId(parameter['rentalId']);
-          }
-        );
-        timer(1000).subscribe(
-          p=>{
-            this.getCreditCards();  
-          }
-        );
-        
+        timer(500).subscribe((p) => {
+          this.getCustomerIdByRentalId(parameter['rentalId']);
+        });
+        timer(1000).subscribe((p) => {
+          this.getCreditCards();
+        });
       } else {
         this.toastrService.error(
           'Gerekli parametreler girilmeden ödeme yapılamaz!'
@@ -59,7 +73,43 @@ export class PaymentComponent implements OnInit {
       }
     });
   }
-  setCurrentCreditCart(creditCart:CustomerCreditCardDto){
+  createPaymentForm() {
+    this.paymentForm = this.formBuilder.group({
+      cardOwnerFullName: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.minLength(3),
+        ],
+      ],
+      cardNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(20),
+          Validators.minLength(10),
+        ],
+      ],
+      expiryDate: ['', [Validators.required, Validators.maxLength(5)]],
+      cvv: ['', [Validators.required, Validators.maxLength(3)]],
+    });
+  }
+
+  creditCartExist(cardNumber: string): boolean {
+    let isHaveCard = false;
+    if(this.creditCards === undefined)
+    return false;
+
+    this.creditCards.forEach((p) => {
+      if (cardNumber === p.cardNumber) {
+        isHaveCard = true;
+      }
+    });
+    return isHaveCard;
+  }
+
+  setCurrentCreditCart(creditCart: CustomerCreditCardDto) {
     this.nameSurname = creditCart.cardOwnerFullName;
     this.cardNumber = creditCart.cardNumber;
     this.expiryDate = creditCart.expiryDate;
@@ -85,7 +135,6 @@ export class PaymentComponent implements OnInit {
         this.customerId = response.data;
       },
       (error) => {
-        
         this.toastrService.error(ErrorHelper.getMessage(error));
       }
     );
@@ -104,40 +153,69 @@ export class PaymentComponent implements OnInit {
       }
     );
   }
+
+  askForCardRegister() {
+    if (!this.creditCartExist(this.cardNumber)) {
+      document.getElementById('creditCartSaveModalTrigger')?.click();
+    }
+    else{
+      this.toastrService.warning(this.creditCartExist(this.cardNumber).toString());
+    }
+  }
+
   completePayment() {
-    let paymentAddDto: PaymentAddDto = {
-      moneyPaid: this.price,
-      rentalId: this.rentalId,
-    };
-    this.paymentService.addPayment(paymentAddDto).subscribe(
-      (p) => {
-        this.toastrService.success(p.message);
-        // this.toastrService.success('Ana sayfaya yönlendiriliyorsunuz.');
-        // timer(3000).subscribe((p) => {
-        //   window.location.href = '';
-        // });
-      },
-      (error) => {
-        this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
-      }
-    );
+    console.log(this.paymentForm.valid);
+    if (this.paymentForm.valid) {
+      let paymentAddDto: PaymentAddDto = {
+        moneyPaid: this.price,
+        rentalId: this.rentalId,
+      };
+      this.paymentService.addPayment(paymentAddDto).subscribe(
+        (p) => {
+          this.toastrService.success(p.message);
+
+          this.askForCardRegister();
+        },
+        (error) => {
+          this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
+        }
+      );
+    } else {
+      this.toastrService.warning(
+        'Lütfen Kart bilgilerinizi eksiksiz doldurun.'
+      );
+    }
   }
 
   addCreditCard() {
-    let customerCreditCardAddDto: CustomerCreditCardAddDto = {
-      cardNumber: this.cardNumber,
-      cvv: this.cvv,
-      expiryDate: this.expiryDate,
-      cardOwnerFullName: this.nameSurname,
-      userId: this.customerId,
-    };
-    this.customerCreditCardService.add(customerCreditCardAddDto).subscribe(
-      (response) => {
-        this.toastrService.success(response.message);
-      },
-      (error) => {
-        this.toastrService.error(ErrorHelper.getMessage(error));
-      }
-    );
+
+    // Kredi kartı ekleme sistemi form düzenine geçirilecek.
+    
+    // let customerCreditCardAddDto: CustomerCreditCardAddDto = {
+    //   cardNumber: this.form_cardNumber?.value,
+    //   cvv: this.form_cvv?.value,
+    //   expiryDate: this.form_expiryDate?.value,
+    //   cardOwnerFullName: this.form_cardOwnerFullName?.value,
+    //   userId: this.customerId,
+    // };
+
+    if (this.paymentForm.valid) {
+
+      let customerCreditCardAddDto: CustomerCreditCardAddDto = this.paymentForm.value;
+      customerCreditCardAddDto.userId = this.customerId;
+
+      this.customerCreditCardService.add(customerCreditCardAddDto).subscribe(
+        (response) => {
+          this.toastrService.success(response.message);
+        },
+        (error) => {
+          this.toastrService.error(ErrorHelper.getMessage(error));
+        }
+      );
+    } else {
+      this.toastrService.warning(
+        'Lütfen Kart bilgilerini eksiksiz şekilde doldurun.'
+      );
+    }
   }
 }

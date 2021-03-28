@@ -29,15 +29,26 @@ export class BrandAddWithFormComponent implements OnInit {
 
   brandAddForm!: FormGroup;
 
+  get name() {
+    return this.brandAddForm.get('name');
+  }
+
   createBrandAddForm() {
     this.brandAddForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.minLength(2),
+        ],
+      ],
     });
   }
 
   addBrand() {
+    console.log(this.name);
     if (this.brandAddForm.valid) {
-      
       let brandAddDto: BrandAddDto = this.brandAddForm.value;
 
       this.brandService.add(brandAddDto).subscribe(
