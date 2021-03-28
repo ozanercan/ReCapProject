@@ -17,6 +17,7 @@ Merhaba, bu proje sayın <b>Engin Demiroğ</b>'un ücretsiz olarak sunduğu 'Yaz
         <li>Fluent Validation</li>
         <li>Json Web Token</li>
         <li>Repository Design Pattern</li>
+        <li>Asenkron Yapı</li>
     </ul>
     </li>
     <li>Front-End
