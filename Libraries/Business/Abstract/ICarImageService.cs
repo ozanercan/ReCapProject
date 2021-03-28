@@ -1,8 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.Dtos;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,12 +8,13 @@ namespace Business.Abstract
 {
     public interface ICarImageService
     {
-        IDataResult<CarImage> GetById(int id);
+        Task<IDataResult<CarImage>> GetByIdAsync(int id);
 
-        IDataResult<List<CarImage>> GetAll();
-        IDataResult<List<CarImage>> GetAllNoTracking();
+        Task<IDataResult<List<CarImage>>> GetAllAsync();
 
-        IDataResult<List<CarImage>> GetAllByCarId(int carId);
+        Task<IDataResult<List<CarImage>>> GetAllNoTrackingAsync();
+
+        Task<IDataResult<List<CarImage>>> GetAllByCarIdAsync(int carId);
 
         IDataResult<CarImage> GetDefaultCarImage(int carId);
 
@@ -23,8 +22,10 @@ namespace Business.Abstract
 
         Task<IResult> UpdateAsync(CarImageUpdateDto carImageUpdateDto);
 
-        IResult Delete(CarImageDeleteDto carImage);
+        Task<IResult> DeleteAsync(CarImageDeleteDto carImage);
+
         IDataResult<string> GetDefaultCarImageUrl();
-        IDataResult<List<CarImage>> GetAllByCarDetails();
+
+        Task<IDataResult<List<CarImage>>> GetAllByCarDetailsAsync();
     }
 }

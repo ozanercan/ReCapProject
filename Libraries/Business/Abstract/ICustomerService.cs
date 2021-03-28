@@ -2,27 +2,28 @@
 using Entities.Concrete;
 using Entities.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface ICustomerService
     {
-        IDataResult<CustomerDetailDto> GetCustomerDetailByEmail(string email);
+        Task<IDataResult<CustomerDetailDto>> GetCustomerDetailByEmailAsync(string email);
 
-        IDataResult<Customer> GetById(int id);
+        Task<IDataResult<Customer>> GetByIdAsync(int id);
 
-        IDataResult<List<Customer>> GetAll();
+        Task<IDataResult<List<Customer>>> GetAllAsync();
 
-        IResult Add(CustomerAddDto customerCreateDto);
+        Task<IResult> AddAsync(CustomerAddDto customerCreateDto);
 
-        IResult Update(Customer customer);
+        Task<IResult> UpdateAsync(Customer customer);
 
-        IResult UpdateWithUser(CustomerUpdateDto customerUpdateDto);
+        Task<IResult> UpdateWithUserAsync(CustomerUpdateDto customerUpdateDto);
 
-        IResult Delete(Customer customer);
+        Task<IResult> DeleteAsync(Customer customer);
 
-        IResult DeleteById(int id);
+        Task<IResult> DeleteByIdAsync(int id);
 
-        IDataResult<List<CustomerDetailDto>> GetCustomerDetails();
+        Task<IDataResult<List<CustomerDetailDto>>> GetCustomerDetailsAsync();
     }
 }

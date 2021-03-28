@@ -22,9 +22,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPatch("updatewithuser")]
-        public IActionResult UpdateWithUser(CustomerUpdateDto customerUpdateDto)
+        public async Task<IActionResult> UpdateWithUserAsync(CustomerUpdateDto customerUpdateDto)
         {
-            var result = _customerService.UpdateWithUser(customerUpdateDto);
+            var result = await _customerService.UpdateWithUserAsync(customerUpdateDto);
             if (result.Success)
                 return Ok(result);
 
@@ -32,9 +32,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var result = _customerService.GetById(id);
+            var result = await _customerService.GetByIdAsync(id);
             if (result.Success)
                 return Ok(result);
 
@@ -42,9 +42,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getdetailbyemail")]
-        public IActionResult GetDetailByUserId(string email)
+        public async Task<IActionResult> GetDetailByUserIdAsync(string email)
         {
-            var result = _customerService.GetCustomerDetailByEmail(email);
+            var result = await _customerService.GetCustomerDetailByEmailAsync(email);
             if (result.Success)
                 return Ok(result);
 
@@ -52,9 +52,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getdetailcustomers")]
-        public IActionResult GetDetailCustomers()
+        public async Task<IActionResult> GetDetailCustomersAsync()
         {
-            var result = _customerService.GetCustomerDetails();
+            var result = await _customerService.GetCustomerDetailsAsync();
             if (result.Success)
                 return Ok(result);
 
@@ -62,9 +62,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var result = _customerService.GetAll();
+            var result = await _customerService.GetAllAsync();
             if (result.Success)
                 return Ok(result);
 
@@ -72,9 +72,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CustomerAddDto customerCreateDto)
+        public async Task<IActionResult> AddAsync(CustomerAddDto customerCreateDto)
         {
-            var result = _customerService.Add(customerCreateDto);
+            var result = await _customerService.AddAsync(customerCreateDto);
             if (result.Success)
                 return Ok(result);
 
@@ -82,9 +82,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult Update(Customer customer)
+        public async Task<IActionResult> UpdateAsync(Customer customer)
         {
-            var result = _customerService.Update(customer);
+            var result = await _customerService.UpdateAsync(customer);
             if (result.Success)
                 return Ok(result);
 
@@ -92,9 +92,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete(Customer customer)
+        public async Task<IActionResult> DeleteAsync(Customer customer)
         {
-            var result = _customerService.Delete(customer);
+            var result = await _customerService.DeleteAsync(customer);
             if (result.Success)
                 return Ok(result);
 

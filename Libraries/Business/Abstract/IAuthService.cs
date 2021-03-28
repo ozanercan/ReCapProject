@@ -2,22 +2,23 @@
 using Core.Utilities.Results;
 using Core.Utilities.Security.Jwt;
 using Entities.Dtos;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IAuthService
     {
-        IDataResult<User> Register(UserForRegisterDto userForRegisterDto);
+        Task<IDataResult<User>> RegisterAsync(UserForRegisterDto userForRegisterDto);
 
-        IDataResult<User> Login(UserForLoginDto userForLoginDto);
+        Task<IDataResult<User>> LoginAsync(UserForLoginDto userForLoginDto);
         
-        IDataResult<AccessToken> CreateAccessToken(User user);
+        Task<IDataResult<AccessToken>> CreateAccessTokenAsync(User user);
 
         /// <summary>
         /// Mail adresine göre kullanıcının olup olmadığını kontrol eder.
         /// </summary>
         /// <param name="email"></param>
         /// <returns>Kullanıcı varsa ErrorResult, kullanıcı yoksa SuccessResult döner.</returns>
-        IResult UserExist(string email);
+        Task<IResult> UserExistAsync(string email);
     }
 }

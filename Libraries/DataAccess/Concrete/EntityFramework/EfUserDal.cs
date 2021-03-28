@@ -3,14 +3,16 @@ using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Contexts;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfUserDal : EfRepositoryBase<User, ReCapContext>, IUserDal
     {
-        public List<OperationClaim> GetClaims(User user)
+        public async Task<List<OperationClaim>> GetClaimsAsync(User user)
         {
             using (ReCapContext context = new ReCapContext())
             {
@@ -23,7 +25,7 @@ namespace DataAccess.Concrete.EntityFramework
                                 Id = operationClaim.Id,
                                 Name = operationClaim.Name
                             };
-                return query.ToList();
+                return await query.ToListAsync();
             }
         }
     }

@@ -6,12 +6,13 @@ using Entities.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfRepositoryBase<Car, ReCapContext>, ICarDal
     {
-        public List<CarDetailDto> GetCarDetails()
+        public async Task<List<CarDetailDto>> GetCarDetailsAsync()
         {
             using (ReCapContext context = new ReCapContext())
             {
@@ -29,11 +30,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  Description = car.Description,
                                  Id = car.Id
                              };
-                return result.AsNoTracking().ToList();
+                return await result.AsNoTracking().ToListAsync();
             }
         }
 
-        public List<CarDetailDto> GetCarDetailsByBrandId(int brandId)
+        public async Task<List<CarDetailDto>> GetCarDetailsByBrandIdAsync(int brandId)
         {
             using (ReCapContext context = new ReCapContext())
             {
@@ -53,11 +54,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  Description = car.Description,
                                  Id = car.Id
                              };
-                return result.AsNoTracking().ToList();
+                return await result.AsNoTracking().ToListAsync();
             }
         }
 
-        public List<CarDetailDto> GetCarDetailsByColorId(int colorId)
+        public async Task<List<CarDetailDto>> GetCarDetailsByColorIdAsync(int colorId)
         {
             using (ReCapContext context = new ReCapContext())
             {
@@ -77,11 +78,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  Description = car.Description,
                                  Id = car.Id
                              };
-                return result.AsNoTracking().ToList();
+                return await result.AsNoTracking().ToListAsync();
             }
         }
 
-        public CarDetailDto GetCarDetailById(int id)
+        public async Task<CarDetailDto> GetCarDetailByIdAsync(int id)
         {
             using (ReCapContext context = new ReCapContext())
             {
@@ -101,11 +102,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  Description = car.Description,
                                  Id = car.Id
                              };
-                return result.AsNoTracking().FirstOrDefault();
+                return await result.AsNoTracking().FirstOrDefaultAsync();
             }
         }
 
-        public List<CarDetailDto> GetCarDetailsByBrandName(string brandName)
+        public async Task<List<CarDetailDto>> GetCarDetailsByBrandNameAsync(string brandName)
         {
             using (ReCapContext context = new ReCapContext())
             {
@@ -125,11 +126,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  Description = car.Description,
                                  Id = car.Id
                              };
-                return result.AsNoTracking().ToList();
+                return await result.AsNoTracking().ToListAsync();
             }
         }
 
-        public List<CarDetailDto> GetCarDetailsByColorName(string colorName)
+        public async Task<List<CarDetailDto>> GetCarDetailsByColorNameAsync(string colorName)
         {
             using (ReCapContext context = new ReCapContext())
             {
@@ -149,11 +150,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  Description = car.Description,
                                  Id = car.Id
                              };
-                return result.AsNoTracking().ToList();
+                return await result.AsNoTracking().ToListAsync();
             }
         }
 
-        public List<CarDetailDto> GetCarDetailsByFilter(CarFilterDto carFilterDto)
+        public async Task<List<CarDetailDto>> GetCarDetailsByFilterAsync(CarFilterDto carFilterDto)
         {
             using (ReCapContext context = new ReCapContext())
             {
@@ -174,7 +175,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  Description = car.Description,
                                  Id = car.Id
                              };
-                return result.AsNoTracking().ToList();
+                return await result.AsNoTracking().ToListAsync();
             }
         }
     }

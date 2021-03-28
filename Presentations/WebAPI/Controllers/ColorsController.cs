@@ -23,9 +23,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var result = _colorService.GetById(id);
+            var result = await _colorService.GetByIdAsync(id);
             if (result.Success)
                 return Ok(result);
 
@@ -33,9 +33,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var result = _colorService.GetAll();
+            var result = await _colorService.GetAllAsync();
             if (result.Success)
                 return Ok(result);
 
@@ -44,9 +44,9 @@ namespace WebAPI.Controllers
 
 
         [HttpPost("add")]
-        public IActionResult Add(ColorAddDto colorAddDto)
+        public async Task<IActionResult> AddAsync(ColorAddDto colorAddDto)
         {
-            var result = _colorService.Add(colorAddDto);
+            var result = await _colorService.AddAsync(colorAddDto);
             if (result.Success)
                 return Ok(result);
 
@@ -54,9 +54,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPatch("update")]
-        public IActionResult Update(ColorUpdateDto colorUpdateDto)
+        public async Task<IActionResult> UpdateAsync(ColorUpdateDto colorUpdateDto)
         {
-            var result = _colorService.Update(colorUpdateDto);
+            var result = await _colorService.UpdateAsync(colorUpdateDto);
             if (result.Success)
                 return Ok(result);
 
@@ -64,9 +64,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete(Color color)
+        public async Task<IActionResult> DeleteAsync(Color color)
         {
-            var result = _colorService.Delete(color);
+            var result = await _colorService.DeleteAsync(color);
             if (result.Success)
                 return Ok(result);
 

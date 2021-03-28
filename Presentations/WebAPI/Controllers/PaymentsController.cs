@@ -22,9 +22,9 @@ namespace WebAPI.Controllers
 
 
         [HttpPost("add")]
-        public IActionResult Add(PaymentAddDto paymentAddDto)
+        public async Task<IActionResult> AddAsync(PaymentAddDto paymentAddDto)
         {
-            var result = _paymentService.Add(paymentAddDto);
+            var result = await _paymentService.AddAsync(paymentAddDto);
             if (result.Success)
                 return Ok(result);
 

@@ -23,9 +23,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var result = _userService.GetById(id);
+            var result = await _userService.GetByIdAsync(id);
             if (result.Success)
                 return Ok(result);
 
@@ -33,9 +33,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getfirstlastnamebyemail")]
-        public IActionResult GetFirstLastNameByEmail(string email)
+        public async Task<IActionResult> GetFirstLastNameByEmailAsync(string email)
         {
-            var result = _userService.GetFirstNameLastNameByMail(email);
+            var result = await _userService.GetFirstNameLastNameByMailAsync(email);
             if (result.Success)
                 return Ok(result);
 
@@ -43,9 +43,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var result = _userService.GetAll();
+            var result = await _userService.GetAllAsync();
             if (result.Success)
                 return Ok(result);
 
@@ -53,9 +53,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(User user)
+        public async Task<IActionResult> AddAsync(User user)
         {
-            var result = _userService.Add(user);
+            var result = await _userService.AddAsync(user);
             if (result.Success)
                 return Ok(result);
 
@@ -63,9 +63,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult Update(User user)
+        public async Task<IActionResult> UpdateAsync(User user)
         {
-            var result = _userService.Update(user);
+            var result = await _userService.UpdateAsync(user);
             if (result.Success)
                 return Ok(result);
 
@@ -73,9 +73,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete(User user)
+        public async Task<IActionResult> DeleteAsync(User user)
         {
-            var result = _userService.Delete(user);
+            var result = await _userService.DeleteAsync(user);
             if (result.Success)
                 return Ok(result);
 

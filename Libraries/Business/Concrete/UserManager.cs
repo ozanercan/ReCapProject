@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -24,44 +25,44 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IUserService.Get")]
-        public IResult Add(User user)
+        public async Task<IResult> AddAsync(User user)
         {
-            bool addResult = _userDal.Add(user);
+            bool addResult = await _userDal.AddAsync(user);
 
-            if (addResult == true)
+            if (addResult)
                 return new SuccessResult(Messages.UserAdded);
             else
                 return new ErrorResult(Messages.UserNotAdded);
         }
 
         [CacheRemoveAspect("IUserService.Get")]
-        public IResult Delete(User brand)
+        public async Task<IResult> DeleteAsync(User brand)
         {
-            bool deleteResult = _userDal.Delete(brand);
+            bool deleteResult = await _userDal.DeleteAsync(brand);
 
-            if (deleteResult == true)
+            if (deleteResult)
                 return new SuccessResult(Messages.UserDeleted);
             else
                 return new ErrorResult(Messages.UserNotDeleted);
         }
 
         [CacheRemoveAspect("IUserService.Get")]
-        public IResult DeleteById(int id)
+        public async Task<IResult> DeleteByIdAsync(int id)
         {
-            var getResult = GetById(id);
+            var getResult = await GetByIdAsync(id);
             if (!getResult.Success)
                 return getResult;
 
-            return Delete(getResult.Data);
+            return await DeleteAsync(getResult.Data);
         }
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<List<User>> GetAll()
+        public async Task<IDataResult<List<User>>> GetAllAsync()
         {
-            var data = _userDal.GetAll();
+            var data = await _userDal.GetAllAsync();
 
-            if (data == null || data.Count <= 0)
+            if (data.Count == 0)
                 return new ErrorDataResult<List<User>>(data, Messages.UserNotFound);
             else
                 return new SuccessDataResult<List<User>>(data, Messages.UserGetListByRegistered);
@@ -69,9 +70,9 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<User> GetById(int id)
+        public async Task<IDataResult<User>> GetByIdAsync(int id)
         {
-            var getResult = _userDal.Get(p => p.Id == id);
+            var getResult = await _userDal.GetAsync(p => p.Id == id);
 
             if (getResult == null)
                 return new ErrorDataResult<User>(null, Messages.UserNotFound);
@@ -81,9 +82,9 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<User> GetByMail(string mail)
+        public async Task<IDataResult<User>> GetByMailAsync(string mail)
         {
-            var user = _userDal.Get(p => p.Email.Equals(mail));
+            var user = await _userDal.GetAsync(p => p.Email.Equals(mail));
             if (user == null)
                 return new ErrorDataResult<User>(null, Messages.UserNotFound);
 
@@ -92,18 +93,18 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        public async Task<IDataResult<List<OperationClaim>>> GetClaimsAsync(User user)
         {
-            var operationClaims = _userDal.GetClaims(user);
+            var operationClaims = await _userDal.GetClaimsAsync(user);
             if (operationClaims == null)
                 return new ErrorDataResult<List<OperationClaim>>(null, Messages.ClaimsNotFound);
 
             return new SuccessDataResult<List<OperationClaim>>(operationClaims, Messages.ClaimsListed);
         }
 
-        public IDataResult<UserFirstLastNameDto> GetFirstNameLastNameByMail(string mail)
+        public async Task<IDataResult<UserFirstLastNameDto>> GetFirstNameLastNameByMailAsync(string mail)
         {
-            var user = _userDal.Get(p => p.Email.Equals(mail));
+            var user = await _userDal.GetAsync(p => p.Email.Equals(mail));
             if (user == null)
                 return new ErrorDataResult<UserFirstLastNameDto>(null, Messages.UserNotFound);
 
@@ -117,16 +118,16 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<User> GetLastInsertUser()
+        public async Task<IDataResult<User>> GetLastInsertUserAsync()
         {
-            User user = _userDal.GetAll().Last();
+            User user = (await _userDal.GetAllAsync()).Last();
             return new SuccessDataResult<User>(user);
         }
 
-        public IResult Update(User user)
+        public async Task<IResult> UpdateAsync(User user)
         {
-            bool updateResult = _userDal.Update(user);
-
+            bool updateResult = await _userDal.UpdateAsync(user);
+            
             if (!updateResult)
                 return new ErrorResult(Messages.UserNotUpdated);
 

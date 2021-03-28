@@ -3,14 +3,16 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Contexts;
 using Entities.Concrete;
 using Entities.Dtos;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfRentalDal : EfRepositoryBase<Rental, ReCapContext>, IRentalDal
     {
-        public List<RentalDto> GetRentalDtos()
+        public async Task<List<RentalDto>> GetRentalDtosAsync()
         {
             using (ReCapContext context = new ReCapContext())
             {
@@ -34,7 +36,7 @@ namespace DataAccess.Concrete.EntityFramework
                                 Price = paymentJoin.MoneyPaid
                             };
 
-                return query.ToList();
+                return await query.ToListAsync();
             }
         }
     }

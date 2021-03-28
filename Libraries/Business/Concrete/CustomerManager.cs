@@ -8,6 +8,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -23,9 +24,9 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICustomerService.Get")]
-        public IResult Add(CustomerAddDto customerCreateDto)
+        public async Task<IResult> AddAsync(CustomerAddDto customerCreateDto)
         {
-            var lastUserInsertIdResult = _userService.GetLastInsertUser();
+            var lastUserInsertIdResult = await _userService.GetLastInsertUserAsync();
 
             if (!lastUserInsertIdResult.Success)
                 return lastUserInsertIdResult;
@@ -36,7 +37,7 @@ namespace Business.Concrete
                 UserId = lastUserInsertIdResult.Data.Id
             };
 
-            bool addResult = _customerDal.Add(createToCustomer);
+            bool addResult = await _customerDal.AddAsync(createToCustomer);
 
             if (addResult == true)
                 return new SuccessResult(Messages.CustomerAdded);
@@ -45,9 +46,9 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICustomerService.Get")]
-        public IResult Delete(Customer customer)
+        public async Task<IResult> DeleteAsync(Customer customer)
         {
-            bool deleteResult = _customerDal.Delete(customer);
+            bool deleteResult = await _customerDal.DeleteAsync(customer);
 
             if (deleteResult == true)
                 return new SuccessResult(Messages.CustomerDeleted);
@@ -56,22 +57,22 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICustomerService.Get")]
-        public IResult DeleteById(int id)
+        public async Task<IResult> DeleteByIdAsync(int id)
         {
-            var getResult = GetById(id);
+            var getResult = await GetByIdAsync(id);
             if (!getResult.Success)
                 return getResult;
 
-            return Delete(getResult.Data);
+            return await DeleteAsync(getResult.Data);
         }
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<List<Customer>> GetAll()
+        public async Task<IDataResult<List<Customer>>> GetAllAsync()
         {
-            var data = _customerDal.GetAll();
+            var data = await _customerDal.GetAllAsync();
 
-            if (data == null || data.Count <= 0)
+            if (data.Count == 0)
                 return new ErrorDataResult<List<Customer>>(data, Messages.CustomerNotFound);
             else
                 return new SuccessDataResult<List<Customer>>(data, Messages.CustomerGetListByRegistered);
@@ -79,14 +80,12 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<Customer> GetById(int id)
+        public async Task<IDataResult<Customer>> GetByIdAsync(int id)
         {
-            var getResult = this.GetById(id);
+            var getResult = await this.GetByIdAsync(id);
+
 
             if (!getResult.Success)
-                return new ErrorDataResult<Customer>(getResult.Data, Messages.CustomerNotFound);
-
-            if (getResult == null)
                 return new ErrorDataResult<Customer>(getResult.Data, Messages.CustomerNotFound);
             else
                 return new SuccessDataResult<Customer>(getResult.Data, Messages.CustomerGetListByRegistered);
@@ -94,18 +93,18 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
+        public async Task<IDataResult<List<CustomerDetailDto>>> GetCustomerDetailsAsync()
         {
-            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails());
+            return new SuccessDataResult<List<CustomerDetailDto>>(await _customerDal.GetCustomerDetailsAsync());
         }
 
-        public IDataResult<CustomerDetailDto> GetCustomerDetailByEmail(string email)
+        public async Task<IDataResult<CustomerDetailDto>> GetCustomerDetailByEmailAsync(string email)
         {
-            var userResult = _userService.GetByMail(email);
+            var userResult = await _userService.GetByMailAsync(email);
             if (!userResult.Success)
                 return new ErrorDataResult<CustomerDetailDto>(null, userResult.Message);
 
-            var customer = _customerDal.Get(p => p.UserId == userResult.Data.Id);
+            var customer = await _customerDal.GetAsync(p => p.UserId == userResult.Data.Id);
             if (customer == null)
                 return new ErrorDataResult<CustomerDetailDto>(null, Messages.CustomerNotFound);
 
@@ -122,9 +121,9 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICustomerService.Get")]
-        public IResult Update(Customer customer)
+        public async Task<IResult> UpdateAsync(Customer customer)
         {
-            bool updateResult = _customerDal.Update(customer);
+            bool updateResult = await _customerDal.UpdateAsync(customer);
 
             if (updateResult == true)
                 return new SuccessResult(Messages.CustomerUpdated);
@@ -132,16 +131,16 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CustomerNotUpdated);
         }
 
-        public IResult UpdateWithUser(CustomerUpdateDto customerUpdateDto)
+        public async Task<IResult> UpdateWithUserAsync(CustomerUpdateDto customerUpdateDto)
         {
-            var userResult = _userService.GetById(customerUpdateDto.Id);
+            var userResult = await _userService.GetByIdAsync(customerUpdateDto.Id);
             if (!userResult.Success)
                 return new ErrorResult(userResult.Message);
 
             if (!HashingHelper.VerifyPasswordHash(customerUpdateDto.ActivePassword, userResult.Data.PasswordHash, userResult.Data.PasswordSalt))
                 return new ErrorResult(Messages.PasswordError);
 
-            var customerResult = _customerDal.Get(p => p.UserId == customerUpdateDto.Id);
+            var customerResult = await _customerDal.GetAsync(p => p.UserId == customerUpdateDto.Id);
             if (customerResult == null)
                 return new ErrorResult(Messages.CustomerNotFound);
 
@@ -158,11 +157,11 @@ namespace Business.Concrete
                 userResult.Data.PasswordSalt = passwordSalt;
             }
 
-            var customerUpdateResult = _customerDal.Update(customerResult);
+            var customerUpdateResult = await _customerDal.UpdateAsync(customerResult);
             if (!customerUpdateResult)
                 return new ErrorResult(Messages.CustomerNotUpdated);
 
-            var userUpdateResult = _userService.Update(userResult.Data);
+            var userUpdateResult = await _userService.UpdateAsync(userResult.Data);
             if (!userUpdateResult.Success)
                 return new ErrorResult(Messages.UserNotUpdated);
 

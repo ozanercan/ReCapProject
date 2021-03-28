@@ -2,39 +2,40 @@
 using Entities.Concrete;
 using Entities.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface ICarService
     {
-        IDataResult<List<Car>> GetRentalCars();
+        Task<IDataResult<List<Car>>> GetRentalCarsAsync();
 
-        IDataResult<List<CarDetailDto>> GetCarDetails();
+        Task<IDataResult<List<CarDetailDto>>> GetCarDetailsAsync();
 
-        IDataResult<List<CarDetailDto>> GetCarDetailsByBrandId(int brandId);
+        Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByBrandIdAsync(int brandId);
 
-        IDataResult<List<CarDetailDto>> GetCarDetailsByBrandName(string brandName);
+        Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByBrandNameAsync(string brandName);
 
-        IDataResult<List<CarDetailDto>> GetCarDetailsByColorId(int colorId);
+        Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByColorIdAsync(int colorId);
 
-        IDataResult<List<CarDetailDto>> GetCarDetailsByColorName(string colorName);
+        Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByColorNameAsync(string colorName);
 
-        IDataResult<List<CarDetailDto>> GetCarDetailsByFilters(CarFilterDto carFilterDto);
+        Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByFiltersAsync(CarFilterDto carFilterDto);
 
-        IDataResult<CarDetailDto> GetCarDetailById(int id);
+        Task<IDataResult<CarDetailDto>> GetCarDetailByIdAsync(int id);
 
-        IDataResult<decimal> GetMoneyToPaidByRentalId(int rentalId);
+        Task<IDataResult<decimal>> GetMoneyToPaidByRentalIdAsync(int rentalId);
 
-        IDataResult<Car> GetById(int id);
+        Task<IDataResult<Car>> GetByIdAsync(int id);
 
-        IDataResult<List<Car>> GetAll();
+        Task<IDataResult<List<Car>>> GetAllAsync();
 
-        IResult Add(CarAddDto carAddDto);
+        Task<IResult> AddAsync(CarAddDto carAddDto);
 
-        IResult Update(CarUpdateDto carUpdateDto);
+        Task<IResult> UpdateAsync(CarUpdateDto carUpdateDto);
 
-        IResult Delete(Car car);
+        Task<IResult> DeleteAsync(Car car);
 
-        IResult DeleteById(int id);
+        Task<IResult> DeleteByIdAsync(int id);
     }
 }

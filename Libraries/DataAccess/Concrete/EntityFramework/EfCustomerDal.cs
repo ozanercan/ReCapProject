@@ -3,13 +3,16 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Contexts;
 using Entities.Concrete;
 using Entities.Dtos;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCustomerDal : EfRepositoryBase<Customer, ReCapContext>, ICustomerDal
     {
-        public List<CustomerDetailDto> GetCustomerDetails()
+        public async Task<List<CustomerDetailDto>> GetCustomerDetailsAsync()
         {
             using (ReCapContext context = new ReCapContext())
             {
@@ -26,7 +29,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  Status = user.Status ? "Aktif" : "Pasif"
                              };
 
-                return result.ToList();
+                return await result.ToListAsync();
             }
         }
     }

@@ -1,12 +1,7 @@
 ﻿using Business.Abstract;
-using Business.Constants;
 using Entities.Concrete;
 using Entities.Dtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -23,9 +18,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var result = _brandService.GetById(id);
+            var result = await _brandService.GetByIdAsync(id);
             if (result.Success)
                 return Ok(result);
 
@@ -33,9 +28,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var result = _brandService.GetAll();
+            var result = await _brandService.GetAllAsync();
             if (result.Success)
                 return Ok(result);
 
@@ -43,9 +38,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(BrandAddDto brandAddDto)
+        public async Task<IActionResult> AddAsync(BrandAddDto brandAddDto)
         {
-            var result = _brandService.Add(brandAddDto);
+            var result = await _brandService.AddAsync(brandAddDto);
 
             if (result.Success)
                 return Ok(result);
@@ -54,9 +49,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPatch("update")]
-        public IActionResult Update(BrandUpdateDto brandUpdateDto)
+        public async Task<IActionResult> UpdateAsync(BrandUpdateDto brandUpdateDto)
         {
-            var result = _brandService.Update(brandUpdateDto);
+            var result = await _brandService.UpdateAsync(brandUpdateDto);
             if (result.Success)
                 return Ok(result);
 
@@ -64,9 +59,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete(Brand brand)
+        public async Task<IActionResult> DeleteAsync(Brand brand)
         {
-            var result = _brandService.Delete(brand);
+            var result = await _brandService.DeleteAsync(brand);
             if (result.Success)
                 return Ok(result);
 

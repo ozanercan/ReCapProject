@@ -2,6 +2,7 @@
 using Entities.Concrete;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -17,9 +18,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var result = _carService.GetById(id);
+            var result = await _carService.GetByIdAsync(id);
             if (result.Success)
                 return Ok(result);
 
@@ -27,9 +28,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcarrentpricebyrentalid")]
-        public IActionResult GetCarRentPriceByRentalId(int rentalId)
+        public async Task<IActionResult> GetCarRentPriceByRentalIdAsync(int rentalId)
         {
-            var result = _carService.GetMoneyToPaidByRentalId(rentalId);
+            var result = await _carService.GetMoneyToPaidByRentalIdAsync(rentalId);
             if (result.Success)
                 return Ok(result);
 
@@ -37,9 +38,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getdetails")]
-        public IActionResult GetAllDto()
+        public async Task<IActionResult> GetAllDtoAsync()
         {
-            var result = _carService.GetCarDetails();
+            var result = await _carService.GetCarDetailsAsync();
             if (result.Success)
             {
                 return Ok(result);
@@ -49,9 +50,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcardetailsbybrandid")]
-        public IActionResult GetCarDetailsByBrandId(int brandId)
+        public async Task<IActionResult> GetCarDetailsByBrandIdAsync(int brandId)
         {
-            var result = _carService.GetCarDetailsByBrandId(brandId);
+            var result = await _carService.GetCarDetailsByBrandIdAsync(brandId);
             if (result.Success)
                 return Ok(result);
 
@@ -59,9 +60,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcardetailsbybrandname")]
-        public IActionResult GetCarDetailsByBrandName(string brandName)
+        public async Task<IActionResult> GetCarDetailsByBrandNameAsync(string brandName)
         {
-            var result = _carService.GetCarDetailsByBrandName(brandName);
+            var result = await _carService.GetCarDetailsByBrandNameAsync(brandName);
             if (result.Success)
                 return Ok(result);
 
@@ -69,9 +70,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcardetailsbycolorid")]
-        public IActionResult GetCarDetailsByColorId(int colorId)
+        public async Task<IActionResult> GetCarDetailsByColorIdAsync(int colorId)
         {
-            var result = _carService.GetCarDetailsByColorId(colorId);
+            var result = await _carService.GetCarDetailsByColorIdAsync(colorId);
             if (result.Success)
                 return Ok(result);
 
@@ -79,9 +80,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcardetailsbycolorname")]
-        public IActionResult GetCarDetailsByColorName(string colorName)
+        public async Task<IActionResult> GetCarDetailsByColorNameAsync(string colorName)
         {
-            var result = _carService.GetCarDetailsByColorName(colorName);
+            var result = await _carService.GetCarDetailsByColorNameAsync(colorName);
             if (result.Success)
                 return Ok(result);
 
@@ -89,9 +90,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcardetailsbycarid")]
-        public IActionResult GetCarDetailsById(int carId)
+        public async Task<IActionResult> GetCarDetailsByIdAsync(int carId)
         {
-            var result = _carService.GetCarDetailById(carId);
+            var result = await _carService.GetCarDetailByIdAsync(carId);
             if (result.Success)
                 return Ok(result);
 
@@ -99,9 +100,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("getcardetailsbyfilters")]
-        public IActionResult GetCarDetailsByFilters(CarFilterDto carFilterDto)
+        public async Task<IActionResult> GetCarDetailsByFiltersAsync(CarFilterDto carFilterDto)
         {
-            var result = _carService.GetCarDetailsByFilters(carFilterDto);
+            var result = await _carService.GetCarDetailsByFiltersAsync(carFilterDto);
             if (result.Success)
                 return Ok(result);
 
@@ -109,9 +110,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var result = _carService.GetAll();
+            var result = await _carService.GetAllAsync();
             if (result.Success)
                 return Ok(result);
 
@@ -119,9 +120,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getrentalcars")]
-        public IActionResult GetRentalCars()
+        public async Task<IActionResult> GetRentalCarsAsync()
         {
-            var result = _carService.GetRentalCars();
+            var result = await _carService.GetRentalCarsAsync();
             if (result.Success)
                 return Ok(result);
 
@@ -129,9 +130,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CarAddDto carAddDto)
+        public async Task<IActionResult> AddAsync(CarAddDto carAddDto)
         {
-            var result = _carService.Add(carAddDto);
+            var result = await _carService.AddAsync(carAddDto);
             if (result.Success)
                 return Ok(result);
 
@@ -139,9 +140,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPatch("update")]
-        public IActionResult Update(CarUpdateDto carUpdateDto)
+        public async Task<IActionResult> UpdateAsync(CarUpdateDto carUpdateDto)
         {
-            var result = _carService.Update(carUpdateDto);
+            var result = await _carService.UpdateAsync(carUpdateDto);
             if (result.Success)
                 return Ok(result);
 
@@ -149,9 +150,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete(Car car)
+        public async Task<IActionResult> DeleteAsync(Car car)
         {
-            var result = _carService.Delete(car);
+            var result = await _carService.DeleteAsync(car);
             if (result.Success)
                 return Ok(result);
 

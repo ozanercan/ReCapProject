@@ -11,6 +11,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -26,9 +27,9 @@ namespace Business.Concrete
         [CacheRemoveAspect("IBrandService.Get")]
         [ValidationAspect(typeof(BrandAddDtoValidator))]
         [SecuredOperation("brand.add")]
-        public IResult Add(BrandAddDto brandAddDto)
+        public async Task<IResult> AddAsync(BrandAddDto brandAddDto)
         {
-            var ruleResult = BusinessRules.Run(CheckBrandNameExist(brandAddDto.Name));
+            var ruleResult = BusinessRules.Run(await CheckBrandNameExistAsync(brandAddDto.Name));
             if (!ruleResult.Success)
                 return ruleResult;
 
@@ -37,7 +38,7 @@ namespace Business.Concrete
                 Name = brandAddDto.Name
             };
 
-            bool addResult = _brandDal.Add(brandToAdd);
+            bool addResult = await _brandDal.AddAsync(brandToAdd);
 
             if (addResult == true)
                 return new SuccessResult(Messages.BrandAdded);
@@ -46,9 +47,9 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IBrandService.Get")]
-        public IResult Delete(Brand brand)
+        public async Task<IResult> DeleteAsync(Brand brand)
         {
-            bool deleteResult = _brandDal.Delete(brand);
+            bool deleteResult = await _brandDal.DeleteAsync(brand);
 
             if (deleteResult == true)
                 return new SuccessResult(Messages.BrandDeleted);
@@ -57,20 +58,20 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IBrandService.Get")]
-        public IResult DeleteById(int id)
+        public async Task<IResult> DeleteByIdAsync(int id)
         {
-            var brandGetResult = GetById(id);
+            var brandGetResult = await GetByIdAsync(id);
             if (!brandGetResult.Success)
                 return brandGetResult;
 
-            return Delete(brandGetResult.Data);
+            return await DeleteAsync(brandGetResult.Data);
         }
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<List<Brand>> GetAll()
+        public async Task<IDataResult<List<Brand>>> GetAllAsync()
         {
-            var data = _brandDal.GetAll();
+            var data = await _brandDal.GetAllAsync();
 
             if (data.Count == 0)
                 return new ErrorDataResult<List<Brand>>(data, Messages.BrandNotFound);
@@ -80,9 +81,9 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<Brand> GetById(int id)
+        public async Task<IDataResult<Brand>> GetByIdAsync(int id)
         {
-            var findedBrand = _brandDal.Get(p => p.Id == id);
+            var findedBrand = await _brandDal.GetAsync(p => p.Id == id);
 
             if (findedBrand == null)
                 return new ErrorDataResult<Brand>(null, Messages.BrandNotFound);
@@ -92,19 +93,19 @@ namespace Business.Concrete
 
         [CacheRemoveAspect("IBrandService.Get")]
         [ValidationAspect(typeof(BrandUpdateDtoValidator))]
-        public IResult Update(BrandUpdateDto brandUpdateDto)
+        public async Task<IResult> UpdateAsync(BrandUpdateDto brandUpdateDto)
         {
-            var ruleResult = BusinessRules.Run(CheckBrandNameExistButIgnoreById(brandUpdateDto.Id, brandUpdateDto.Name));
+            var ruleResult = BusinessRules.Run(await CheckBrandNameExistButIgnoreByIdAsync(brandUpdateDto.Id, brandUpdateDto.Name));
             if (!ruleResult.Success)
                 return ruleResult;
 
-            var findedBrandResult = this.GetById(brandUpdateDto.Id);
+            var findedBrandResult = await this.GetByIdAsync(brandUpdateDto.Id);
             if (!findedBrandResult.Success)
                 return new ErrorResult(findedBrandResult.Message);
 
             findedBrandResult.Data.Name = brandUpdateDto.Name;
 
-            bool updateResult = _brandDal.Update(findedBrandResult.Data);
+            bool updateResult = await _brandDal.UpdateAsync(findedBrandResult.Data);
 
             if (!updateResult)
                 return new ErrorResult(Messages.BrandNotUpdated);
@@ -114,9 +115,9 @@ namespace Business.Concrete
 
 
 
-        public IDataResult<Brand> GetByName(string name)
+        public async Task<IDataResult<Brand>> GetByNameAsync(string name)
         {
-            var findedBrand = _brandDal.Get(p => p.Name.Equals(name));
+            var findedBrand = await _brandDal.GetAsync(p => p.Name.Equals(name));
 
             if (findedBrand == null)
                 return new ErrorDataResult<Brand>(null, Messages.BrandNotFound);
@@ -124,18 +125,18 @@ namespace Business.Concrete
                 return new SuccessDataResult<Brand>(findedBrand, Messages.BrandGet);
         }
 
-        private IResult CheckBrandNameExist(string brandName)
+        private async Task<IResult> CheckBrandNameExistAsync(string brandName)
         {
-            var findedBrand = _brandDal.Get(p => p.Name.Equals(brandName));
+            var findedBrand = await _brandDal.GetAsync(p => p.Name.Equals(brandName));
             if (findedBrand == null)
                 return new SuccessResult();
 
             return new ErrorResult(Messages.BrandNameAlreadyExist);
         }
 
-        private IResult CheckBrandNameExistButIgnoreById(int brandId, string brandName)
+        private async Task<IResult> CheckBrandNameExistButIgnoreByIdAsync(int brandId, string brandName)
         {
-            var findedBrand = _brandDal.Get(p => p.Id != brandId && p.Name.Equals(brandName));
+            var findedBrand = await _brandDal.GetAsync(p => p.Id != brandId && p.Name.Equals(brandName));
             if (findedBrand == null)
                 return new SuccessResult();
 

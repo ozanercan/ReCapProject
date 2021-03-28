@@ -9,6 +9,7 @@ using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -22,7 +23,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CustomerCreditCardAddDtoValidator))]
-        public IResult Add(CustomerCreditCardAddDto customerCreditCartAddDto)
+        public async Task<IResult> AddAsync(CustomerCreditCardAddDto customerCreditCartAddDto)
         {
             CustomerCreditCard customerCreditCardToAdd = new CustomerCreditCard()
             {
@@ -32,16 +33,16 @@ namespace Business.Concrete
                 Cvv = customerCreditCartAddDto.Cvv,
                 ExpiryDate = customerCreditCartAddDto.ExpiryDate
             };
-            bool result = _customerCreditCardDal.Add(customerCreditCardToAdd);
+            bool result = await _customerCreditCardDal.AddAsync(customerCreditCardToAdd);
             if (!result)
                 return new ErrorResult(Messages.CustomerCreditCardNotAdded);
 
             return new SuccessResult(Messages.CustomerCreditCardAdded);
         }
 
-        public IDataResult<List<CustomerCreditCardDto>> GetCardsByCustomerId(int customerId)
+        public async Task<IDataResult<List<CustomerCreditCardDto>>> GetCardsByCustomerIdAsync(int customerId)
         {
-            var customerCreditCardsResult = _customerCreditCardDal.GetAllNoTracking(p => p.UserId == customerId);
+            var customerCreditCardsResult = await _customerCreditCardDal.GetAllNoTrackingAsync(p => p.UserId == customerId);
             if (customerCreditCardsResult.Count == 0)
                 return new ErrorDataResult<List<CustomerCreditCardDto>>(null, Messages.CustomerCreditCardFound);
 

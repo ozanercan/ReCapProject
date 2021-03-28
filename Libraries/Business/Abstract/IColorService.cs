@@ -2,22 +2,24 @@
 using Entities.Concrete;
 using Entities.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IColorService
     {
-        IDataResult<Color> GetById(int id);
-        IDataResult<Color> GetByName(string name);
+        Task<IDataResult<Color>> GetByIdAsync(int id);
 
-        IDataResult<List<Color>> GetAll();
+        Task<IDataResult<Color>> GetByNameAsync(string name);
 
-        IResult Add(ColorAddDto colorAddDto);
+        Task<IDataResult<List<Color>>> GetAllAsync();
 
-        IResult Update(ColorUpdateDto colorUpdateDto);
+        Task<IResult> AddAsync(ColorAddDto colorAddDto);
 
-        IResult Delete(Color color);
+        Task<IResult> UpdateAsync(ColorUpdateDto colorUpdateDto);
 
-        IResult DeleteById(int id);
+        Task<IResult> DeleteAsync(Color color);
+
+        Task<IResult> DeleteByIdAsync(int id);
     }
 }

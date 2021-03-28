@@ -11,6 +11,7 @@ using Entities.Concrete;
 using Entities.Dtos;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -29,12 +30,12 @@ namespace Business.Concrete
 
         [CacheRemoveAspect("IRentalService.Get")]
         [ValidationAspect(typeof(RentalAddDtoValidator))]
-        public IDataResult<Rental> Add(RentalAddDto rentalCreateDto)
+        public async Task<IDataResult<Rental>> AddAsync(RentalAddDto rentalCreateDto)
         {
             var ruleResult = BusinessRules.Run(
-                CheckRentDate(rentalCreateDto.CarId, rentalCreateDto.RentDate),
+                (await CheckRentDateAsync(rentalCreateDto.CarId, rentalCreateDto.RentDate)),
                 CheckIfReturnDateSmallOfRentDate(rentalCreateDto.RentDate, rentalCreateDto.ReturnDate.Value),
-                CheckCreditScoreByCustomerId(rentalCreateDto.CustomerId, rentalCreateDto.CarId));
+                (await CheckCreditScoreByCustomerIdAsync(rentalCreateDto.CustomerId, rentalCreateDto.CarId)));
 
             if (!ruleResult.Success)
                 return new ErrorDataResult<Rental>(null, ruleResult.Message);
@@ -47,7 +48,7 @@ namespace Business.Concrete
                 ReturnDate = rentalCreateDto.ReturnDate
             };
 
-            bool addResult = _rentalDal.Add(rentalToAdd);
+            bool addResult = await _rentalDal.AddAsync(rentalToAdd);
 
             if (addResult == true)
                 return new SuccessDataResult<Rental>(rentalToAdd, Messages.RentalAdded);
@@ -57,11 +58,11 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<List<Rental>> GetAll()
+        public async Task<IDataResult<List<Rental>>> GetAllAsync()
         {
-            var data = _rentalDal.GetAll();
+            var data = await _rentalDal.GetAllAsync();
 
-            if (data == null || data.Count <= 0)
+            if (data.Count == 0)
                 return new ErrorDataResult<List<Rental>>(data, Messages.RentalNotFound);
             else
                 return new SuccessDataResult<List<Rental>>(data, Messages.RentalGetListByRegistered);
@@ -69,10 +70,10 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<List<Rental>> GetListReturnDateIsNull()
+        public async Task<IDataResult<List<Rental>>> GetListReturnDateIsNullAsync()
         {
-            var rentals = _rentalDal.GetAll(p => p.ReturnDate == null);
-            if (rentals == null || rentals.Count == 0)
+            var rentals = await _rentalDal.GetAllAsync(p => p.ReturnDate == null);
+            if (rentals.Count == 0)
             {
                 return new ErrorDataResult<List<Rental>>(null, Messages.RentalNotFound);
             }
@@ -81,9 +82,9 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<Rental> GetById(int id)
+        public async Task<IDataResult<Rental>> GetByIdAsync(int id)
         {
-            var rental = _rentalDal.Get(p => p.Id == id);
+            var rental = await _rentalDal.GetAsync(p => p.Id == id);
             if (rental == null)
                 return new ErrorDataResult<Rental>(rental, Messages.RentalNotFound);
 
@@ -91,9 +92,9 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IRentalService.Get")]
-        public IResult Update(Rental brand)
+        public async Task<IResult> UpdateAsync(Rental brand)
         {
-            var updateResult = _rentalDal.Update(brand);
+            var updateResult = await _rentalDal.UpdateAsync(brand);
             if (updateResult == false)
             {
                 return new ErrorResult(Messages.RentalNotUpdated);
@@ -102,9 +103,9 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IRentalService.Get")]
-        public IResult Delete(Rental brand)
+        public async Task<IResult> DeleteAsync(Rental brand)
         {
-            var deleteResult = _rentalDal.Update(brand);
+            var deleteResult = await _rentalDal.UpdateAsync(brand);
             if (deleteResult == false)
             {
                 return new ErrorResult(Messages.RentalNotDeleted);
@@ -114,18 +115,18 @@ namespace Business.Concrete
         }
 
 
-        public IDataResult<List<RentalDto>> GetAllDto()
+        public async Task<IDataResult<List<RentalDto>>> GetAllDtoAsync()
         {
-            var getResult = _rentalDal.GetRentalDtos();
+            var getResult = await _rentalDal.GetRentalDtosAsync();
             if (getResult.Count == 0)
                 return new ErrorDataResult<List<RentalDto>>(null, Messages.RentalNotFound);
 
             return new SuccessDataResult<List<RentalDto>>(getResult, Messages.RentalListed);
         }
 
-        private IResult CheckRentDate(int carId, DateTime rentDate)
+        private async Task<IResult> CheckRentDateAsync(int carId, DateTime rentDate)
         {
-            var rentals = _rentalDal.GetAllNoTracking(p => p.CarId == carId);
+            var rentals = await _rentalDal.GetAllNoTrackingAsync(p => p.CarId == carId);
 
             foreach (var item in rentals)
             {
@@ -146,13 +147,13 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        private IResult CheckCreditScoreByCustomerId(int userId, int carId)
+        private async Task<IResult> CheckCreditScoreByCustomerIdAsync(int userId, int carId)
         {
             var creditScoreResult = _customerCreditScoreService.CalculateByCustomerId(userId);
             if (!creditScoreResult.Success)
                 return creditScoreResult;
 
-            var carMinScoreResult = _carCreditScoreService.GetMinScoreByCarId(carId);
+            var carMinScoreResult = await _carCreditScoreService.GetMinScoreByCarIdAsync(carId);
             if (!carMinScoreResult.Success)
                 return carMinScoreResult;
 
@@ -162,9 +163,9 @@ namespace Business.Concrete
             return new ErrorResult(Messages.CustomerCreditScoreNotEnoughtToRentCar);
         }
 
-        public IDataResult<int?> GetCustomerIdById(int id)
+        public async Task<IDataResult<int?>> GetCustomerIdByIdAsync(int id)
         {
-            var rental = _rentalDal.Get(p => p.Id == id);
+            var rental = await _rentalDal.GetAsync(p => p.Id == id);
             if (rental == null)
                 return new ErrorDataResult<int?>(null, Messages.RentalNotFound);
 

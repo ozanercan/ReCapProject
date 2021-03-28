@@ -20,9 +20,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getlistbycarid")]
-        public IActionResult GetListByCarId(int carId)
+        public async Task<IActionResult> GetListByCarIdAsync(int carId)
         {
-            var carImagesResult = _carImageService.GetAllByCarId(carId);
+            var carImagesResult = await _carImageService.GetAllByCarIdAsync(carId);
             if (!carImagesResult.Success)
                 return BadRequest(carImagesResult);
 
@@ -51,9 +51,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete(CarImageDeleteDto carImageDeleteDto)
+        public async Task<IActionResult> DeleteAsync(CarImageDeleteDto carImageDeleteDto)
         {
-            var deleteResult = _carImageService.Delete(carImageDeleteDto);
+            var deleteResult = await _carImageService.DeleteAsync(carImageDeleteDto);
             if (!deleteResult.Success)
                 return BadRequest(deleteResult);
 

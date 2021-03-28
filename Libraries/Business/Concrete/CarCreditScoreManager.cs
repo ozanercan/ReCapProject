@@ -9,6 +9,7 @@ using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -22,7 +23,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarCreditScoreAddDtoValidator))]
-        public IResult Add(CarCreditScoreAddDto carCreditScoreAddDto)
+        public async Task<IResult> AddAsync(CarCreditScoreAddDto carCreditScoreAddDto)
         {
             CarCreditScore carCreditScoreToAdd = new CarCreditScore()
             {
@@ -30,16 +31,16 @@ namespace Business.Concrete
                 MinCreditScore = carCreditScoreAddDto.MinCreditScore
             };
 
-            bool addResult = _carCreditScoreDal.Add(carCreditScoreToAdd);
+            bool addResult = await _carCreditScoreDal.AddAsync(carCreditScoreToAdd);
             if (!addResult)
                 return new ErrorResult(Messages.CarCreditScoreNotAdded);
 
             return new SuccessResult(Messages.CarCreditScoreAdded);
         }
 
-        public IDataResult<int?> GetMinScoreByCarId(int carId)
+        public async Task<IDataResult<int?>> GetMinScoreByCarIdAsync(int carId)
         {
-            var findedEntity = _carCreditScoreDal.Get(p => p.CarId == carId);
+            var findedEntity = await _carCreditScoreDal.GetAsync(p => p.CarId == carId);
             if (findedEntity == null)
                 return new ErrorDataResult<int?>(null, Messages.CarCreditScoreNotFound);
 

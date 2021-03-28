@@ -2,22 +2,24 @@
 using Entities.Concrete;
 using Entities.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IBrandService
     {
-        IDataResult<Brand> GetById(int id);
-        IDataResult<Brand> GetByName(string name);
+        Task<IDataResult<Brand>> GetByIdAsync(int id);
 
-        IDataResult<List<Brand>> GetAll();
+        Task<IDataResult<Brand>> GetByNameAsync(string name);
 
-        IResult Add(BrandAddDto brandAddDto);
+        Task<IDataResult<List<Brand>>> GetAllAsync();
 
-        IResult Update(BrandUpdateDto brandUpdateDto);
+        Task<IResult> AddAsync(BrandAddDto brandAddDto);
 
-        IResult Delete(Brand brand);
+        Task<IResult> UpdateAsync(BrandUpdateDto brandUpdateDto);
 
-        IResult DeleteById(int id);
+        Task<IResult> DeleteAsync(Brand brand);
+
+        Task<IResult> DeleteByIdAsync(int id);
     }
 }

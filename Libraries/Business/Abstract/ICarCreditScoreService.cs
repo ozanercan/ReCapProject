@@ -1,11 +1,12 @@
 ﻿using Core.Utilities.Results;
 using Entities.Dtos;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface ICarCreditScoreService
     {
-        IDataResult<int?> GetMinScoreByCarId(int carId);
-        IResult Add(CarCreditScoreAddDto carCreditScoreAddDto);
+        Task<IDataResult<int?>> GetMinScoreByCarIdAsync(int carId);
+        Task<IResult> AddAsync(CarCreditScoreAddDto carCreditScoreAddDto);
     }
 }

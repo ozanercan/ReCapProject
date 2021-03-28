@@ -22,9 +22,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var result = _rentalService.GetById(id);
+            var result = await _rentalService.GetByIdAsync(id);
             if (result.Success)
                 return Ok(result);
 
@@ -32,9 +32,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcustomeridbyid")]
-        public IActionResult GetCustomerIdById(int id)
+        public async Task<IActionResult> GetCustomerIdByIdAsync(int id)
         {
-            var result = _rentalService.GetCustomerIdById(id);
+            var result = await _rentalService.GetCustomerIdByIdAsync(id);
             if (result.Success)
                 return Ok(result);
 
@@ -42,9 +42,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var result = _rentalService.GetAll();
+            var result = await _rentalService.GetAllAsync();
             if (result.Success)
                 return Ok(result);
 
@@ -52,9 +52,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getdetails")]
-        public IActionResult GetAllDto()
+        public async Task<IActionResult> GetAllDtoAsync()
         {
-            var result = _rentalService.GetAllDto();
+            var result = await _rentalService.GetAllDtoAsync();
             if (result.Success)
                 return Ok(result);
 
@@ -62,9 +62,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(RentalAddDto rentalCreateDto)
+        public async Task<IActionResult> AddAsync(RentalAddDto rentalCreateDto)
         {
-            var result = _rentalService.Add(rentalCreateDto);
+            var result = await _rentalService.AddAsync(rentalCreateDto);
             if (result.Success)
                 return Ok(result);
 
@@ -72,9 +72,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult Update(Rental rental)
+        public async Task<IActionResult> UpdateAsync(Rental rental)
         {
-            var result = _rentalService.Update(rental);
+            var result = await _rentalService.UpdateAsync(rental);
             if (result.Success)
                 return Ok(result);
 
@@ -82,9 +82,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete(Rental rental)
+        public async Task<IActionResult> DeleteAsync(Rental rental)
         {
-            var result = _rentalService.Delete(rental);
+            var result = await _rentalService.DeleteAsync(rental);
             if (result.Success)
                 return Ok(result);
 

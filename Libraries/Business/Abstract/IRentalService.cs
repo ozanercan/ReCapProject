@@ -2,25 +2,26 @@
 using Entities.Concrete;
 using Entities.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IRentalService
     {
-        IDataResult<List<Rental>> GetAll();
+        Task<IDataResult<List<Rental>>> GetAllAsync();
 
-        IDataResult<int?> GetCustomerIdById(int id);
+        Task<IDataResult<int?>> GetCustomerIdByIdAsync(int id);
 
-        IDataResult<List<RentalDto>> GetAllDto();
+        Task<IDataResult<List<RentalDto>>> GetAllDtoAsync();
 
-        IDataResult<Rental> Add(RentalAddDto rentalCreateDto);
+        Task<IDataResult<Rental>> AddAsync(RentalAddDto rentalCreateDto);
 
-        IDataResult<List<Rental>> GetListReturnDateIsNull();
+        Task<IDataResult<List<Rental>>> GetListReturnDateIsNullAsync();
 
-        IDataResult<Rental> GetById(int id);
+        Task<IDataResult<Rental>> GetByIdAsync(int id);
 
-        IResult Update(Rental brand);
+        Task<IResult> UpdateAsync(Rental brand);
 
-        IResult Delete(Rental brand);
+       Task<IResult> DeleteAsync(Rental brand);
     }
 }

@@ -21,9 +21,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CustomerCreditCardAddDto customerCreditCardAddDto)
+        public async Task<IActionResult> AddAsync(CustomerCreditCardAddDto customerCreditCardAddDto)
         {
-            var addResult = _customerCreditCardService.Add(customerCreditCardAddDto);
+            var addResult = await _customerCreditCardService.AddAsync(customerCreditCardAddDto);
             if (!addResult.Success)
                 return BadRequest(addResult);
 
@@ -31,9 +31,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcardsbycustomerid")]
-        public IActionResult GetCardsByCustomerId(int customerId)
+        public async Task<IActionResult> GetCardsByCustomerIdAsync(int customerId)
         {
-            var addResult = _customerCreditCardService.GetCardsByCustomerId(customerId);
+            var addResult = await _customerCreditCardService.GetCardsByCustomerIdAsync(customerId);
             if (!addResult.Success)
                 return BadRequest(addResult);
 

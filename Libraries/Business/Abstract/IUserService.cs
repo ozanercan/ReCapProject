@@ -3,35 +3,35 @@ using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IUserService
     {
-        IDataResult<List<OperationClaim>> GetClaims(User user);
+        Task<IDataResult<List<OperationClaim>>> GetClaimsAsync(User user);
 
         /// <summary>
         /// Mail adresine göre kullanıcının olup olmadığını kontrol eder.
         /// </summary>
         /// <param name="email"></param>
         /// <returns>Kullanıcı varsa SuccessResult, kullanıcı yoksa ErrorResult döner.</returns>
-        IDataResult<User> GetByMail(string mail);
+        Task<IDataResult<User>> GetByMailAsync(string mail);
 
-        IDataResult<UserFirstLastNameDto> GetFirstNameLastNameByMail(string mail);
+        Task<IDataResult<UserFirstLastNameDto>> GetFirstNameLastNameByMailAsync(string mail);
 
-        IDataResult<User> GetById(int id);
+        Task<IDataResult<User>> GetByIdAsync(int id);
 
-        IDataResult<User> GetLastInsertUser();
+        Task<IDataResult<User>> GetLastInsertUserAsync();
 
-        IDataResult<List<User>> GetAll();
+        Task<IDataResult<List<User>>> GetAllAsync();
 
-        IResult Add(User user);
+        Task<IResult> AddAsync(User user);
 
-        IResult Update(User user);
+        Task<IResult> UpdateAsync(User user);
 
+        Task<IResult> DeleteAsync(User brand);
 
-        IResult Delete(User brand);
-
-        IResult DeleteById(int id);
+        Task<IResult> DeleteByIdAsync(int id);
     }
 }

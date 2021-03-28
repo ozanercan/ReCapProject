@@ -9,6 +9,7 @@ using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -21,7 +22,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(PaymentAddDtoValidator))]
-        public IResult Add(PaymentAddDto paymentAddDto)
+        public async Task<IResult> AddAsync(PaymentAddDto paymentAddDto)
         {
             Payment paymentToAdd = new Payment()
             {
@@ -29,7 +30,7 @@ namespace Business.Concrete
                 MoneyPaid = paymentAddDto.MoneyPaid
             };
 
-            var addResult = _paymentDal.Add(paymentToAdd);
+            var addResult = await _paymentDal.AddAsync(paymentToAdd);
             if (!addResult)
                 return new ErrorResult(Messages.PaymentCancelled);
 

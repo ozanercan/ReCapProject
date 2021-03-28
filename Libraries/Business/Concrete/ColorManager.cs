@@ -10,6 +10,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -24,14 +25,14 @@ namespace Business.Concrete
 
         [CacheRemoveAspect("IColorService.Get")]
         [ValidationAspect(typeof(ColorAddDtoValidator))]
-        public IResult Add(ColorAddDto colorAddDto)
+        public async Task<IResult> AddAsync(ColorAddDto colorAddDto)
         {
             Color colorToAdd = new Color()
             {
                 Name = colorAddDto.Name
             };
 
-            bool addResult = _colorDal.Add(colorToAdd);
+            bool addResult = await _colorDal.AddAsync(colorToAdd);
 
             if (!addResult)
                 return new ErrorResult(Messages.ColorNotAdded);
@@ -40,9 +41,9 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IColorService.Get")]
-        public IResult Delete(Color color)
+        public async Task<IResult> DeleteAsync(Color color)
         {
-            bool deleteResult = _colorDal.Delete(color);
+            bool deleteResult = await _colorDal.DeleteAsync(color);
 
             if (!deleteResult)
                 return new ErrorResult(Messages.ColorNotDeleted);
@@ -51,21 +52,21 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IColorService.Get")]
-        public IResult DeleteById(int id)
+        public async Task<IResult> DeleteByIdAsync(int id)
         {
-            var getResult = GetById(id);
+            var getResult = await GetByIdAsync(id);
 
             if (!getResult.Success)
                 return getResult;
 
-            return Delete(getResult.Data);
+            return await DeleteAsync(getResult.Data);
         }
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<List<Color>> GetAll()
+        public async Task<IDataResult<List<Color>>> GetAllAsync()
         {
-            var data = _colorDal.GetAll();
+            var data = await _colorDal.GetAllAsync();
 
             if (data.Count == 0)
                 return new ErrorDataResult<List<Color>>(data, Messages.ColorNotFound);
@@ -75,9 +76,9 @@ namespace Business.Concrete
 
         [PerformanceAspect(5)]
         //[CacheAspect]
-        public IDataResult<Color> GetById(int id)
+        public async Task<IDataResult<Color>> GetByIdAsync(int id)
         {
-            var findedColor = _colorDal.Get(p => p.Id == id);
+            var findedColor = await _colorDal.GetAsync(p => p.Id == id);
 
             if (findedColor == null)
                 return new ErrorDataResult<Color>(null, Messages.ColorNotFound);
@@ -85,9 +86,9 @@ namespace Business.Concrete
             return new SuccessDataResult<Color>(findedColor, Messages.ColorGet);
         }
 
-        public IDataResult<Color> GetByName(string name)
+        public async Task<IDataResult<Color>> GetByNameAsync(string name)
         {
-            var color = _colorDal.Get(p => p.Name.Equals(name));
+            var color = await _colorDal.GetAsync(p => p.Name.Equals(name));
 
             if (color == null)
                 return new ErrorDataResult<Color>(null, Messages.ColorNotFound);
@@ -96,28 +97,28 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IColorService.Get")]
-        public IResult Update(ColorUpdateDto colorUpdateDto)
+        public async Task<IResult> UpdateAsync(ColorUpdateDto colorUpdateDto)
         {
-            var ruleResult = BusinessRules.Run(CheckColorNameExistButIgnoreById(colorUpdateDto.Id, colorUpdateDto.Name));
+            var ruleResult = BusinessRules.Run(await CheckColorNameExistButIgnoreByIdAsync(colorUpdateDto.Id, colorUpdateDto.Name));
             if (!ruleResult.Success)
                 return ruleResult;
 
-            var findedColor = _colorDal.Get(p => p.Id == colorUpdateDto.Id);
+            var findedColor = await _colorDal.GetAsync(p => p.Id == colorUpdateDto.Id);
             if (findedColor == null)
                 return new ErrorResult(Messages.ColorNotFound);
 
             findedColor.Name = colorUpdateDto.Name;
 
-            bool updateResult = _colorDal.Update(findedColor);
+            bool updateResult = await _colorDal.UpdateAsync(findedColor);
 
             if (!updateResult)
                 return new ErrorResult(Messages.ColorNotUpdated);
 
             return new SuccessResult(Messages.ColorUpdated);
         }
-        private IResult CheckColorNameExistButIgnoreById(int colorId, string colorName)
+        private async Task<IResult> CheckColorNameExistButIgnoreByIdAsync(int colorId, string colorName)
         {
-            var findedColor = _colorDal.Get(p => p.Id != colorId && p.Name.Equals(colorName));
+            var findedColor = await _colorDal.GetAsync(p => p.Id != colorId && p.Name.Equals(colorName));
             if (findedColor == null)
                 return new SuccessResult();
 

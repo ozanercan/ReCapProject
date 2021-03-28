@@ -21,9 +21,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getminscorebycarid")]
-        public IActionResult GetMinScoreByCarId(int carId)
+        public async Task<IActionResult> GetMinScoreByCarIdAsync(int carId)
         {
-            var getResult = _carCreditScoreService.GetMinScoreByCarId(carId);
+            var getResult = await _carCreditScoreService.GetMinScoreByCarIdAsync(carId);
             if (!getResult.Success)
                 return BadRequest(getResult);
 
@@ -31,9 +31,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CarCreditScoreAddDto carCreditScoreAddDto)
+        public async Task<IActionResult> AddAsync(CarCreditScoreAddDto carCreditScoreAddDto)
         {
-            var getResult = _carCreditScoreService.Add(carCreditScoreAddDto);
+            var getResult = await _carCreditScoreService.AddAsync(carCreditScoreAddDto);
             if (!getResult.Success)
                 return BadRequest(getResult);
 

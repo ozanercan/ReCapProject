@@ -6,6 +6,7 @@ using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.Jwt;
 using Entities.Dtos;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -19,9 +20,9 @@ namespace Business.Concrete
             _tokenHelper = tokenHelper;
         }
 
-        public IDataResult<AccessToken> CreateAccessToken(User user)
+        public async Task<IDataResult<AccessToken>> CreateAccessTokenAsync(User user)
         {
-            var claimResult = _userService.GetClaims(user);
+            var claimResult = await _userService.GetClaimsAsync(user);
             if (!claimResult.Success)
                 return new ErrorDataResult<AccessToken>(null, claimResult.Message);
 
@@ -30,9 +31,9 @@ namespace Business.Concrete
             return new SuccessDataResult<AccessToken>(createdAccessToken, Messages.AccessTokenCreated);
         }
 
-        public IDataResult<User> Login(UserForLoginDto userForLoginDto)
+        public async Task<IDataResult<User>> LoginAsync(UserForLoginDto userForLoginDto)
         {
-            var userToCheck = _userService.GetByMail(userForLoginDto.Email);
+            var userToCheck = await _userService.GetByMailAsync(userForLoginDto.Email);
             if (!userToCheck.Success)
                 return new ErrorDataResult<User>(null, Messages.UserNotFound);
 
@@ -42,9 +43,9 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(userToCheck.Data, Messages.LoginSuccess);
         }
 
-        public IDataResult<User> Register(UserForRegisterDto userForRegisterDto)
+        public async Task<IDataResult<User>> RegisterAsync(UserForRegisterDto userForRegisterDto)
         {
-            var rulesResult = BusinessRules.Run(this.UserExist(userForRegisterDto.Email));
+            var rulesResult = BusinessRules.Run((await this.UserExistAsync(userForRegisterDto.Email)));
             if (!rulesResult.Success)
                 return new ErrorDataResult<User>(null, rulesResult.Message);
 
@@ -61,7 +62,7 @@ namespace Business.Concrete
                 Status = true
             };
 
-            var userAddResult = _userService.Add(userToCreate);
+            var userAddResult = await _userService.AddAsync(userToCreate);
             if (!userAddResult.Success)
                 return new ErrorDataResult<User>(null, Messages.UserNotAdded);
 
@@ -69,9 +70,9 @@ namespace Business.Concrete
         }
 
        
-        public IResult UserExist(string email)
+        public async Task<IResult> UserExistAsync(string email)
         {
-            var userToCheck = _userService.GetByMail(email);
+            var userToCheck = await _userService.GetByMailAsync(email);
             if (userToCheck.Success)
                 return new ErrorResult(Messages.UserAlreadyExist);
 

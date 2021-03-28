@@ -2,11 +2,12 @@
 using Core.Entities.Concrete;
 using Entities.Concrete;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
     public interface IUserDal : IEfRepository<User>
     {
-        List<OperationClaim> GetClaims(User user);
+        Task<List<OperationClaim>> GetClaimsAsync(User user);
     }
 }

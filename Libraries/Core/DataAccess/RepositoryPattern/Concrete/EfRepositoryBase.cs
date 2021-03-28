@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Core.DataAccess.RepositoryPattern.Concrete
 {
@@ -17,19 +18,9 @@ namespace Core.DataAccess.RepositoryPattern.Concrete
         public EfRepositoryBase()
         {
             _dbContext = new TContext();
-
-            Query = _dbContext.Set<TEntity>();
         }
-
-        public IQueryable<TEntity> Query { get; set; }
 
         public DbSet<TEntity> Entities => _dbContext.Set<TEntity>();
-
-        private void AddInclude(Expression<Func<TEntity, object>>[] includes)
-        {
-            foreach (var include in includes)
-                Query = Query.Include(include);
-        }
 
         public bool Add(TEntity entity)
         {
@@ -60,34 +51,88 @@ namespace Core.DataAccess.RepositoryPattern.Concrete
             return Commit();
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes)
+        public TEntity Get(Expression<Func<TEntity, bool>> expression)
         {
-            AddInclude(includes);
-            return Query.Where(expression).FirstOrDefault();
+            return Entities.Where(expression).FirstOrDefault();
         }
 
-        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> expression = null, params Expression<Func<TEntity, object>>[] includes)
+        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> expression = null)
         {
-            AddInclude(includes);
             if (expression == null)
                 return Entities.ToList();
             else
                 return Entities.Where(expression).ToList();
         }
 
-        public List<TEntity> GetAllNoTracking(Expression<Func<TEntity, bool>> expression = null, params Expression<Func<TEntity, object>>[] includes)
+        public List<TEntity> GetAllNoTracking(Expression<Func<TEntity, bool>> expression = null)
         {
-            AddInclude(includes);
             if (expression == null)
                 return Entities.AsNoTracking().ToList();
             else
                 return Entities.Where(expression).AsNoTracking().ToList();
         }
 
-        public TEntity GetNoTracking(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes)
+        public TEntity GetNoTracking(Expression<Func<TEntity, bool>> expression)
         {
-            AddInclude(includes);
-            return Query.Where(expression).AsNoTracking().FirstOrDefault();
+            return Entities.Where(expression).AsNoTracking().FirstOrDefault();
+        }
+
+        public async Task<bool> CreateBulkAsync(List<TEntity> entities)
+        {
+            await Entities.AddRangeAsync(entities);
+            return await CommitAsync();
+        }
+
+        public async Task<bool> AddAsync(TEntity entity)
+        {
+            await Entities.AddAsync(entity);
+            return await CommitAsync();
+        }
+
+        public async Task<bool> UpdateAsync(TEntity entity)
+        {
+            Entities.Update(entity);
+            return await CommitAsync();
+        }
+
+        public async Task<bool> DeleteAsync(TEntity entity)
+        {
+            Entities.Remove(entity);
+            return await CommitAsync();
+        }
+
+        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression = null)
+        {
+            if (expression == null)
+                return await Entities.ToListAsync();
+            else
+                return await Entities.Where(expression).ToListAsync();
+        }
+
+
+        public async Task<List<TEntity>> GetAllNoTrackingAsync(Expression<Func<TEntity, bool>> expression = null)
+        {
+            if (expression == null)
+                return await Entities.AsNoTracking().ToListAsync();
+            else
+                return await Entities.Where(expression).AsNoTracking().ToListAsync();
+        }
+
+
+        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return await Entities.Where(expression).FirstOrDefaultAsync();
+        }
+
+
+        public async Task<TEntity> GetNoTrackingAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return await Entities.Where(expression).AsNoTracking().FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> CommitAsync()
+        {
+            return await _dbContext.SaveChangesAsync() > 0 ? true : false;
         }
     }
 }
