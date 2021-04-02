@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { CustomerFirstLastNameDto } from 'src/app/models/Dtos/customerFirstLastNameDto';
 import { DropDownNav } from 'src/app/models/navbar/dropDownNav';
 import { Nav } from 'src/app/models/navbar/nav';
-import { AuthService } from 'src/app/services/auth.service';
-import { RememberMeService } from 'src/app/services/remember-me.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,33 +8,10 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private authService:AuthService,
-     private rememberMeService:RememberMeService,
-     private userService:UserService,
-     private router:Router ) {
-  }
-  ngOnInit(): void {
-    this.isLoggedIn = this.authService.isAuthentication();
-    if(this.isLoggedIn){
-      this.getLoggedInUserNames();
-    }
-  }
-  isLoggedIn:Boolean = false;
-  loggedInUser!:CustomerFirstLastNameDto;
+  constructor() {}
+  ngOnInit(): void {}
+
   navbarBrandText = 'Rental';
-
-  getLoggedInUserNames() {
-    this.userService.getFirstLastNameByEmail((this.rememberMeService.getEmail()!)).subscribe(
-      response=>{
-        console.log(response)
-        this.loggedInUser = response.data;
-      }
-    );
-  }
-
-  logout(){
-    this.authService.logout();
-  }
 
   navs: Nav[] = [{ title: 'Ana Sayfa', route: '' }];
 
@@ -86,5 +58,4 @@ export class NavbarComponent implements OnInit {
       childNavs: [{ title: 'Listele', route: 'rental/list/table' }],
     },
   ];
-  
 }

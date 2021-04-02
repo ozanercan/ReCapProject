@@ -5,7 +5,7 @@
       [carDetail]="carDetailDto"
     ></app-car-card>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-9 mt-2">
     <div class="h-50 overflow-auto">
       <app-customer-list-with-table
         (selectedCustomer)="setCustomerDetailDto($event)"
@@ -21,7 +21,7 @@
         class="form-control"
         id="rentalStartDateTime"
         [(ngModel)]="rentDate"
-        min="{{ dateTimeNow |  date: 'YYYY-MM-ddThh:mm' }}"
+        min="{{ dateTimeNow | date: 'YYYY-MM-ddThh:mm' }}"
       />
     </div>
     <div class="mb-3">
@@ -33,15 +33,19 @@
         class="form-control"
         id="rentalEndDateTime"
         [(ngModel)]="returnDate"
-        min="{{ rentDate |  date: 'YYYY-MM-ddThh:mm' }}"
+        min="{{ rentDate | date: 'YYYY-MM-ddThh:mm' }}"
       />
     </div>
-
-    <a class="btn btn-success" (click)="create()"> Kayıt Et </a>
+    <div class="text-center text-md-start">
+      <button class="btn btn-success w-25" (click)="create()">Kayıt Et</button>
+    </div>
   </div>
 </div>
-<button id="showLoginModal" class="invisible" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"></button>
+<button
+  id="showLoginModal"
+  class="invisible"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+  data-bs-whatever="@mdo"
+></button>
 <app-login-with-modal></app-login-with-modal>
-
-
-

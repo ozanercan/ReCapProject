@@ -22,23 +22,26 @@ export class CustomerUpdateSelfWithFormComponent implements OnInit {
     private toastrService: ToastrService,
     private customerService: CustomerService,
     private formBuilder: FormBuilder,
-    private rememberMeService:RememberMeService
+    private rememberMeService: RememberMeService
   ) {}
 
   ngOnInit(): void {
     this.createUpdateForm();
     this.getActiveDatas();
   }
-  updateForm!: FormGroup; 
-  customerDetails!:CustomerDetailDto;
+  updateForm!: FormGroup;
+  customerDetails!: CustomerDetailDto;
 
-  getActiveDatas(){
+  getActiveDatas() {
     let emailInCookie = this.rememberMeService.getEmail()!;
-    this.customerService.getCustomerDetailByEmail(emailInCookie).subscribe(response=>{
-      this.customerDetails = response.data;
-    }, errorResponse=>{
-      this.toastrService.error(ErrorHelper.getMessage(errorResponse));
-    });
+    this.customerService.getCustomerDetailByEmail(emailInCookie).subscribe(
+      (response) => {
+        this.customerDetails = response.data;
+      },
+      (errorResponse) => {
+        this.toastrService.error(ErrorHelper.getMessage(errorResponse));
+      }
+    );
   }
 
   createUpdateForm() {
@@ -52,15 +55,43 @@ export class CustomerUpdateSelfWithFormComponent implements OnInit {
     });
   }
 
+  get firstName(){
+    return this.updateForm.get('firstName');
+  }
+
+  get lastName(){
+    return this.updateForm.get('lastName');
+  }
+
+  get companyName(){
+    return this.updateForm.get('companyName');
+  }
+
+  get email(){
+    return this.updateForm.get('email');
+  }
+
+  get activePassword(){
+    return this.updateForm.get('activePassword');
+  }
+
+  get newPassword(){
+    return this.updateForm.get('newPassword');
+  }
+
   update() {
     if (this.updateForm.valid) {
-      let customerUpdateWithUserDto : CustomerUpdateWithUserDto = this.updateForm.value;
+      let customerUpdateWithUserDto: CustomerUpdateWithUserDto = this.updateForm
+        .value;
       customerUpdateWithUserDto.id = this.customerDetails.id;
-      this.customerService.updateWithUser(customerUpdateWithUserDto).subscribe(response=>{
-        this.toastrService.success(response.message);
-      }, error=>{
-        this.toastrService.error(ErrorHelper.getMessage(error));
-      });
+      this.customerService.updateWithUser(customerUpdateWithUserDto).subscribe(
+        (response) => {
+          this.toastrService.success(response.message);
+        },
+        (error) => {
+          this.toastrService.error(ErrorHelper.getMessage(error));
+        }
+      );
     } else {
       this.toastrService.warning(
         'Lütfen tüm alanları istenildiği şekilde doldurunuz.'

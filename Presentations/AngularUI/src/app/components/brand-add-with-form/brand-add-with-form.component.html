@@ -1,13 +1,18 @@
-<form [formGroup]="brandAddForm">
-  <div class="mb-3">
+<form
+  [formGroup]="brandAddForm"
+  class="row w-sm-100 w-75 mx-auto"
+  (ngSubmit)="addBrand()"
+>
+  <div class="col-12 mb-3">
     <label for="brandNameInput" class="form-label">Marka Adı</label>
     <input
       type="text"
       class="form-control"
       id="brandNameInput"
       formControlName="name"
+      placeholder="Marka Adınız"
     />
-    <div *ngIf="name?.status !== 'VALID'">
+    <div *ngIf="name?.invalid">
       <div *ngIf="name?.errors?.required">
         <p class="text-danger">Marka Adı gereklidir.</p>
       </div>
@@ -19,5 +24,7 @@
       </div>
     </div>
   </div>
-  <button class="btn btn-primary" (click)="addBrand()">Kayıt Et</button>
+  <div class="col-12 col-md-12 text-center">
+    <button class="btn btn-primary w-25">Kayıt Et</button>
+  </div>
 </form>

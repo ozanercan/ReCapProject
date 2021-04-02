@@ -45,17 +45,7 @@
         </li>
       </ul>
       <div class="d-flex">
-        <div *ngIf="!isLoggedIn">
-          <button class="btn btn-sm btn-outline-success me-3" routerLink="/customer/register"><i class="bi bi-person-plus-fill"></i> Kayıt Ol</button>
-          <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="bi bi-box-arrow-in-right"></i> Giriş Yap</button>
-        </div>
-        <div *ngIf="isLoggedIn">
-          <div class="text-center">{{loggedInUser.firstName}} {{loggedInUser.lastName}}</div>
-          <span class="text-dark fs-6">
-             <button class="btn btn-sm btn-outline-dark" routerLink="/customer/update/form"><i class="bi bi-pencil-square"></i> Düzenle</button>
-             <button class="btn btn-sm btn-outline-dark ms-2" (click)="logout()"><i class="bi bi-box-arrow-right"></i> Çıkış</button>
-          </span>
-        </div>
+        <app-navbar-in-user></app-navbar-in-user>
       </div>
     </div>
   </div>

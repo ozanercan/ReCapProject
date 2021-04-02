@@ -48,6 +48,7 @@ import { LoginWithModalComponent } from './components/login-with-modal/login-wit
 import { CustomerUpdateSelfWithFormComponent } from './components/customer-update-self-with-form/customer-update-self-with-form.component';
 import { LoginGuard } from './guards/login.guard';
 import { RegisterGuard } from './guards/register.guard';
+import { NavbarInUserComponent } from './components/navbar-in-user/navbar-in-user.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { RegisterGuard } from './guards/register.guard';
     LoginComponent,
     RegisterComponent,
     LoginWithModalComponent,
-    CustomerUpdateSelfWithFormComponent
+    CustomerUpdateSelfWithFormComponent,
+    NavbarInUserComponent
   ],
   imports: [
     BrowserModule,

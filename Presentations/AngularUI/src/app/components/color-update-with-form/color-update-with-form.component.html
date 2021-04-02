@@ -1,13 +1,21 @@
-<form [formGroup]="colorUpdateForm">
-  <div class="mb-3">
-    <label for="colorNameInput" class="form-label">Renk Adı</label>
-    <input
-      type="text"
-      class="form-control"
-      id="colorNameInput"
-      formControlName="name"
-      [ngModel]="color.name"
-    />
+<form
+  [formGroup]="colorUpdateForm"
+  (ngSubmit)="updateColor()"
+  class="row w-sm-100 w-75 mx-auto"
+>
+  <div class="col-12">
+    <div class="mb-3">
+      <label for="colorNameInput" class="form-label">Renk Adı</label>
+      <input
+        type="text"
+        class="form-control"
+        id="colorNameInput"
+        formControlName="name"
+        [ngModel]="color.name"
+      />
+    </div>
   </div>
-  <button class="btn btn-primary" (click)="updateColor()">Düzenle</button>
+  <div class="col-12 text-center">
+    <button class="btn btn-primary w-25">Düzenle</button>
+  </div>
 </form>

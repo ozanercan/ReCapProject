@@ -1,5 +1,5 @@
-<form [formGroup]="carAddForm" class="row">
-  <div class="col-6 mb-3">
+<form [formGroup]="carAddForm" class="row w-sm-100 w-75 mx-auto" (ngSubmit)="addCar()">
+  <div class="col-12 col-md-6 mb-3">
     <div class="form-floating">
       <select
         class="form-select"
@@ -13,14 +13,14 @@
       </select>
       <label for="colorSelect">Renk Seçimi</label>
 
-      <div *ngIf="colorName?.status !== 'VALID'">
+      <div *ngIf="colorName?.invalid">
         <div *ngIf="colorName?.errors?.required">
           <p class="text-danger">Renk Adı gereklidir.</p>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-6 mb-3">
+  <div class="col-12 col-md-6 mb-3">
     <div class="form-floating">
       <select
         class="form-select"
@@ -34,14 +34,14 @@
       </select>
       <label for="brandSelect">Marka Seçimi</label>
 
-      <div *ngIf="brandName?.status !== 'VALID'">
+      <div *ngIf="brandName?.invalid">
         <div *ngIf="brandName?.errors?.required">
           <p class="text-danger">Marka Adı gereklidir.</p>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-4 mb-3">
+  <div class="col-12 col-md-4 mb-3">
     <label for="modelYearInput" class="form-label">Model Yılı</label>
     <input
       type="number"
@@ -49,13 +49,16 @@
       id="modelYearInput"
       formControlName="modelYear"
     />
-    <div *ngIf="colorName?.status !== 'VALID'">
-      <div *ngIf="colorName?.errors?.required">
-        <p class="text-danger">Renk Adı gereklidir.</p>
+    <div *ngIf="modelYear?.invalid">
+      <div *ngIf="modelYear?.errors?.required">
+        <p class="text-danger">Model Yılı gereklidir.</p>
+      </div>
+      <div *ngIf="modelYear?.errors?.min">
+        <p class="text-danger">Model Yılı 1900'dan büyük olmalıdır.</p>
       </div>
     </div>
   </div>
-  <div class="col-4 mb-3">
+  <div class="col-12 col-md-4 mb-3">
     <label for="dailyPriceInput" class="form-label">Günlük Fiyat</label>
     <input
       type="number"
@@ -63,7 +66,7 @@
       id="dailyPriceInput"
       formControlName="dailyPrice"
     />
-    <div *ngIf="dailyPrice?.status !== 'VALID'">
+    <div *ngIf="dailyPrice?.invalid">
       <div *ngIf="dailyPrice?.errors?.required">
         <p class="text-danger">Günlük Fiyat gereklidir.</p>
       </div>
@@ -72,7 +75,7 @@
       </div>
     </div>
   </div>
-  <div class="col-4 mb-3">
+  <div class="col-12 col-md-4 mb-3">
     <label for="minCreditScore" class="form-label">Min. Findeks Skoru</label>
     <input
       type="number"
@@ -80,7 +83,7 @@
       id="minCreditScoreInput"
       formControlName="minCreditScore"
     />
-    <div *ngIf="minCreditScore?.status !== 'VALID'">
+    <div *ngIf="minCreditScore?.invalid">
       <div *ngIf="minCreditScore?.errors?.required">
         <p class="text-danger">Min. Findeks Numarası gereklidir.</p>
       </div>
@@ -105,12 +108,14 @@
         maxlength="500"
       ></textarea>
       <label for="descriptionTextArea">Açıklama</label>
-      <div *ngIf="description?.status !== 'VALID'">
+      <div *ngIf="description?.invalid && (description?.dirty || description?.touched)">
         <div *ngIf="description?.errors?.maxlength">
           <p class="text-danger">Açıklama 500 karakterden küçük olmalıdır.</p>
         </div>
       </div>
     </div>
   </div>
-  <button class="btn btn-primary" (click)="addCar()">Kayıt Et</button>
+  <div class="col-12 text-center">
+    <button class="btn btn-primary w-25 ">Kayıt Et</button>
+  </div>
 </form>

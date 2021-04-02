@@ -1,24 +1,29 @@
-<form [formGroup]="colorAddForm">
-    <div class="mb-3">
-      <label for="colorNameInput" class="form-label">Renk Adı</label>
-      <input
-        type="text"
-        class="form-control"
-        id="colorNameInput"
-        formControlName="name"
-      />
-      <div *ngIf="colorName?.status !== 'VALID'">
-        <div *ngIf="colorName?.errors?.required">
-          <p class="text-danger">Renk Adı gereklidir.</p>
-        </div>
-        <div *ngIf="colorName?.errors?.minlength">
-          <p class="text-danger">Renk Adı 2 karakterden uzun olmalıdır.</p>
-        </div>
-        <div *ngIf="colorName?.errors?.maxlength">
-          <p class="text-danger">Renk Adı 50 karakterden kısa olmalıdır.</p>
-        </div>
+<form
+  [formGroup]="colorAddForm"
+  class="row w-sm-100 w-75 mx-auto"
+  (ngSubmit)="addColor()"
+>
+  <div class="col-12 mb-3">
+    <label for="colorNameInput" class="form-label">Renk Adı</label>
+    <input
+      type="text"
+      class="form-control"
+      id="colorNameInput"
+      formControlName="name"
+    />
+    <div *ngIf="colorName?.status !== 'VALID'">
+      <div *ngIf="colorName?.errors?.required">
+        <p class="text-danger">Renk Adı gereklidir.</p>
+      </div>
+      <div *ngIf="colorName?.errors?.minlength">
+        <p class="text-danger">Renk Adı 2 karakterden uzun olmalıdır.</p>
+      </div>
+      <div *ngIf="colorName?.errors?.maxlength">
+        <p class="text-danger">Renk Adı 50 karakterden kısa olmalıdır.</p>
       </div>
     </div>
-    <button class="btn btn-primary" (click)="addColor()">Kayıt Et</button>
-  </form>
-  
+  </div>
+  <div class="col-12 text-center">
+    <button class="btn btn-primary w-25">Kayıt Et</button>
+  </div>
+</form>

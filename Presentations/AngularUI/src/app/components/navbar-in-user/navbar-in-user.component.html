@@ -1,0 +1,18 @@
+<div *ngIf="!isLoggedIn">
+    <button class="btn btn-sm btn-outline-success me-3" routerLink="/customer/register"><i class="bi bi-person-plus-fill"></i> Kayıt Ol</button>
+    <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="bi bi-box-arrow-in-right"></i> Giriş Yap</button>
+  </div>
+  <div *ngIf="isLoggedIn">
+    <div class="text-center">{{loggedInUser.firstName}} {{loggedInUser.lastName}}</div>
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <li class="nav-item dropdown">
+        <button class="nav-link dropdown-toggle btn" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Profilim <i class="bi bi-person-circle"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><button class="btn btn-sm btn-outline-dark dropdown-item" routerLink="/customer/update/form"><i class="bi bi-pencil-square"></i> Düzenle</button></li>
+          <li><button class="btn btn-sm btn-outline-dark dropdown-item" (click)="logout()"><i class="bi bi-box-arrow-right"></i> Çıkış</button></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
