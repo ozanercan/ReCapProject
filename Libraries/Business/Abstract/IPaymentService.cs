@@ -10,5 +10,7 @@ namespace Business.Abstract
     public interface IPaymentService
     {
         Task<IResult> AddAsync(PaymentAddDto paymentAddDto);
+
+        Task<IResult> IsCanPaymentAsync(string rentalId);
     }
 }

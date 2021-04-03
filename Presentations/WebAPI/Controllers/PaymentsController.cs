@@ -30,5 +30,15 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpGet("IsCanPaymentByRentalId")]
+        public async Task<IActionResult> IsCanPaymentByRentalIdAsync(string rentalId)
+        {
+            var result = await _paymentService.IsCanPaymentAsync(rentalId);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
     }
 }

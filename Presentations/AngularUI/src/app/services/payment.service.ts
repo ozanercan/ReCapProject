@@ -13,7 +13,20 @@ export class PaymentService {
 
   paymentAddPath: string = 'payments/add';
 
+  paymentIsCanPaymentPath: string = 'payments/IsCanPaymentByRentalId';
+
   addPayment(paymentAddDto: PaymentAddDto): Observable<ResponseModel> {
-    return this.httpClient.post<ResponseModel>(ApiUrlHelper.getUrl(this.paymentAddPath), paymentAddDto);
+    return this.httpClient.post<ResponseModel>(
+      ApiUrlHelper.getUrl(this.paymentAddPath),
+      paymentAddDto
+    );
+  }
+
+  getIsCanPayment(rentalId: string): Observable<ResponseModel> {
+    return this.httpClient.get<ResponseModel>(
+      ApiUrlHelper.getUrlWithParameters(this.paymentIsCanPaymentPath, [
+        { key: 'rentalId', value: rentalId },
+      ])
+    );
   }
 }

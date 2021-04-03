@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
@@ -35,6 +31,7 @@ export class PaymentComponent implements OnInit {
   // Required
   rentalId!: string;
   customerId!: number;
+  isCanPayment: boolean = false;
 
   // For NgModel
   nameSurname!: string;
@@ -44,10 +41,18 @@ export class PaymentComponent implements OnInit {
   price!: number;
 
   // Model For Form Element Access
-  get form_cardOwnerFullName(){return this.paymentForm.get('cardOwnerFullName');}
-  get form_cvv(){return this.paymentForm.get('cvv');}
-  get form_expiryDate(){return this.paymentForm.get('expiryDate');}
-  get form_cardNumber(){return this.paymentForm.get('cardNumber');}
+  get form_cardOwnerFullName() {
+    return this.paymentForm.get('cardOwnerFullName');
+  }
+  get form_cvv() {
+    return this.paymentForm.get('cvv');
+  }
+  get form_expiryDate() {
+    return this.paymentForm.get('expiryDate');
+  }
+  get form_cardNumber() {
+    return this.paymentForm.get('cardNumber');
+  }
 
   creditCards!: CustomerCreditCardDto[];
   paymentForm!: FormGroup;
@@ -65,6 +70,9 @@ export class PaymentComponent implements OnInit {
         timer(1000).subscribe((p) => {
           this.getCreditCards();
         });
+        timer(1500).subscribe(p=>{
+          this.getIsCanPayment();
+        });
       } else {
         this.toastrService.error(
           'Gerekli parametreler girilmeden ödeme yapılamaz!'
@@ -72,6 +80,27 @@ export class PaymentComponent implements OnInit {
       }
     });
   }
+
+  // ngOnInit(): void {
+  //   this.createPaymentForm();
+
+  //   this.activatedRoute.params.subscribe((parameter) => {
+  //     if (parameter['rentalId']) {
+  //       this.rentalId = parameter['rentalId'];
+  //       this.GetMoneyToPaidByRentalId(parameter['rentalId']);
+  //       timer(500).subscribe((p) => {
+  //         this.getCustomerIdByRentalId(parameter['rentalId']);
+  //       });
+  //       timer(1000).subscribe((p) => {
+  //         this.getCreditCards();
+  //       });
+  //     } else {
+  //       this.toastrService.error(
+  //         'Gerekli parametreler girilmeden ödeme yapılamaz!'
+  //       );
+  //     }
+  //   });
+  // }
 
   createPaymentForm() {
     this.paymentForm = this.formBuilder.group({
@@ -95,11 +124,19 @@ export class PaymentComponent implements OnInit {
       cvv: ['', [Validators.required, Validators.maxLength(3)]],
     });
   }
-
+  getIsCanPayment() {
+    this.paymentService.getIsCanPayment(this.rentalId).subscribe(
+      (response) => {
+        this.isCanPayment = true;
+      },
+      (responseError) => {
+        this.toastrService.error(ErrorHelper.getMessage(responseError));
+      }
+    );
+  }
   creditCartExist(cardNumber: string): boolean {
     let isHaveCard = false;
-    if(this.creditCards === undefined)
-    return false;
+    if (this.creditCards === undefined) return false;
 
     this.creditCards.forEach((p) => {
       if (cardNumber === p.cardNumber) {
@@ -184,10 +221,9 @@ export class PaymentComponent implements OnInit {
   }
 
   addCreditCard() {
-
     if (this.paymentForm.valid) {
-
-      let customerCreditCardAddDto: CustomerCreditCardAddDto = this.paymentForm.value;
+      let customerCreditCardAddDto: CustomerCreditCardAddDto = this.paymentForm
+        .value;
       customerCreditCardAddDto.userId = this.customerId;
 
       this.customerCreditCardService.add(customerCreditCardAddDto).subscribe(
