@@ -27,6 +27,8 @@ export class CarService {
 
   getUpdateCarPath: string = 'cars/update';
 
+  getCarUpdateDtoByIdPath: string = 'cars/getcarupdatedtobyid';
+
   getByIdUrl: string = 'cars/getbyid';
 
   getCarAddPath: string = 'cars/add';
@@ -46,6 +48,16 @@ export class CarService {
   getCarImagesByCarIdPath: string = 'carimages/getlistbycarid';
 
   getMoneyToPaidByRentalIdPath: string = 'cars/getcarrentpricebyrentalid';
+
+  getCarUpdateDtoByCarId(
+    carId: number
+  ): Observable<DataResponseModel<CarUpdateDto>> {
+    return this.httpClient.get<DataResponseModel<CarUpdateDto>>(
+      ApiUrlHelper.getUrlWithParameters(this.getCarUpdateDtoByIdPath, [
+        { key: 'id', value: carId },
+      ])
+    );
+  }
 
   addCar(carAddDto: CarAddDto) {
     return this.httpClient.post<ResponseModel>(

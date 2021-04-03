@@ -37,6 +37,9 @@ namespace Business.Constants
         public static string CreditCardsListed = "Kredi Kartları listelendi.";
         public static string PaymentAlreadyMade = "Ödeme zaten yapılmış.";
         public static string PaymentHasNotBeen = "Ödeme yapılmamış.";
+        public static string CarUpdateDtoBrought = "Araç Güncelleme Modeli getirildi.";
+        public static string CarCreditScoreNotUpdated = "Araç Kredi Skoru güncellenemedi.";
+        public static string CarCreditScoreUpdated = "Araç Kredi Skoru güncellendi.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";

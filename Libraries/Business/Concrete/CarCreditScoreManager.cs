@@ -48,5 +48,22 @@ namespace Business.Concrete
 
             return new SuccessDataResult<int?>(findedEntity.MinCreditScore, Messages.CarCreditScoreBrought);
         }
+
+        public async Task<IResult> UpdateAsync(CarCreditScoreUpdateDto carCreditScoreUpdateDto)
+        {
+            var carCreditScore = await _carCreditScoreDal.GetAsync(p => p.CarId == carCreditScoreUpdateDto.CarId);
+            if (carCreditScore == null)
+            {
+                var addResult = await this.AddAsync(new CarCreditScoreAddDto() { CarId = carCreditScoreUpdateDto.CarId, MinCreditScore = carCreditScoreUpdateDto.MinCreditScore });
+                return addResult;
+            }
+            carCreditScore.MinCreditScore = carCreditScoreUpdateDto.MinCreditScore;
+
+            bool updateResult = await _carCreditScoreDal.CommitAsync();
+            if (!updateResult)
+                return new ErrorResult(Messages.CarCreditScoreNotUpdated);
+
+            return new SuccessResult(Messages.CarCreditScoreUpdated);
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace Entities.Dtos
         public int ModelYear { get; set; }
         public decimal DailyPrice { get; set; }
         public string Description { get; set; }
+        public int MinCreditScore { get; set; }
     }
 }

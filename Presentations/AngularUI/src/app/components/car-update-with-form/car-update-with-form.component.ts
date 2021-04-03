@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { timer } from 'rxjs';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { BrandDto } from 'src/app/models/Dtos/brandDto';
 import { CarDto } from 'src/app/models/Dtos/carDto';
@@ -28,19 +29,17 @@ export class CarUpdateWithFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.createCarUpdateForm();
+
     this.activatedRoute.params.subscribe((parameter) => {
       if (parameter['carId']) {
-        this.getCarById(parameter['carId']);
+        this.getCarUpdateDtoById(parameter['carId']);
       } else {
         this.toastrService.error('Parametreler eksik.');
       }
     });
-
-    this.getColors();
-    this.getBrands();
   }
 
-  car!: CarDto;
+  carUpdateDto!: CarUpdateDto;
 
   carUpdateForm!: FormGroup;
 
@@ -50,11 +49,13 @@ export class CarUpdateWithFormComponent implements OnInit {
   selectedBrand!: string;
   selectedColor!: string;
 
-  getCarById(id: number) {
-    this.carService.getById(id).subscribe(
+  getCarUpdateDtoById(id: number) {
+    this.carService.getCarUpdateDtoByCarId(id).subscribe(
       (p) => {
-        this.car = p.data;
+        this.carUpdateDto = p.data;
         this.setId();
+        this.getColors();
+        this.getBrands();
       },
       (error) => {
         this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
@@ -67,16 +68,39 @@ export class CarUpdateWithFormComponent implements OnInit {
       id: ['', Validators.required],
       brandName: ['', Validators.required],
       colorName: ['', Validators.required],
-      modelYear: ['', Validators.required],
-      dailyPrice: ['', Validators.required],
+      modelYear: ['', [Validators.required, Validators.min(1900)]],
+      dailyPrice: ['', [Validators.required, Validators.min(0)]],
       description: ['', Validators.maxLength(500)],
+      minCreditScore: [
+        '',
+        [Validators.required, Validators.min(0), Validators.max(1900)],
+      ],
     });
+  }
+
+  get brandName() {
+    return this.carUpdateForm.get('brandName');
+  }
+  get colorName() {
+    return this.carUpdateForm.get('colorName');
+  }
+  get modelYear() {
+    return this.carUpdateForm.get('modelYear');
+  }
+  get dailyPrice() {
+    return this.carUpdateForm.get('dailyPrice');
+  }
+  get description() {
+    return this.carUpdateForm.get('description');
+  }
+  get minCreditScore() {
+    return this.carUpdateForm.get('minCreditScore');
   }
 
   updateCar() {
     if (this.carUpdateForm.valid) {
       let carUpdateDto: CarUpdateDto = this.carUpdateForm.value;
-      carUpdateDto.id = this.car.id;
+      carUpdateDto.id = this.carUpdateDto.id;
 
       this.carService.update(carUpdateDto).subscribe(
         (p) => {
@@ -92,36 +116,46 @@ export class CarUpdateWithFormComponent implements OnInit {
   }
 
   getColors() {
-    this.colorService.getColors().subscribe((p) => {
-      this.colors = p.data;
-      this.setInitColor();
-    });
+    this.colorService.getColors().subscribe(
+      (p) => {
+        this.colors = p.data;
+        this.setInitColor();
+      },
+      (error) => {
+        this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
+      }
+    );
   }
 
   getBrands() {
-    this.brandService.getList().subscribe((p) => {
-      this.brands = p.data;
-      this.setInitBrand();
-    });
+    this.brandService.getList().subscribe(
+      (p) => {
+        this.brands = p.data;
+        this.setInitBrand();
+      },
+      (error) => {
+        this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
+      }
+    );
   }
 
   setInitColor() {
     this.colors.forEach((p) => {
-      if (p.id === this.car.colorId) {
+      if (p.name === this.carUpdateDto.colorName) {
         this.selectedColor = p.name;
-        this.carUpdateForm.get('colorName')?.setValue(this.selectedColor);
+        this.colorName?.setValue(this.selectedColor);
       }
     });
   }
   setInitBrand() {
     this.brands.forEach((p) => {
-      if (p.id === this.car.brandId) {
+      if (p.name === this.carUpdateDto.brandName) {
         this.selectedBrand = p.name;
-        this.carUpdateForm.get('brandName')?.setValue(this.selectedBrand);
+        this.brandName?.setValue(this.selectedBrand);
       }
     });
   }
   setId() {
-    this.carUpdateForm.get('id')?.setValue(this.car.id);
+    this.carUpdateForm.get('id')?.setValue(this.carUpdateDto.id);
   }
 }

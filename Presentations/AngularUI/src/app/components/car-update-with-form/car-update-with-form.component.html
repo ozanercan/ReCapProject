@@ -1,5 +1,5 @@
-<form [formGroup]="carUpdateForm" class="row">
-  <div class="col-6 mb-3">
+<form [formGroup]="carUpdateForm" class="row w-sm-100 w-75 mx-auto" (ngSubmit)="updateCar()">
+  <div class="col-12 col-md-6 mb-3">
     <div class="form-floating">
       <select
         class="form-select"
@@ -17,9 +17,14 @@
         </option>
       </select>
       <label for="colorSelect">Renk Seçimi</label>
+      <div *ngIf="colorName?.invalid && colorName?.touched">
+        <div *ngIf="colorName?.errors?.required">
+          <p class="text-danger">Renk Adı gereklidir.</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="col-6 mb-3">
+  <div class="col-12 col-md-6 mb-3">
     <div class="form-floating">
       <select
         class="form-select"
@@ -37,27 +42,71 @@
         </option>
       </select>
       <label for="brandSelect">Marka Seçimi</label>
+      <div *ngIf="brandName?.invalid && brandName?.touched">
+        <div *ngIf="brandName?.errors?.required">
+          <p class="text-danger">Marka Adı gereklidir.</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="col-6 mb-3">
+  <div class="col-12 col-md-4 mb-3">
     <label for="modelYearInput" class="form-label">Model Yılı</label>
     <input
       type="number"
       class="form-control"
       id="modelYearInput"
       formControlName="modelYear"
-      [ngModel]="car.modelYear"
+      [ngModel]="carUpdateDto.modelYear"
     />
+    <div *ngIf="modelYear?.invalid && modelYear?.touched">
+      <div *ngIf="modelYear?.errors?.required">
+        <p class="text-danger">Model Yılı gereklidir.</p>
+      </div>
+      <div *ngIf="modelYear?.errors?.min">
+        <p class="text-danger">Model Yılı 1900'dan büyük olmalıdır.</p>
+      </div>
+    </div>
   </div>
-  <div class="col-6 mb-3">
+  <div class="col-12 col-md-4 mb-3">
     <label for="dailyPriceInput" class="form-label">Günlük Fiyat</label>
     <input
       type="number"
       class="form-control"
       id="dailyPriceInput"
       formControlName="dailyPrice"
-      [ngModel]="car.dailyPrice"
+      [ngModel]="carUpdateDto.dailyPrice"
     />
+    <div *ngIf="dailyPrice?.invalid && dailyPrice?.touched">
+      <div *ngIf="dailyPrice?.errors?.required">
+        <p class="text-danger">Günlük Fiyat gereklidir.</p>
+      </div>
+      <div *ngIf="dailyPrice?.errors?.min">
+        <p class="text-danger">Günlük Fiyat 0'dan büyük olmalıdır.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-4 mb-3">
+    <label for="minCreditScore" class="form-label">Min. Findeks Skoru</label>
+    <input
+      type="number"
+      class="form-control"
+      id="minCreditScoreInput"
+      formControlName="minCreditScore"
+      [ngModel]="carUpdateDto.minCreditScore"
+    />
+    <div *ngIf="minCreditScore?.invalid && minCreditScore?.touched">
+      <div *ngIf="minCreditScore?.errors?.required">
+        <p class="text-danger">Min. Findeks Numarası gereklidir.</p>
+      </div>
+      <div *ngIf="minCreditScore?.errors?.min">
+        <p class="text-danger">Günlük Fiyat 0'a eşit ya da büyük olmalıdır.</p>
+      </div>
+      <div *ngIf="minCreditScore?.errors?.max">
+        <p class="text-danger">
+          Günlük Fiyat 1900'e eşit ya da küçük olmalıdır.
+        </p>
+      </div>
+    </div>
   </div>
   <div class="mb-3">
     <div class="form-floating">
@@ -68,10 +117,12 @@
         id="descriptionTextArea"
         style="height: 100px"
         maxlength="500"
-        [ngModel]="car.description"
+        [ngModel]="carUpdateDto.description"
       ></textarea>
       <label for="descriptionTextArea">Açıklama</label>
     </div>
   </div>
-  <button class="btn btn-primary" (click)="updateCar()">Düzenle</button>
+  <div class="col-12 text-center">
+    <button class="btn btn-primary w-25" [disabled]="carUpdateForm.invalid">Düzenle</button>
+  </div>
 </form>

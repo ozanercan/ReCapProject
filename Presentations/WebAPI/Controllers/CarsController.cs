@@ -27,6 +27,16 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getcarupdatedtobyid")]
+        public async Task<IActionResult> GetCarUpdateDtoByIdAsync(int id)
+        {
+            var result = await _carService.GetUpdateDtoByIdAsync(id);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
         [HttpGet("getcarrentpricebyrentalid")]
         public async Task<IActionResult> GetCarRentPriceByRentalIdAsync(int rentalId)
         {

@@ -21,6 +21,9 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.ColorId equals color.Id
                              join brand in context.Brands
                              on car.BrandId equals brand.Id
+                             join carCreditScore in context.CarCreditScores
+                             on car.Id equals carCreditScore.CarId into gj
+                             from x in gj.DefaultIfEmpty()
                              select new CarDetailDto
                              {
                                  BrandName = brand.Name,
@@ -28,7 +31,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 Id = car.Id
+                                 Id = car.Id,
+                                 MinCreditScore = x.MinCreditScore
                              };
                 return await result.AsNoTracking().ToListAsync();
             }
@@ -44,6 +48,9 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.ColorId equals color.Id
                              join brand in context.Brands
                              on car.BrandId equals brand.Id
+                             join carCreditScore in context.CarCreditScores
+                             on car.Id equals carCreditScore.CarId into gj
+                             from x in gj.DefaultIfEmpty()
                              where brand.Id == brandId
                              select new CarDetailDto
                              {
@@ -52,7 +59,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 Id = car.Id
+                                 Id = car.Id,
+                                 MinCreditScore = x.MinCreditScore
                              };
                 return await result.AsNoTracking().ToListAsync();
             }
@@ -68,6 +76,9 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.ColorId equals color.Id
                              join brand in context.Brands
                              on car.BrandId equals brand.Id
+                             join carCreditScore in context.CarCreditScores
+                             on car.Id equals carCreditScore.CarId into gj
+                             from x in gj.DefaultIfEmpty()
                              where color.Id == colorId
                              select new CarDetailDto
                              {
@@ -76,7 +87,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 Id = car.Id
+                                 Id = car.Id,
+                                 MinCreditScore = x.MinCreditScore
                              };
                 return await result.AsNoTracking().ToListAsync();
             }
@@ -92,6 +104,9 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.ColorId equals color.Id
                              join brand in context.Brands
                              on car.BrandId equals brand.Id
+                             join carCreditScore in context.CarCreditScores
+                             on car.Id equals carCreditScore.CarId into gj
+                             from x in gj.DefaultIfEmpty()
                              where car.Id == id
                              select new CarDetailDto
                              {
@@ -100,7 +115,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 Id = car.Id
+                                 Id = car.Id,
+                                 MinCreditScore = x.MinCreditScore
                              };
                 return await result.AsNoTracking().FirstOrDefaultAsync();
             }
@@ -116,6 +132,9 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.ColorId equals color.Id
                              join brand in context.Brands
                              on car.BrandId equals brand.Id
+                             join carCreditScore in context.CarCreditScores
+                             on car.Id equals carCreditScore.CarId into gj
+                             from x in gj.DefaultIfEmpty()
                              where brand.Name == brandName
                              select new CarDetailDto
                              {
@@ -124,7 +143,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 Id = car.Id
+                                 Id = car.Id,
+                                 MinCreditScore = x.MinCreditScore
                              };
                 return await result.AsNoTracking().ToListAsync();
             }
@@ -140,6 +160,9 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.ColorId equals color.Id
                              join brand in context.Brands
                              on car.BrandId equals brand.Id
+                             join carCreditScore in context.CarCreditScores
+                             on car.Id equals carCreditScore.CarId into gj
+                             from x in gj.DefaultIfEmpty()
                              where color.Name == colorName
                              select new CarDetailDto
                              {
@@ -148,7 +171,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 Id = car.Id
+                                 Id = car.Id,
+                                 MinCreditScore = x.MinCreditScore
                              };
                 return await result.AsNoTracking().ToListAsync();
             }
@@ -164,6 +188,9 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.ColorId equals color.Id
                              join brand in context.Brands
                              on car.BrandId equals brand.Id
+                             join carCreditScore in context.CarCreditScores
+                             on car.Id equals carCreditScore.CarId into gj
+                             from x in gj.DefaultIfEmpty()
                              where color.Name == carFilterDto.ColorName
                              && brand.Name == carFilterDto.BrandName
                              select new CarDetailDto
@@ -173,7 +200,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 Id = car.Id
+                                 Id = car.Id,
+                                 MinCreditScore = x.MinCreditScore
                              };
                 return await result.AsNoTracking().ToListAsync();
             }

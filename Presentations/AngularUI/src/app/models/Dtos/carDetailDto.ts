@@ -7,6 +7,7 @@ export class CarDetailDto {
   modelYear!: number;
   dailyPrice!: number;
   description!: string;
+  minCreditScore!: number;
 
   imagePaths!: CarImageDto[];
 }

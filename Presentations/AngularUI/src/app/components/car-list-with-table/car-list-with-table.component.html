@@ -16,6 +16,7 @@
       <th>Renk Adı</th>
       <th>Model Yılı</th>
       <th>Günlük Fiyat</th>
+      <th>Min. Findeks Skoru</th>
       <th>Açıklama</th>
       <th>Aksiyonlar</th>
     </tr>
@@ -27,6 +28,7 @@
       <td>{{ carDetail.colorName }}</td>
       <td>{{ carDetail.modelYear }}</td>
       <td>{{ carDetail.dailyPrice }}</td>
+      <td>{{ carDetail.minCreditScore }} <span class="badge bg-danger fs-6" *ngIf="carDetail.minCreditScore === 0">(Muhtemelen Skor Kaydı Yok.)</span></td>
       <td>{{ carDetail.description }}</td>
       <td>
         <a

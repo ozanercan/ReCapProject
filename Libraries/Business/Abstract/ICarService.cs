@@ -34,6 +34,8 @@ namespace Business.Abstract
 
         Task<IResult> UpdateAsync(CarUpdateDto carUpdateDto);
 
+        Task<IDataResult<CarUpdateDto>> GetUpdateDtoByIdAsync(int carId);
+
         Task<IResult> DeleteAsync(Car car);
 
         Task<IResult> DeleteByIdAsync(int id);

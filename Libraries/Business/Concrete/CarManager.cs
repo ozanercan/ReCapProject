@@ -246,13 +246,21 @@ namespace Business.Concrete
             if (!brandResult.Success)
                 return brandResult;
 
+            var carCreditScoreResult = await _carCreditScoreService.UpdateAsync(new CarCreditScoreUpdateDto()
+            {
+                MinCreditScore = carUpdateDto.MinCreditScore,
+                CarId = carUpdateDto.Id
+            });
+            if (!carCreditScoreResult.Success)
+                return carCreditScoreResult;
+
             findedEntity.BrandId = brandResult.Data.Id;
             findedEntity.ColorId = colorResult.Data.Id;
             findedEntity.ModelYear = carUpdateDto.ModelYear;
             findedEntity.DailyPrice = carUpdateDto.DailyPrice;
             findedEntity.Description = carUpdateDto.Description;
 
-            bool updateResult = _carDal.Update(findedEntity);
+            bool updateResult = await _carDal.UpdateAsync(findedEntity);
 
             if (updateResult == true)
                 return new SuccessResult(Messages.CarUpdated);
@@ -374,6 +382,26 @@ namespace Business.Concrete
         private async Task<IDataResult<Color>> GetColorIdByColorNameAsync(string colorName)
         {
             return await _colorService.GetByNameAsync(colorName);
+        }
+
+        public async Task<IDataResult<CarUpdateDto>> GetUpdateDtoByIdAsync(int carId)
+        {
+            var carResult = await this.GetCarDetailByIdAsync(carId);
+            if (!carResult.Success)
+                return new ErrorDataResult<CarUpdateDto>(null, carResult.Message);
+
+            CarUpdateDto carUpdateDto = new CarUpdateDto()
+            {
+                Id = carResult.Data.Id,
+                BrandName = carResult.Data.BrandName,
+                ColorName = carResult.Data.ColorName,
+                DailyPrice = carResult.Data.DailyPrice,
+                Description = carResult.Data.Description,
+                MinCreditScore = carResult.Data.MinCreditScore,
+                ModelYear = carResult.Data.ModelYear
+            };
+
+            return new SuccessDataResult<CarUpdateDto>(carUpdateDto, Messages.CarUpdateDtoBrought);
         }
     }
 }

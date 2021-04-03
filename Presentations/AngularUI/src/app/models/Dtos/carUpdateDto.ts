@@ -6,4 +6,5 @@ export class CarUpdateDto {
   modelYear!: number;
   dailyPrice!: number;
   description!: string;
+  minCreditScore!: number;
 }
