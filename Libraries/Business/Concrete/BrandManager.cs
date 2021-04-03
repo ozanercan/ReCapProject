@@ -68,7 +68,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<List<Brand>>> GetAllAsync()
         {
             var data = await _brandDal.GetAllAsync();
@@ -80,7 +80,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<Brand>> GetByIdAsync(int id)
         {
             var findedBrand = await _brandDal.GetAsync(p => p.Id == id);
@@ -112,7 +112,6 @@ namespace Business.Concrete
 
             return new SuccessResult(Messages.BrandUpdated);
         }
-
 
 
         public async Task<IDataResult<Brand>> GetByNameAsync(string name)

@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -23,6 +24,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CustomerCreditCardAddDtoValidator))]
+        [CacheRemoveAspect("ICustomerCreditCardService.Get")]
         public async Task<IResult> AddAsync(CustomerCreditCardAddDto customerCreditCartAddDto)
         {
             CustomerCreditCard customerCreditCardToAdd = new CustomerCreditCard()

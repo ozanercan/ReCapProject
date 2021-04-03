@@ -67,7 +67,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<List<Customer>>> GetAllAsync()
         {
             var data = await _customerDal.GetAllAsync();
@@ -79,20 +79,18 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
         public async Task<IDataResult<Customer>> GetByIdAsync(int id)
         {
-            var getResult = await this.GetByIdAsync(id);
+            var getResult = await _customerDal.GetAsync(p => p.UserId == id);
 
-
-            if (!getResult.Success)
-                return new ErrorDataResult<Customer>(getResult.Data, Messages.CustomerNotFound);
+            if (getResult == null)
+                return new ErrorDataResult<Customer>(null, Messages.CustomerNotFound);
             else
-                return new SuccessDataResult<Customer>(getResult.Data, Messages.CustomerGetListByRegistered);
+                return new SuccessDataResult<Customer>(getResult, Messages.CustomerGetListByRegistered);
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<List<CustomerDetailDto>>> GetCustomerDetailsAsync()
         {
             return new SuccessDataResult<List<CustomerDetailDto>>(await _customerDal.GetCustomerDetailsAsync());
@@ -131,6 +129,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CustomerNotUpdated);
         }
 
+        [CacheRemoveAspect("ICustomerService.Get")]
         public async Task<IResult> UpdateWithUserAsync(CustomerUpdateDto customerUpdateDto)
         {
             var userResult = await _userService.GetByIdAsync(customerUpdateDto.Id);

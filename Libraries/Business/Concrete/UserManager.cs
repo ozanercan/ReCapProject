@@ -57,7 +57,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<List<User>>> GetAllAsync()
         {
             var data = await _userDal.GetAllAsync();
@@ -69,7 +69,6 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
         public async Task<IDataResult<User>> GetByIdAsync(int id)
         {
             var getResult = await _userDal.GetAsync(p => p.Id == id);
@@ -81,7 +80,6 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
         public async Task<IDataResult<User>> GetByMailAsync(string mail)
         {
             var user = await _userDal.GetAsync(p => p.Email.Equals(mail));
@@ -92,7 +90,6 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
         public async Task<IDataResult<List<OperationClaim>>> GetClaimsAsync(User user)
         {
             var operationClaims = await _userDal.GetClaimsAsync(user);
@@ -102,6 +99,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<OperationClaim>>(operationClaims, Messages.ClaimsListed);
         }
 
+        [CacheAspect]
         public async Task<IDataResult<UserFirstLastNameDto>> GetFirstNameLastNameByMailAsync(string mail)
         {
             var user = await _userDal.GetAsync(p => p.Email.Equals(mail));
@@ -117,13 +115,13 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
         public async Task<IDataResult<User>> GetLastInsertUserAsync()
         {
             User user = (await _userDal.GetAllAsync()).Last();
             return new SuccessDataResult<User>(user);
         }
 
+        [CacheRemoveAspect("IUserService.Get")]
         public async Task<IResult> UpdateAsync(User user)
         {
             bool updateResult = await _userDal.UpdateAsync(user);

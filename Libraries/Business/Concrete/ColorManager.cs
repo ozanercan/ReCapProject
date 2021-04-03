@@ -63,7 +63,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<List<Color>>> GetAllAsync()
         {
             var data = await _colorDal.GetAllAsync();
@@ -75,7 +75,6 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
         public async Task<IDataResult<Color>> GetByIdAsync(int id)
         {
             var findedColor = await _colorDal.GetAsync(p => p.Id == id);

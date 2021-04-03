@@ -86,7 +86,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<List<CarImage>>> GetAllAsync()
         {
             var carImages =await _carImageDal.GetAllAsync();
@@ -99,6 +99,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(carImages, Messages.CarImagesListed);
         }
 
+        [CacheAspect]
         public async Task<IDataResult<List<CarImage>>> GetAllNoTrackingAsync()
         {
             var carImages = await _carImageDal.GetAllNoTrackingAsync();
@@ -111,6 +112,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(carImages, Messages.CarImagesListed);
         }
 
+        [CacheAspect]
         public async Task<IDataResult<List<CarImage>>> GetAllByCarDetailsAsync()
         {
             var carImages = await _carImageDal.GetAllNoTrackingAsync();
@@ -124,7 +126,6 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
         public async Task<IDataResult<List<CarImage>>> GetAllByCarIdAsync(int carId)
         {
             var getCarList = await _carImageDal.GetAllNoTrackingAsync(p => p.CarId == carId);

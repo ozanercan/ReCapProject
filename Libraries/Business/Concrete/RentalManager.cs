@@ -57,7 +57,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<List<Rental>>> GetAllAsync()
         {
             var data = await _rentalDal.GetAllAsync();
@@ -69,7 +69,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<List<Rental>>> GetListReturnDateIsNullAsync()
         {
             var rentals = await _rentalDal.GetAllAsync(p => p.ReturnDate == null);
@@ -81,7 +81,6 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
         public async Task<IDataResult<Rental>> GetByIdAsync(int id)
         {
             var rental = await _rentalDal.GetAsync(p => p.Id == id);
@@ -114,7 +113,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalDeleted);
         }
 
-
+        [CacheAspect]
         public async Task<IDataResult<List<RentalDto>>> GetAllDtoAsync()
         {
             var getResult = await _rentalDal.GetRentalDtosAsync();
@@ -122,6 +121,15 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<RentalDto>>(null, Messages.RentalNotFound);
 
             return new SuccessDataResult<List<RentalDto>>(getResult, Messages.RentalListed);
+        }
+
+        public async Task<IDataResult<int?>> GetCustomerIdByIdAsync(int id)
+        {
+            var rental = await _rentalDal.GetAsync(p => p.Id == id);
+            if (rental == null)
+                return new ErrorDataResult<int?>(null, Messages.RentalNotFound);
+
+            return new SuccessDataResult<int?>(rental.CustomerId);
         }
 
         private async Task<IResult> CheckRentDateAsync(int carId, DateTime rentDate)
@@ -163,13 +171,6 @@ namespace Business.Concrete
             return new ErrorResult(Messages.CustomerCreditScoreNotEnoughtToRentCar);
         }
 
-        public async Task<IDataResult<int?>> GetCustomerIdByIdAsync(int id)
-        {
-            var rental = await _rentalDal.GetAsync(p => p.Id == id);
-            if (rental == null)
-                return new ErrorDataResult<int?>(null, Messages.RentalNotFound);
-
-            return new SuccessDataResult<int?>(rental.CustomerId);
-        }
+        
     }
 }

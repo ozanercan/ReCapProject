@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -22,6 +23,7 @@ namespace Business.Concrete
             _carCreditScoreDal = carCreditScoreDal;
         }
 
+        [CacheRemoveAspect("ICarCreditScoreService.Get")]
         [ValidationAspect(typeof(CarCreditScoreAddDtoValidator))]
         public async Task<IResult> AddAsync(CarCreditScoreAddDto carCreditScoreAddDto)
         {

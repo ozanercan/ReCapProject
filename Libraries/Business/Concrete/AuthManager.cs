@@ -13,7 +13,7 @@ namespace Business.Concrete
     public class AuthManager : IAuthService
     {
         readonly IUserService _userService;
-        ITokenHelper _tokenHelper;
+        readonly ITokenHelper _tokenHelper;
         public AuthManager(IUserService userService, ITokenHelper tokenHelper)
         {
             _userService = userService;
@@ -69,7 +69,6 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(userToCreate, Messages.UserAdded);
         }
 
-       
         public async Task<IResult> UserExistAsync(string email)
         {
             var userToCheck = await _userService.GetByMailAsync(email);

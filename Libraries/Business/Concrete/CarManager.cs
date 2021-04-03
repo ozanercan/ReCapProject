@@ -112,7 +112,6 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        [CacheAspect]
         public async Task<IDataResult<Car>> GetByIdAsync(int id)
         {
             var data = await _carDal.GetAsync(p => p.Id == id);
@@ -124,7 +123,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsAsync()
         {
             var carDetails = await _carDal.GetCarDetailsAsync();
@@ -189,7 +188,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByBrandIdAsync(int brandId)
         {
             var carDetails = await _carDal.GetCarDetailsByBrandIdAsync(brandId);
@@ -207,7 +206,7 @@ namespace Business.Concrete
 
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
             var data = _carDal.GetAllNoTracking(p => p.ColorId == colorId);
@@ -219,7 +218,7 @@ namespace Business.Concrete
         }
 
         [PerformanceAspect(5)]
-        //[CacheAspect]
+        [CacheAspect]
         public async Task<IDataResult<List<Car>>> GetRentalCarsAsync()
         {
             var rentalResult = await _rentalService.GetListReturnDateIsNullAsync();
@@ -262,6 +261,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CarNotUpdated);
         }
 
+        [CacheAspect]
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByColorIdAsync(int colorId)
         {
             var carDetails = await _carDal.GetCarDetailsByColorIdAsync(colorId);
@@ -276,6 +276,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByColor);
         }
 
+        [CacheAspect]
         public async Task<IDataResult<CarDetailDto>> GetCarDetailByIdAsync(int id)
         {
             var carDetail = await _carDal.GetCarDetailByIdAsync(id);
@@ -290,6 +291,7 @@ namespace Business.Concrete
             return new SuccessDataResult<CarDetailDto>(carDetail, Messages.CarBroughtById);
         }
 
+        [CacheAspect]
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByBrandNameAsync(string brandName)
         {
             var carDetails = await _carDal.GetCarDetailsByBrandNameAsync(brandName);
@@ -304,6 +306,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByBrand);
         }
 
+        [CacheAspect]
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByColorNameAsync(string colorName)
         {
             var carDetails = await _carDal.GetCarDetailsByColorNameAsync(colorName);
@@ -318,6 +321,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByColor);
         }
 
+        [CacheAspect]
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByFiltersAsync(CarFilterDto carFilterDto)
         {
             var carDetails = await _carDal.GetCarDetailsByFilterAsync(carFilterDto);
@@ -332,6 +336,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByFilters);
         }
 
+        [CacheAspect]
         public async Task<IDataResult<decimal>> GetMoneyToPaidByRentalIdAsync(int rentalId)
         {
             var rentalResult = await _rentalService.GetByIdAsync(rentalId);
