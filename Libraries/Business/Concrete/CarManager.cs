@@ -59,19 +59,19 @@ namespace Business.Concrete
             if (!addResult)
                 return new ErrorResult(Messages.CarNotAdded);
 
-            var carCreditScoreAddResult = await AddCarCreditScoreAsync(carAddDto, carToAdd);
+            var carCreditScoreAddResult = await AddCarCreditScoreAsync(carToAdd.Id, carAddDto.MinCreditScore);
             if (!carCreditScoreAddResult.Success)
                 return new ErrorResult(carCreditScoreAddResult.Message);
 
             return new SuccessResult(Messages.CarAdded);
         }
 
-        private async Task<IResult> AddCarCreditScoreAsync(CarAddDto carAddDto, Car carToAdd)
+        private async Task<IResult> AddCarCreditScoreAsync(int carId, int minCreditScore)
         {
             var carCreditScoreResult = await _carCreditScoreService.AddAsync(new CarCreditScoreAddDto()
             {
-                CarId = carToAdd.Id,
-                MinCreditScore = carAddDto.MinCreditScore
+                CarId = carId,
+                MinCreditScore = minCreditScore
             });
 
             return carCreditScoreResult;
@@ -96,17 +96,17 @@ namespace Business.Concrete
             if (!getResult.Success)
                 return getResult;
 
-            return await DeleteAsync (getResult.Data);
+            return await DeleteAsync(getResult.Data);
         }
 
         [PerformanceAspect(5)]
         [CacheAspect]
         public async Task<IDataResult<List<Car>>> GetAllAsync()
         {
-            var data =await _carDal.GetAllAsync();
+            var data = await _carDal.GetAllAsync();
 
-            if (data == null || data.Count <= 0)
-                return new ErrorDataResult<List<Car>>(data, Messages.CarNotFound);
+            if (data.Count == 0)
+                return new ErrorDataResult<List<Car>>(null, Messages.CarNotFound);
             else
                 return new SuccessDataResult<List<Car>>(data, Messages.CarGetListByRegistered);
         }
@@ -117,7 +117,7 @@ namespace Business.Concrete
             var data = await _carDal.GetAsync(p => p.Id == id);
 
             if (data == null)
-                return new ErrorDataResult<Car>(data, Messages.CarNotFound);
+                return new ErrorDataResult<Car>(null, Messages.CarNotFound);
             else
                 return new SuccessDataResult<Car>(data, Messages.CarGet);
         }
@@ -127,75 +127,74 @@ namespace Business.Concrete
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsAsync()
         {
             var carDetails = await _carDal.GetCarDetailsAsync();
-
-            var carImages = (await _carImageService.GetAllNoTrackingAsync()).Data;
-
-            SetImages(carDetails, carImages);
-
-            CheckDefaultImage(carDetails);
-
             if (carDetails.Count == 0)
-                return new ErrorDataResult<List<CarDetailDto>>(carDetails, Messages.CarNotFound);
+                return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFound);
+
+            foreach (var item in carDetails)
+            {
+                item.ImagePaths = (await _carImageService.GetAllByCarIdAsync(item.Id)).Data;
+            }
 
             return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByRegistered);
         }
 
-        private void SetImages(List<CarDetailDto> carDetails, List<CarImage> carImages)
-        {
-            carDetails.ForEach(carDetail =>
-            {
-                var findedCarImages = carImages.Where(p => p.CarId == carDetail.Id).ToList();
-                if (findedCarImages.Count == 0)
-                {
-                    carDetail.ImagePaths.Add(_carImageService.GetDefaultCarImage(carDetail.Id).Data);
-                }
-                else
-                {
-                    carDetail.ImagePaths = findedCarImages;
-                }
-            });
-        }
+        //private void SetImages(List<CarDetailDto> carDetails, List<CarImage> carImages)
+        //{
+        //    carDetails.ForEach(carDetail =>
+        //    {
+        //        var findedCarImages = carImages.Where(p => p.CarId == carDetail.Id).ToList();
+        //        if (findedCarImages.Count == 0)
+        //        {
+        //            carDetail.ImagePaths.Add(_carImageService.GetDefaultCarImage(carDetail.Id).Data);
+        //        }
+        //        else
+        //        {
+        //            carDetail.ImagePaths = findedCarImages;
+        //        }
+        //    });
+        //}
 
-        private void SetImages(CarDetailDto carDetail, List<CarImage> carImages)
-        {
-            var findedCarImages = carImages.Where(p => p.CarId == carDetail.Id).ToList();
-            if (findedCarImages.Count == 0)
-            {
-                carDetail.ImagePaths.Add(_carImageService.GetDefaultCarImage(carDetail.Id).Data);
-            }
-            else
-            {
-                carDetail.ImagePaths = findedCarImages;
-            }
-        }
+        //private void SetImages(CarDetailDto carDetail, List<CarImage> carImages)
+        //{
+        //    var findedCarImages = carImages.Where(p => p.CarId == carDetail.Id).ToList();
+        //    if (findedCarImages.Count == 0)
+        //    {
+        //        carDetail.ImagePaths.Add(_carImageService.GetDefaultCarImage(carDetail.Id).Data);
+        //    }
+        //    else
+        //    {
+        //        carDetail.ImagePaths = findedCarImages;
+        //    }
+        //}
 
-        private void CheckDefaultImage(List<CarDetailDto> data)
-        {
-            foreach (var item in data)
-            {
-                if (item.ImagePaths.Count == 0)
-                {
-                    item.ImagePaths = new List<CarImage>() { _carImageService.GetDefaultCarImage(item.Id).Data };
-                }
-            }
-        }
-        private void CheckDefaultImage(CarDetailDto data)
-        {
-            if (data.ImagePaths.Count == 0)
-            {
-                data.ImagePaths = new List<CarImage>() { _carImageService.GetDefaultCarImage(data.Id).Data };
-            }
-        }
+        //private void CheckDefaultImage(List<CarDetailDto> data)
+        //{
+        //    foreach (var item in data)
+        //    {
+        //        if (item.ImagePaths.Count == 0)
+        //        {
+        //            item.ImagePaths = new List<CarImage>() { _carImageService.GetDefaultCarImage(item.Id).Data };
+        //        }
+        //    }
+        //}
+        //private void CheckDefaultImage(CarDetailDto data)
+        //{
+        //    if (data.ImagePaths.Count == 0)
+        //    {
+        //        data.ImagePaths = new List<CarImage>() { _carImageService.GetDefaultCarImage(data.Id).Data };
+        //    }
+        //}
 
         [PerformanceAspect(5)]
         [CacheAspect]
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByBrandIdAsync(int brandId)
         {
             var carDetails = await _carDal.GetCarDetailsByBrandIdAsync(brandId);
-            var carImages = (await _carImageService.GetAllNoTrackingAsync()).Data;
 
-            SetImages(carDetails, carImages);
-            CheckDefaultImage(carDetails);
+            foreach (var item in carDetails)
+            {
+                item.ImagePaths = (await _carImageService.GetAllByCarIdAsync(item.Id)).Data;
+            }
 
             if (carDetails.Count == 0)
                 return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFoundByBrand);
@@ -265,10 +264,12 @@ namespace Business.Concrete
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByColorIdAsync(int colorId)
         {
             var carDetails = await _carDal.GetCarDetailsByColorIdAsync(colorId);
-            var carImages = (await _carImageService.GetAllNoTrackingAsync()).Data;
 
-            SetImages(carDetails, carImages);
-            CheckDefaultImage(carDetails);
+            foreach (var item in carDetails)
+            {
+                item.ImagePaths = (await _carImageService.GetAllByCarIdAsync(item.Id)).Data;
+            }
+
 
             if (carDetails.Count == 0)
                 return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFoundByColor);
@@ -280,10 +281,8 @@ namespace Business.Concrete
         public async Task<IDataResult<CarDetailDto>> GetCarDetailByIdAsync(int id)
         {
             var carDetail = await _carDal.GetCarDetailByIdAsync(id);
-            var carImages = (await _carImageService.GetAllNoTrackingAsync()).Data;
 
-            SetImages(carDetail, carImages);
-            CheckDefaultImage(carDetail);
+            carDetail.ImagePaths = (await _carImageService.GetAllByCarIdAsync(id)).Data;
 
             if (carDetail == null)
                 return new ErrorDataResult<CarDetailDto>(null, Messages.CarNotFoundById);
@@ -295,10 +294,11 @@ namespace Business.Concrete
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByBrandNameAsync(string brandName)
         {
             var carDetails = await _carDal.GetCarDetailsByBrandNameAsync(brandName);
-            var carImages = (await _carImageService.GetAllNoTrackingAsync()).Data;
 
-            SetImages(carDetails, carImages);
-            CheckDefaultImage(carDetails);
+            foreach (var item in carDetails)
+            {
+                item.ImagePaths = (await _carImageService.GetAllByCarIdAsync(item.Id)).Data;
+            }
 
             if (carDetails.Count == 0)
                 return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFoundByBrand);
@@ -310,10 +310,13 @@ namespace Business.Concrete
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByColorNameAsync(string colorName)
         {
             var carDetails = await _carDal.GetCarDetailsByColorNameAsync(colorName);
-            var carImages = (await _carImageService.GetAllNoTrackingAsync()).Data;
 
-            SetImages(carDetails, carImages);
-            CheckDefaultImage(carDetails);
+
+            foreach (var item in carDetails)
+            {
+                item.ImagePaths = (await _carImageService.GetAllByCarIdAsync(item.Id)).Data;
+            }
+
 
             if (carDetails.Count == 0)
                 return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFoundByColor);
@@ -325,10 +328,11 @@ namespace Business.Concrete
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByFiltersAsync(CarFilterDto carFilterDto)
         {
             var carDetails = await _carDal.GetCarDetailsByFilterAsync(carFilterDto);
-            var carImages = (await _carImageService.GetAllNoTrackingAsync()).Data;
 
-            SetImages(carDetails, carImages);
-            CheckDefaultImage(carDetails);
+            foreach (var item in carDetails)
+            {
+                item.ImagePaths = (await _carImageService.GetAllByCarIdAsync(item.Id)).Data;
+            }
 
             if (carDetails.Count == 0)
                 return new ErrorDataResult<List<CarDetailDto>>(null, Messages.CarNotFoundByFilters);
@@ -366,7 +370,7 @@ namespace Business.Concrete
 
         private async Task<IDataResult<Brand>> GetBrandIdByBrandNameAsync(string brandName)
         {
-            return  await _brandService.GetByNameAsync(brandName);
+            return await _brandService.GetByNameAsync(brandName);
         }
         private async Task<IDataResult<Color>> GetColorIdByColorNameAsync(string colorName)
         {

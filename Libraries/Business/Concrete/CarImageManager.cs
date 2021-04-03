@@ -85,20 +85,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageDeleted);
         }
 
-        [PerformanceAspect(5)]
-        [CacheAspect]
-        public async Task<IDataResult<List<CarImage>>> GetAllAsync()
-        {
-            var carImages =await _carImageDal.GetAllAsync();
-
-            if (carImages == null)
-                return new ErrorDataResult<List<CarImage>>(null, Messages.CarImagesNotFound);
-
-            GetImagePathScheme(_httpContextAccessor.HttpContext.Request, carImages);
-
-            return new SuccessDataResult<List<CarImage>>(carImages, Messages.CarImagesListed);
-        }
-
         [CacheAspect]
         public async Task<IDataResult<List<CarImage>>> GetAllNoTrackingAsync()
         {
@@ -113,35 +99,36 @@ namespace Business.Concrete
         }
 
         [CacheAspect]
-        public async Task<IDataResult<List<CarImage>>> GetAllByCarDetailsAsync()
+        public async Task<IDataResult<List<CarImage>>> GetAllAsync()
         {
             var carImages = await _carImageDal.GetAllNoTrackingAsync();
-
-            if (carImages == null)
-                return new ErrorDataResult<List<CarImage>>(null, Messages.CarImagesNotFound);
-
-            GetImagePathScheme(_httpContextAccessor.HttpContext.Request, carImages);
-
-            return new SuccessDataResult<List<CarImage>>(carImages, Messages.CarImagesListed);
+            return AddUrlToImage(carImages);
         }
 
         [PerformanceAspect(5)]
+        [CacheAspect]
         public async Task<IDataResult<List<CarImage>>> GetAllByCarIdAsync(int carId)
         {
-            var getCarList = await _carImageDal.GetAllNoTrackingAsync(p => p.CarId == carId);
-
-            if (getCarList.Count == 0)
+            var findedCarImages = (await this.GetAllAsync()).Data.Where(p => p.CarId == carId).ToList();
+            if (findedCarImages.Count == 0)
             {
-                var defaultCarImage = GetDefaultCarImage(carId);
-
-                return new SuccessDataResult<List<CarImage>>(new List<CarImage> { defaultCarImage.Data });
+                return AddUrlToDefaultImage(carId);
             }
-            else
-            {
-                GetImagePathScheme(_httpContextAccessor.HttpContext.Request, getCarList);
 
-                return new SuccessDataResult<List<CarImage>>(getCarList);
-            }
+            return new SuccessDataResult<List<CarImage>>(findedCarImages, Messages.CarImagesListed);
+        }
+
+        private IDataResult<List<CarImage>> AddUrlToDefaultImage(int carId)
+        {
+            var defaultCarImage = GetDefaultCarImage(carId);
+
+            return new SuccessDataResult<List<CarImage>>(new List<CarImage> { defaultCarImage.Data });
+        }
+        private IDataResult<List<CarImage>> AddUrlToImage(List<CarImage> findedCarImages)
+        {
+            GetImagePathScheme(_httpContextAccessor.HttpContext.Request, findedCarImages);
+
+            return new SuccessDataResult<List<CarImage>>(findedCarImages);
         }
 
         public async Task<IDataResult<CarImage>> GetByIdAsync(int id)
@@ -200,7 +187,10 @@ namespace Business.Concrete
         {
             getCarList.ForEach(p =>
             {
-                p.ImagePath = string.Join(@"/", httpRequest.Scheme + ":/", httpRequest.Host.Value, p.ImagePath);
+                if (p.ImagePath.IndexOf(httpRequest.Scheme) == -1)
+                {
+                    p.ImagePath = string.Join(@"/", httpRequest.Scheme + ":/", httpRequest.Host.Value, p.ImagePath);
+                }
             });
         }
 

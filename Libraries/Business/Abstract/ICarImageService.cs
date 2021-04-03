@@ -26,6 +26,5 @@ namespace Business.Abstract
 
         IDataResult<string> GetDefaultCarImageUrl();
 
-        Task<IDataResult<List<CarImage>>> GetAllByCarDetailsAsync();
     }
 }
