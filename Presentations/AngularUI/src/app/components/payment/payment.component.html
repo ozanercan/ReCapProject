@@ -28,34 +28,48 @@
               maxlength="50"
               formControlName="cardOwnerFullName"
             />
-            <div *ngIf="form_cardOwnerFullName?.invalid">
+            <div
+              *ngIf="
+                form_cardOwnerFullName?.invalid &&
+                form_cardOwnerFullName?.touched
+              "
+            >
               <div *ngIf="form_cardOwnerFullName?.errors?.required">
                 <p class="text-danger">Kart Sahibi alanı zorunludur.</p>
               </div>
               <div *ngIf="form_cardOwnerFullName?.errors?.maxlength">
-                <p class="text-danger">Kart Sahibi alanı 20 karakterden az olmalıdır.</p>
+                <p class="text-danger">
+                  Kart Sahibi alanı 20 karakterden az olmalıdır.
+                </p>
               </div>
               <div *ngIf="form_cardOwnerFullName?.errors?.min">
-                <p class="text-danger">Kart Sahibi alanı 3 karakterden uzun olmalıdır.</p>
+                <p class="text-danger">
+                  Kart Sahibi alanı 3 karakterden uzun olmalıdır.
+                </p>
               </div>
             </div>
             <span>Kart Numarası:</span>
             <input
-              type="text"
+              type="number"
               placeholder="0125 6780 4567 9909"
               [(ngModel)]="cardNumber"
               maxlength="16"
               formControlName="cardNumber"
+              onlyNumbers
             />
-            <div *ngIf="form_cardNumber?.invalid">
+            <div *ngIf="form_cardNumber?.invalid && form_cardNumber?.touched">
               <div *ngIf="form_cardNumber?.errors?.required">
                 <p class="text-danger">Kart Numarası alanı zorunludur.</p>
               </div>
               <div *ngIf="form_cardNumber?.errors?.maxlength">
-                <p class="text-danger">Kart Numarası alanı 20 karakterden az olmalıdır.</p>
+                <p class="text-danger">
+                  Kart Numarası alanı 20 karakterden az olmalıdır.
+                </p>
               </div>
               <div *ngIf="form_cardNumber?.errors?.minlength">
-                <p class="text-danger">Kart Numarası alanı 10 karakterden uzun olmalıdır.</p>
+                <p class="text-danger">
+                  Kart Numarası alanı 10 karakterden uzun olmalıdır.
+                </p>
               </div>
             </div>
             <div class="row">
@@ -68,12 +82,18 @@
                   maxlength="5"
                   formControlName="expiryDate"
                 />
-                <div *ngIf="form_cardNumber?.invalid">
-                  <div *ngIf="form_cardNumber?.errors?.required">
-                    <p class="text-danger">Son Kullanım Tarihi alanı zorunludur.</p>
+                <div
+                  *ngIf="form_expiryDate?.invalid && form_expiryDate?.touched"
+                >
+                  <div *ngIf="form_expiryDate?.errors?.required">
+                    <p class="text-danger">
+                      Son Kullanım Tarihi alanı zorunludur.
+                    </p>
                   </div>
-                  <div *ngIf="form_cardNumber?.errors?.maxlength">
-                    <p class="text-danger">Son Kullanım Tarihi alanı 5 karakterden az olmalıdır.</p>
+                  <div *ngIf="form_expiryDate?.errors?.maxlength">
+                    <p class="text-danger">
+                      Son Kullanım Tarihi alanı 5 karakterden az olmalıdır.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -86,20 +106,27 @@
                   [(ngModel)]="cvv"
                   maxlength="3"
                   formControlName="cvv"
+                  onlyNumbers
                 />
-                <div *ngIf="form_cvv?.invalid">
+                <div *ngIf="form_cvv?.invalid && form_cvv?.touched">
                   <div *ngIf="form_cvv?.errors?.required">
                     <p class="text-danger">Cvv alanı zorunludur.</p>
                   </div>
                   <div *ngIf="form_cvv?.errors?.maxlength">
-                    <p class="text-danger">Cvv alanı 5 karakterden az olmalıdır.</p>
+                    <p class="text-danger">
+                      Cvv alanı 5 karakterden az olmalıdır.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            <a class="btn btn-complete" (click)="completePayment()"
-              >ÖDEMEYİ TAMAMLA</a
+            <button
+              class="btn btn-complete"
+              (click)="completePayment()"
+              [disabled]="paymentForm?.invalid"
             >
+              ÖDEMEYİ TAMAMLA
+            </button>
           </div>
         </div>
         <div class="col-md-12 col-lg-5">

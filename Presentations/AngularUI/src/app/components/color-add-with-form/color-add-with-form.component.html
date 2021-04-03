@@ -10,8 +10,9 @@
       class="form-control"
       id="colorNameInput"
       formControlName="name"
+      placeholder="Renk Adı"
     />
-    <div *ngIf="colorName?.status !== 'VALID'">
+    <div *ngIf="colorName?.invalid && colorName?.touched">
       <div *ngIf="colorName?.errors?.required">
         <p class="text-danger">Renk Adı gereklidir.</p>
       </div>
@@ -24,6 +25,6 @@
     </div>
   </div>
   <div class="col-12 text-center">
-    <button class="btn btn-primary w-25">Kayıt Et</button>
+    <button class="btn btn-primary w-25" [disabled]="colorAddForm.invalid">Kayıt Et</button>
   </div>
 </form>

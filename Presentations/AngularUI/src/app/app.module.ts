@@ -49,6 +49,7 @@ import { CustomerUpdateSelfWithFormComponent } from './components/customer-updat
 import { LoginGuard } from './guards/login.guard';
 import { RegisterGuard } from './guards/register.guard';
 import { NavbarInUserComponent } from './components/navbar-in-user/navbar-in-user.component';
+import { OnlyNumbersDirective } from './directives/only-numbers.directive';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { NavbarInUserComponent } from './components/navbar-in-user/navbar-in-use
     RegisterComponent,
     LoginWithModalComponent,
     CustomerUpdateSelfWithFormComponent,
-    NavbarInUserComponent
+    NavbarInUserComponent,
+    OnlyNumbersDirective
   ],
   imports: [
     BrowserModule,

@@ -33,8 +33,6 @@ export class RentalNewPageComponent implements OnInit {
     this.activatedRoute.params.subscribe((parameter) => {
       if (parameter['carId']) {
         this.getCarDetailDtoFromService(parameter['carId']);
-      } else {
-        this.toastrService.error('Girilen parametre yanlış.');
       }
     });
   }
@@ -61,6 +59,18 @@ export class RentalNewPageComponent implements OnInit {
 
   setCustomerDetailDto(customerDetailDto: CustomerDetailDto) {
     this.customerDetailDto = customerDetailDto;
+  }
+
+  getValidateStatusForButton(): boolean {
+    if (
+      this.customerDetailDto == undefined ||
+      this.rentDate == undefined ||
+      this.returnDate == undefined
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   create() {
@@ -97,8 +107,7 @@ export class RentalNewPageComponent implements OnInit {
           }
         );
       }
-    }
-    else{
+    } else {
       this.toastrService.warning('Lütfen önce giriş yapınız.');
       document.getElementById('showLoginModal')?.click();
     }

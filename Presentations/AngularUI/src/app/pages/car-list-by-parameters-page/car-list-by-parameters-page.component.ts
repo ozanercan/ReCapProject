@@ -43,28 +43,31 @@ export class CarListByParametersPageComponent implements OnInit {
   }
 
   filter() {
-    if (this.selectedBrand !== null && this.selectedBrand !== undefined && this.selectedColor !== null && this.selectedColor !== undefined) {
+    if (
+      this.selectedBrand !== null &&
+      this.selectedBrand !== undefined &&
+      this.selectedColor !== null &&
+      this.selectedColor !== undefined
+    ) {
       let routePath =
-        'car/list/filter/card/' +
-        this.selectedColor +
-        '/' +
-        this.selectedBrand;
-
-        this.router.navigateByUrl(routePath);
-    } 
-    else if(this.selectedBrand !== null && this.selectedBrand !== undefined) {
-      let routePath =
-      'car/list/filter/card/brandName/' + this.selectedBrand;
+        'car/list/filter/card/' + this.selectedColor + '/' + this.selectedBrand;
 
       this.router.navigateByUrl(routePath);
-    }
-    else if(this.selectedColor !== null && this.selectedColor !== undefined) {
-      let routePath =
-      'car/list/filter/card/colorName/' + this.selectedColor;
+    } else if (
+      this.selectedBrand !== null &&
+      this.selectedBrand !== undefined
+    ) {
+      let routePath = 'car/list/filter/card/brandName/' + this.selectedBrand;
 
       this.router.navigateByUrl(routePath);
-    }
-    else{
+    } else if (
+      this.selectedColor !== null &&
+      this.selectedColor !== undefined
+    ) {
+      let routePath = 'car/list/filter/card/colorName/' + this.selectedColor;
+
+      this.router.navigateByUrl(routePath);
+    } else {
       this.toastrService.warning('Lütfen Renk ve Marka seçimi yapınız.');
     }
   }
