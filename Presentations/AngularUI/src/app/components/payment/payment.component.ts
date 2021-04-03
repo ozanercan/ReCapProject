@@ -1,8 +1,6 @@
-import { createDirectiveTypeParams } from '@angular/compiler/src/render3/view/compiler';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -56,6 +54,7 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit(): void {
     this.createPaymentForm();
+
     this.activatedRoute.params.subscribe((parameter) => {
       if (parameter['rentalId']) {
         this.rentalId = parameter['rentalId'];
@@ -73,6 +72,7 @@ export class PaymentComponent implements OnInit {
       }
     });
   }
+
   createPaymentForm() {
     this.paymentForm = this.formBuilder.group({
       cardOwnerFullName: [
@@ -158,13 +158,9 @@ export class PaymentComponent implements OnInit {
     if (!this.creditCartExist(this.cardNumber)) {
       document.getElementById('creditCartSaveModalTrigger')?.click();
     }
-    else{
-      this.toastrService.warning(this.creditCartExist(this.cardNumber).toString());
-    }
   }
 
   completePayment() {
-    console.log(this.paymentForm.valid);
     if (this.paymentForm.valid) {
       let paymentAddDto: PaymentAddDto = {
         moneyPaid: this.price,
@@ -188,16 +184,6 @@ export class PaymentComponent implements OnInit {
   }
 
   addCreditCard() {
-
-    // Kredi kartı ekleme sistemi form düzenine geçirilecek.
-    
-    // let customerCreditCardAddDto: CustomerCreditCardAddDto = {
-    //   cardNumber: this.form_cardNumber?.value,
-    //   cvv: this.form_cvv?.value,
-    //   expiryDate: this.form_expiryDate?.value,
-    //   cardOwnerFullName: this.form_cardOwnerFullName?.value,
-    //   userId: this.customerId,
-    // };
 
     if (this.paymentForm.valid) {
 
