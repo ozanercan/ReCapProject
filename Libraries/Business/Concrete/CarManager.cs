@@ -324,7 +324,6 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByColor);
         }
 
-        [CacheAspect]
         public async Task<IDataResult<List<CarDetailDto>>> GetCarDetailsByFiltersAsync(CarFilterDto carFilterDto)
         {
             var carDetails = await _carDal.GetCarDetailsByFilterAsync(carFilterDto);

@@ -10,10 +10,5 @@ namespace Entities.Concrete
         public int CarId { get; set; }
         public string ImagePath { get; set; }
         public DateTime Date { get; set; }
-
-        public static implicit operator List<object>(CarImage v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

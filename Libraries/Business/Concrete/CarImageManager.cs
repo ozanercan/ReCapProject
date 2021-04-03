@@ -40,10 +40,8 @@ namespace Business.Concrete
         {
             var logicResult = BusinessRules.Run(
                 await CheckIfNumberOfCarPicturesByCarIdAsync(carImageAddDto.CarId));
-
             if (!logicResult.Success)
                 return logicResult;
-
 
             var uploadResult = await FileHelper.ImageUploadAsync(carImageAddDto.FormFile);
             if (!uploadResult.Success)
@@ -57,10 +55,8 @@ namespace Business.Concrete
             };
 
             var addResult = _carImageDal.Add(carImage);
-
             if (!addResult)
                 return new ErrorResult(Messages.CarImageNotAdded);
-
 
             return new SuccessResult(Messages.CarImageAdded);
         }
@@ -73,12 +69,10 @@ namespace Business.Concrete
                 return new ErrorResult(carImageResult.Message);
 
             var fileRemoveResult = FileHelper.FileRemove(carImageResult.Data.ImagePath);
-
             if (!fileRemoveResult.Success)
                 return new ErrorResult(Messages.RegisteredCarImageNotDeleted);
 
             bool deleteResult = _carImageDal.Delete(carImageResult.Data);
-
             if (!deleteResult)
                 return new ErrorResult(Messages.CarImageNotDeleted);
 
@@ -93,7 +87,7 @@ namespace Business.Concrete
             if (carImages == null)
                 return new ErrorDataResult<List<CarImage>>(null, Messages.CarImagesNotFound);
 
-            GetImagePathScheme(_httpContextAccessor.HttpContext.Request, carImages);
+            AddUrlToImages(carImages);
 
             return new SuccessDataResult<List<CarImage>>(carImages, Messages.CarImagesListed);
         }
@@ -101,15 +95,18 @@ namespace Business.Concrete
         [CacheAspect]
         public async Task<IDataResult<List<CarImage>>> GetAllAsync()
         {
-            var carImages = await _carImageDal.GetAllNoTrackingAsync();
-            return AddUrlToImage(carImages);
+            var carImages = await _carImageDal.GetAllAsync();
+            if (carImages.Count == 0)
+                return new ErrorDataResult<List<CarImage>>(null, Messages.CarImagesNotFound);
+
+            return new SuccessDataResult<List<CarImage>>(carImages, Messages.CarImagesListed);
         }
 
         [PerformanceAspect(5)]
         [CacheAspect]
         public async Task<IDataResult<List<CarImage>>> GetAllByCarIdAsync(int carId)
         {
-            var findedCarImages = (await this.GetAllAsync()).Data.Where(p => p.CarId == carId).ToList();
+            var findedCarImages = (await this.GetAllNoTrackingAsync()).Data.Where(p => p.CarId == carId).ToList();
             if (findedCarImages.Count == 0)
             {
                 return AddUrlToDefaultImage(carId);
@@ -124,7 +121,7 @@ namespace Business.Concrete
 
             return new SuccessDataResult<List<CarImage>>(new List<CarImage> { defaultCarImage.Data });
         }
-        private IDataResult<List<CarImage>> AddUrlToImage(List<CarImage> findedCarImages)
+        private IDataResult<List<CarImage>> AddUrlToImages(List<CarImage> findedCarImages)
         {
             GetImagePathScheme(_httpContextAccessor.HttpContext.Request, findedCarImages);
 
