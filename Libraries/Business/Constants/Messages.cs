@@ -48,6 +48,8 @@ namespace Business.Constants
         public static string FuelTypesListed = "Yakıt Tipleri listelendi.";
         public static string GearTypesListed = "Vites Tipleri listelendi.";
         public static string GearTypesNotFound = "Vites Tipleri bulunamadı.";
+        public static string AuthorizationToUserAdded = "Yetki kullanıcıya başarıyla eklendi.";
+        public static string AuthorizationToUserNotAdded = "Yetki kullanıcıya eklenemedi.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";

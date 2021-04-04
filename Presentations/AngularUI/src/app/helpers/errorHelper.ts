@@ -7,10 +7,11 @@ export class ErrorHelper {
     }
 
     // Bad Request
-    if(error.error.message!==undefined){
+
+    if (error.error.message != undefined) {
       return error.error.message;
     }
-    
+
     // Validation Hata Yakalama
     if (error.error.ValidationErrors != null) {
       let validationErrors = error.error.ValidationErrors;

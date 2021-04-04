@@ -3,6 +3,7 @@ using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Contexts;
 using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,16 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfUserDal : EfRepositoryBase<User, ReCapContext>, IUserDal
     {
+        public async Task<bool> AddUserOperationClaimAsync(UserOperationClaim userOperationClaim)
+        {
+            using (ReCapContext context = new ReCapContext())
+            {
+                await context.UserOperationClaims.AddAsync(userOperationClaim);
+
+                return await context.SaveChangesAsync() > 0;
+            }
+        }
+
         public async Task<List<OperationClaim>> GetClaimsAsync(User user)
         {
             using (ReCapContext context = new ReCapContext())

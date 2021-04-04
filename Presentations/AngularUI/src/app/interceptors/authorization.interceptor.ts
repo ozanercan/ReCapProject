@@ -25,7 +25,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
       let newRequest: HttpRequest<any> = request.clone({
         headers: request.headers.set(
           'Authorization',
-          'Bearer ' + this.tokenService.getToken()
+          'Bearer ' + this.tokenService.getToken().token
         ),
       });
 

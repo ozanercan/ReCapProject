@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Performance;
@@ -46,6 +47,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICustomerService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteAsync(Customer customer)
         {
             bool deleteResult = await _customerDal.DeleteAsync(customer);
@@ -57,6 +59,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICustomerService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteByIdAsync(int id)
         {
             var getResult = await GetByIdAsync(id);

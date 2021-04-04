@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
@@ -19,46 +24,88 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private toastrService: ToastrService,
     private formBuilder: FormBuilder,
-    private tokenService:TokenService,
-    private rememberMeService:RememberMeService,
-    private router:Router
+    private tokenService: TokenService,
+    private rememberMeService: RememberMeService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.createRegisterForm();
   }
+
   registerForm!: FormGroup;
 
-  createRegisterForm(){
+  createRegisterForm() {
     this.registerForm = this.formBuilder.group({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required)
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+      ]),
+      lastName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+      ]),
+      companyName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(50),
+      ]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.email,
+        Validators.minLength(3),
+        Validators.maxLength(50),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(50),
+      ]),
     });
   }
 
+  get firstName() {
+    return this.registerForm.get('firstName');
+  }
+  get lastName() {
+    return this.registerForm.get('lastName');
+  }
+  get companyName() {
+    return this.registerForm.get('companyName');
+  }
+  get email() {
+    return this.registerForm.get('email');
+  }
+  get password() {
+    return this.registerForm.get('password');
+  }
+
   register() {
-    if(this.registerForm.valid){
-      let registerDto:RegisterDto = this.registerForm.value;
+    if (this.registerForm.valid) {
+      let registerDto: RegisterDto = this.registerForm.value;
 
-      this.authService.register(registerDto).subscribe(response=>{
+      this.authService.register(registerDto).subscribe(
+        (response) => {
+          this.tokenService.setToken(response.data);
+          this.rememberMeService.setEmail(registerDto.email);
 
-        this.tokenService.setToken(response.data);
-        this.rememberMeService.setEmail(registerDto.email);
+          this.toastrService.success('Kayıt İşlemi Tamamlandı.');
+          this.toastrService.info('Ana Sayfaya yönlendiriliyorsunuz.');
 
-        this.toastrService.success('Kayıt İşlemi Tamamlandı.');
-        this.toastrService.info('Ana Sayfaya yönlendiriliyorsunuz.');
-        
-        timer(3000).subscribe(p=>{
-          this.router.navigate(['']);
-        });
-      }, errorResponse=>{
-        this.toastrService.error(ErrorHelper.getMessage(errorResponse));
-      });
-    }
-    else{
-      this.toastrService.warning('Lütfen tüm alanları istenildiği şekilde doldurunuz.');
+          timer(3000).subscribe((p) => {
+            this.router.navigate(['']);
+          });
+        },
+        (errorResponse) => {
+          this.toastrService.error(ErrorHelper.getMessage(errorResponse));
+        }
+      );
+    } else {
+      this.toastrService.warning(
+        'Lütfen tüm alanları istenildiği şekilde doldurunuz.'
+      );
     }
   }
 }

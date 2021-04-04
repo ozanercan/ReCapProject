@@ -48,7 +48,8 @@ namespace Core.Utilities.Security.Jwt
             return new AccessToken
             {
                 Token = token,
-                Expiration = _accessTokenExpiration
+                Expiration = _accessTokenExpiration,
+                Claims = operationClaims.Select(p => p.Name).ToList()
             };
         }
 

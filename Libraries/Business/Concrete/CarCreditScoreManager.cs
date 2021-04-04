@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
@@ -25,6 +26,7 @@ namespace Business.Concrete
 
         [CacheRemoveAspect("ICarCreditScoreService.Get")]
         [ValidationAspect(typeof(CarCreditScoreAddDtoValidator))]
+        [SecuredOperation("admin")]
         public async Task<IResult> AddAsync(CarCreditScoreAddDto carCreditScoreAddDto)
         {
             CarCreditScore carCreditScoreToAdd = new CarCreditScore()
@@ -49,6 +51,7 @@ namespace Business.Concrete
             return new SuccessDataResult<int?>(findedEntity.MinCreditScore, Messages.CarCreditScoreBrought);
         }
 
+        [SecuredOperation("admin")]
         public async Task<IResult> UpdateAsync(CarCreditScoreUpdateDto carCreditScoreUpdateDto)
         {
             var carCreditScore = await _carCreditScoreDal.GetAsync(p => p.CarId == carCreditScoreUpdateDto.CarId);

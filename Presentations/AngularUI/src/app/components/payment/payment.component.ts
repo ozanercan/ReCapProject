@@ -70,7 +70,7 @@ export class PaymentComponent implements OnInit {
         timer(1000).subscribe((p) => {
           this.getCreditCards();
         });
-        timer(1500).subscribe(p=>{
+        timer(1500).subscribe((p) => {
           this.getIsCanPayment();
         });
       } else {
@@ -205,6 +205,8 @@ export class PaymentComponent implements OnInit {
       };
       this.paymentService.addPayment(paymentAddDto).subscribe(
         (p) => {
+
+          this.isCanPayment = false;
           this.toastrService.success(p.message);
 
           this.askForCardRegister();

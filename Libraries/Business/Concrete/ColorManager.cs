@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
@@ -25,6 +26,7 @@ namespace Business.Concrete
 
         [CacheRemoveAspect("IColorService.Get")]
         [ValidationAspect(typeof(ColorAddDtoValidator))]
+        [SecuredOperation("admin")]
         public async Task<IResult> AddAsync(ColorAddDto colorAddDto)
         {
             Color colorToAdd = new Color()
@@ -41,6 +43,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IColorService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteAsync(Color color)
         {
             bool deleteResult = await _colorDal.DeleteAsync(color);
@@ -52,6 +55,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IColorService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteByIdAsync(int id)
         {
             var getResult = await GetByIdAsync(id);
@@ -96,6 +100,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IColorService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> UpdateAsync(ColorUpdateDto colorUpdateDto)
         {
             var ruleResult = BusinessRules.Run(await CheckColorNameExistButIgnoreByIdAsync(colorUpdateDto.Id, colorUpdateDto.Name));

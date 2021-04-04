@@ -20,8 +20,8 @@ export class AuthService {
     private httpClient: HttpClient,
     private toastrService: ToastrService,
     private tokenService: TokenService,
-    private rememberMeService:RememberMeService,
-    private router:Router
+    private rememberMeService: RememberMeService,
+    private router: Router
   ) {}
 
   getLoginPath: string = 'auth/login';
@@ -43,6 +43,21 @@ export class AuthService {
     );
   }
 
+  isUserHaveClaims(necessaryClaims: string[]): boolean {
+    if (necessaryClaims == undefined) return false;
+    
+    let isUserHaveClaim: boolean = false;
+    this.tokenService.getToken().claims.forEach((ownedClaim) => {
+      necessaryClaims.forEach((necessaryClaim) => {
+        if (ownedClaim === 'admin' || ownedClaim === necessaryClaim) {
+          isUserHaveClaim = true;
+        }
+      });
+    });
+
+    return isUserHaveClaim;
+  }
+
   isAuthentication(): boolean {
     return this.tokenService.tokenExist();
   }
@@ -51,9 +66,8 @@ export class AuthService {
     this.tokenService.delete();
     this.rememberMeService.delete();
     this.toastrService.success('Başarıyla çıkış yaptınız.');
-    this.toastrService.info('Giriş Sayfasına yönlendiriliyorsunuz.');
-    timer(1500).subscribe(p=>{
-      this.router.navigate(['']);
+    timer(1000).subscribe(p=>{
+      window.location.reload();
     });
   }
 }

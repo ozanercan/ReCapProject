@@ -20,6 +20,8 @@ namespace Business.Abstract
 
         Task<IDataResult<UserFirstLastNameDto>> GetFirstNameLastNameByMailAsync(string mail);
 
+        Task<IResult> AddUserOperationClaimAsync(UserOperationClaimAddDto userOperationClaimAddDto);
+
         Task<IDataResult<User>> GetByIdAsync(int id);
 
         Task<IDataResult<User>> GetLastInsertUserAsync();

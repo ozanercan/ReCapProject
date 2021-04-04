@@ -16,6 +16,7 @@ import { LoginComponent } from './components/login/login.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
+import { AuthorizationGuard } from './guards/authorization.guard';
 import { LoginGuard } from './guards/login.guard';
 import { RegisterGuard } from './guards/register.guard';
 import { BrandListWithTablePageComponent } from './pages/brand-list-with-table-page/brand-list-with-table-page.component';
@@ -54,29 +55,34 @@ const routes: Routes = [
   {
     path: 'brand/add/form',
     component: BrandAddWithFormComponent,
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
   },
   {
     path: 'brand/update/form/:brandId',
     component: BrandUpdateWithFormComponent,
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
   },
   { path: 'brand/list/table', component: BrandListWithTablePageComponent },
   {
     path: 'car/add/form',
     component: CarAddWithFormComponent,
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
   },
   {
     path: 'car/update/form/:carId',
     component: CarUpdateWithFormComponent,
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
   },
   { path: 'color/list/table', component: ColorListWithTablePageComponent },
   {
     path: 'color/update/form/:colorId',
     component: ColorUpdateWithFormComponent,
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
   },
   {
     path: 'customer/list/table',
@@ -86,7 +92,8 @@ const routes: Routes = [
   {
     path: 'color/add/form',
     component: ColorAddWithFormComponent,
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
   },
   { path: 'car/list/table', component: CarListWithTablePageComponent },
   { path: 'rental/list/table', component: RentalListWithTablePageComponent },
@@ -99,7 +106,6 @@ const routes: Routes = [
   {
     path: 'rental/add/:carId',
     component: RentalNewPageComponent,
-    
   },
   {
     path: 'payment/add/:rentalId',

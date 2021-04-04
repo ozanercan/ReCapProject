@@ -26,7 +26,7 @@ namespace Business.Concrete
 
         [CacheRemoveAspect("IBrandService.Get")]
         [ValidationAspect(typeof(BrandAddDtoValidator))]
-        [SecuredOperation("brand.add")]
+        [SecuredOperation("admin")]
         public async Task<IResult> AddAsync(BrandAddDto brandAddDto)
         {
             var ruleResult = BusinessRules.Run(await CheckBrandNameExistAsync(brandAddDto.Name));
@@ -58,6 +58,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IBrandService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteByIdAsync(int id)
         {
             var brandGetResult = await GetByIdAsync(id);
@@ -93,6 +94,7 @@ namespace Business.Concrete
 
         [CacheRemoveAspect("IBrandService.Get")]
         [ValidationAspect(typeof(BrandUpdateDtoValidator))]
+        [SecuredOperation("admin")]
         public async Task<IResult> UpdateAsync(BrandUpdateDto brandUpdateDto)
         {
             var ruleResult = BusinessRules.Run(await CheckBrandNameExistButIgnoreByIdAsync(brandUpdateDto.Id, brandUpdateDto.Name));

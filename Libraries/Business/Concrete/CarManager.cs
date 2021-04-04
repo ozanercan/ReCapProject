@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
@@ -40,6 +41,7 @@ namespace Business.Concrete
 
         [CacheRemoveAspect("ICarService.Get")]
         [ValidationAspect(typeof(CarAddDtoValidator))]
+        [SecuredOperation("admin")]
         public async Task<IResult> AddAsync(CarAddDto carAddDto)
         {
             var brandResult = await GetBrandByBrandNameAsync(carAddDto.BrandName);
@@ -94,6 +96,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICarService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteAsync(Car car)
         {
             bool deleteResult = await _carDal.DeleteAsync(car);
@@ -105,6 +108,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICarService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteByIdAsync(int id)
         {
             var getResult = await this.GetByIdAsync(id);
@@ -248,6 +252,7 @@ namespace Business.Concrete
 
         [CacheRemoveAspect("ICarService.Get")]
         [ValidationAspect(typeof(CarUpdateDtoValidator))]
+        [SecuredOperation("admin")]
         public async Task<IResult> UpdateAsync(CarUpdateDto carUpdateDto)
         {
             var findedEntity = _carDal.Get(p => p.Id == carUpdateDto.Id);
@@ -420,6 +425,7 @@ namespace Business.Concrete
             return await _gearTypeService.GetByNameAsync(gearTypeName);
         }
 
+        [SecuredOperation("admin")]
         public async Task<IDataResult<CarUpdateDto>> GetUpdateDtoByIdAsync(int carId)
         {
             var carResult = await this.GetCarDetailByIdAsync(carId);

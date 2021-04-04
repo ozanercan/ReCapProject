@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
@@ -30,6 +31,7 @@ namespace Business.Concrete
 
         [CacheRemoveAspect("IRentalService.Get")]
         [ValidationAspect(typeof(RentalAddDtoValidator))]
+        [SecuredOperation("customer")]
         public async Task<IDataResult<Rental>> AddAsync(RentalAddDto rentalCreateDto)
         {
             var ruleResult = BusinessRules.Run(
@@ -91,6 +93,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IRentalService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> UpdateAsync(Rental brand)
         {
             var updateResult = await _rentalDal.UpdateAsync(brand);
@@ -102,6 +105,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IRentalService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteAsync(Rental brand)
         {
             var deleteResult = await _rentalDal.UpdateAsync(brand);
@@ -170,7 +174,5 @@ namespace Business.Concrete
 
             return new ErrorResult(Messages.CustomerCreditScoreNotEnoughtToRentCar);
         }
-
-        
     }
 }

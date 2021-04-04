@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Performance;
@@ -35,7 +36,21 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.UserNotAdded);
         }
 
+        public async Task<IResult> AddUserOperationClaimAsync(UserOperationClaimAddDto userOperationClaimAddDto)
+        {
+            var result = await _userDal.AddUserOperationClaimAsync(new UserOperationClaim()
+            {
+                OperationClaimId = userOperationClaimAddDto.OperationClaimId,
+                UserId = userOperationClaimAddDto.UserId
+            });
+            if (!result)
+                return new ErrorResult(Messages.AuthorizationToUserNotAdded);
+
+            return new SuccessResult(Messages.AuthorizationToUserAdded);
+        }
+
         [CacheRemoveAspect("IUserService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteAsync(User brand)
         {
             bool deleteResult = await _userDal.DeleteAsync(brand);
@@ -47,6 +62,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IUserService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteByIdAsync(int id)
         {
             var getResult = await GetByIdAsync(id);
@@ -122,10 +138,11 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IUserService.Get")]
+        [SecuredOperation("customer")]
         public async Task<IResult> UpdateAsync(User user)
         {
             bool updateResult = await _userDal.UpdateAsync(user);
-            
+
             if (!updateResult)
                 return new ErrorResult(Messages.UserNotUpdated);
 

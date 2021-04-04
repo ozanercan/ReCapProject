@@ -166,6 +166,7 @@
             <div class="list-group">
               <button
                 (click)="setCurrentCreditCart(creditCard)"
+                [disabled]="isCanPayment === false"
                 class="list-group-item list-group-item-action"
                 aria-current="true"
                 *ngFor="let creditCard of creditCards"

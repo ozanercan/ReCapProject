@@ -44,10 +44,9 @@ export class LoginWithModalComponent implements OnInit {
         this.tokenService.setToken(response.data);
         this.rememberMeService.setEmail(loginDto.email);
         
-        this.toastrService.success('Giriş Yapıldı');
-        this.toastrService.success('Ana Sayfaya yönlendiriliyorsunuz.');
+        this.toastrService.success('Başarıyla giriş yaptınız.');
 
-        timer(3000).subscribe(p=>{
+        timer(1000).subscribe(p=>{
           window.location.reload();
         });
 

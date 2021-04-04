@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.Utilities.FileHelper;
 using Business.ValidationRules.FluentValidation;
@@ -36,6 +37,7 @@ namespace Business.Concrete
 
         [ValidationAspect(typeof(CarImageAddDtoValidator))]
         [CacheRemoveAspect("ICarImageService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> AddAsync(CarImageAddDto carImageAddDto)
         {
             var logicResult = BusinessRules.Run(
@@ -62,6 +64,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICarImageService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteAsync(CarImageDeleteDto carImageDeleteDto)
         {
             var carImageResult = await this.GetByIdAsync(carImageDeleteDto.Id);
@@ -115,12 +118,15 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(findedCarImages, Messages.CarImagesListed);
         }
 
+        [SecuredOperation("admin")]
         private IDataResult<List<CarImage>> AddUrlToDefaultImage(int carId)
         {
             var defaultCarImage = GetDefaultCarImage(carId);
 
             return new SuccessDataResult<List<CarImage>>(new List<CarImage> { defaultCarImage.Data });
         }
+
+        [SecuredOperation("admin")]
         private IDataResult<List<CarImage>> AddUrlToImages(List<CarImage> findedCarImages)
         {
             GetImagePathScheme(_httpContextAccessor.HttpContext.Request, findedCarImages);
@@ -139,6 +145,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICarImageService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> UpdateAsync(CarImageUpdateDto carImageUpdateDto)
         {
             var carImageResult = await this.GetByIdAsync(carImageUpdateDto.Id);

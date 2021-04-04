@@ -101,8 +101,6 @@ import { OnlyNumbersDirective } from './directives/only-numbers.directive';
     FormsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
-      progressBar: true,
-      progressAnimation: 'decreasing',
       newestOnTop: false
     }),
     ReactiveFormsModule,
