@@ -5,14 +5,14 @@
       [carDetail]="carDetailDto"
     ></app-car-card>
   </div>
-  <div class="col-md-9 mt-2">
+  <div class="col-md-9 mt-2 row">
     <div class="h-50 overflow-auto">
       <app-customer-list-with-table
         (selectedCustomer)="setCustomerDetailDto($event)"
       ></app-customer-list-with-table>
     </div>
 
-    <div class="mb-3">
+    <div class="col-12 col-md-6 mb-3">
       <label for="rentalStartDateTime" class="form-label"
         >Kira Başlangıç Tarihi</label
       >
@@ -24,7 +24,7 @@
         min="{{ dateTimeNow | date: 'YYYY-MM-ddThh:mm' }}"
       />
     </div>
-    <div class="mb-3">
+    <div class="col-12 col-md-6 mb-3">
       <label for="rentalEndDateTime" class="form-label"
         >Kira Bitiş Tarihi</label
       >

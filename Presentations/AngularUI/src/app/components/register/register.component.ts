@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
@@ -19,7 +20,8 @@ export class RegisterComponent implements OnInit {
     private toastrService: ToastrService,
     private formBuilder: FormBuilder,
     private tokenService:TokenService,
-    private rememberMeService:RememberMeService
+    private rememberMeService:RememberMeService,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -49,7 +51,7 @@ export class RegisterComponent implements OnInit {
         this.toastrService.info('Ana Sayfaya yönlendiriliyorsunuz.');
         
         timer(3000).subscribe(p=>{
-          window.location.href='';
+          this.router.navigate(['']);
         });
       }, errorResponse=>{
         this.toastrService.error(ErrorHelper.getMessage(errorResponse));

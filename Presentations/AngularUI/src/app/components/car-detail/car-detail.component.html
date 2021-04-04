@@ -22,20 +22,37 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-header">
+        <p class="card-text text-center fs-3">
+          <b>{{ carDetailDto.name }}</b>
+        </p>
         <p class="fs-3 text-center">
-          <b>{{ carDetailDto.dailyPrice }}</b> Türk Lirası
+          <b>{{ carDetailDto.dailyPrice }}</b> ₺
         </p>
       </div>
       <div class="card-body">
-        <p class="card-text"><b>Otomobil Id:</b> {{ carDetailDto.id }}</p>
+        <p class="card-text"><b>Otomobil Numarası:</b> {{ carDetailDto.id }}</p>
         <hr />
         <p class="card-text"><b>Marka:</b> {{ carDetailDto.brandName }}</p>
         <hr />
-        <p class="card-text"><b>Min. Findeks Skoru:</b> {{ carDetailDto.minCreditScore }}</p>
+        <p class="card-text"><b>Renk:</b> {{ carDetailDto.colorName }}</p>
+        <hr />
+        <p class="card-text">
+          <b>Vites Türü:</b> {{ carDetailDto.gearTypeName }}
+        </p>
+        <hr />
+        <p class="card-text">
+          <b>Yakıt Türü:</b> {{ carDetailDto.fuelTypeName }}
+        </p>
+        <hr />
+        <p class="card-text">
+          <b>Beygir Gücü:</b> {{ carDetailDto.horsePower }}
+        </p>
         <hr />
         <p class="card-text"><b>Model Yılı:</b> {{ carDetailDto.modelYear }}</p>
         <hr />
-        <p class="card-text"><b>Renk:</b> {{ carDetailDto.colorName }}</p>
+        <p class="card-text">
+          <b>Min. Findeks Skoru:</b> {{ carDetailDto.minCreditScore }}
+        </p>
         <hr />
         <p class="card-text"><b>Açıklama: </b>{{ carDetailDto.description }}</p>
       </div>
@@ -46,7 +63,7 @@
         routerLink="/rental/add/{{ carDetailDto.id }}"
       >
         Kirala
-    </button>
+      </button>
     </div>
   </div>
 </div>

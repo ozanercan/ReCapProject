@@ -53,7 +53,7 @@ export class AuthService {
     this.toastrService.success('Başarıyla çıkış yaptınız.');
     this.toastrService.info('Giriş Sayfasına yönlendiriliyorsunuz.');
     timer(1500).subscribe(p=>{
-      window.location.href = "/customer/login/form";
+      this.router.navigate(['']);
     });
   }
 }

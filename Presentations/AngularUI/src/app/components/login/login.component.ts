@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         this.toastrService.info('Ana Sayfaya yönlendiriliyorsunuz.');
 
         timer(3000).subscribe(p=>{
-          window.location.href='';
+          this.router.navigate(['']);
         });
 
       }, errorResponse=>{
