@@ -40,6 +40,14 @@ namespace Business.Constants
         public static string CarUpdateDtoBrought = "Araç Güncelleme Modeli getirildi.";
         public static string CarCreditScoreNotUpdated = "Araç Kredi Skoru güncellenemedi.";
         public static string CarCreditScoreUpdated = "Araç Kredi Skoru güncellendi.";
+        public static string FuelTypeNotFound = "Yakıt Tipi bulunamadı.";
+        public static string FuelTypeBrought = "Yakıt Tipi getirildi.";
+        public static string GearTypeNotFound = "Vites Tipi bulunamadı.";
+        public static string GearTypeBrought = "Vites Tipi getirildi.";
+        public static string FuelTypesNotFound = "Yakıt Tipleri bulunamadı.";
+        public static string FuelTypesListed = "Yakıt Tipleri listelendi.";
+        public static string GearTypesListed = "Vites Tipleri listelendi.";
+        public static string GearTypesNotFound = "Vites Tipleri bulunamadı.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";

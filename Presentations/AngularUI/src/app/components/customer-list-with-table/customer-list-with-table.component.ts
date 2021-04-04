@@ -36,7 +36,7 @@ export class CustomerListWithTableComponent implements OnInit {
   getTableRowClass(customerDetailDto: CustomerDetailDto): string {
     if (this.selectedCustomerDetailDto !== undefined) {
       if (this.selectedCustomerDetailDto.id == customerDetailDto.id) {
-        return 'table-success';
+        return 'table-warning';
       }
     }
     return '';

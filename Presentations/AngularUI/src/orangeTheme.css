@@ -1,0 +1,8 @@
+:root {
+  --bgColor: #ffc107;
+}
+
+.bg-color,
+.active {
+  background-color: var(--bgColor) !important;
+}

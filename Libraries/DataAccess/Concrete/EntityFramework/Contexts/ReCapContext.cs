@@ -29,5 +29,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<Payment> Payments { get; set; }
         public DbSet<CarCreditScore> CarCreditScores { get; set; }
         public DbSet<CustomerCreditCard> CustomerCreditCards { get; set; }
+        public DbSet<GearType> GearTypes { get; set; }
+        public DbSet<FuelType> FuelTypes { get; set; }
     }
 }

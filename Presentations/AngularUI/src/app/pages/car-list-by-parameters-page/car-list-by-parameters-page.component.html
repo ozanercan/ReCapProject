@@ -34,13 +34,17 @@
           </div>
         </div>
         <div class="col-md-12 mt-3">
-          <button
-            class="btn btn-success w-100"
-            (click)="filter()"
-            [disabled]="selectedBrand == undefined && selectedColor == undefined"
-          >
-            Filtrele
-          </button>
+          <div class="text-center">
+            <button
+              class="btn btn-warning text-dark w-50"
+              (click)="filter()"
+              [disabled]="
+                selectedBrand == undefined && selectedColor == undefined
+              "
+            >
+              Filtrele
+            </button>
+          </div>
         </div>
       </div>
     </div>

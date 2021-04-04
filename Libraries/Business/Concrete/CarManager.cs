@@ -23,8 +23,10 @@ namespace Business.Concrete
         private readonly IBrandService _brandService;
         private readonly IColorService _colorService;
         private readonly ICarCreditScoreService _carCreditScoreService;
+        private readonly IFuelTypeService _fuelTypeService;
+        private readonly IGearTypeService _gearTypeService;
 
-        public CarManager(ICarDal carDal, IRentalService rentalService, ICarImageService carImageService, IBrandService brandService, IColorService colorService, ICarCreditScoreService carCreditScoreService)
+        public CarManager(ICarDal carDal, IRentalService rentalService, ICarImageService carImageService, IBrandService brandService, IColorService colorService, ICarCreditScoreService carCreditScoreService, IFuelTypeService fuelTypeService, IGearTypeService gearTypeService)
         {
             _carDal = carDal;
             _rentalService = rentalService;
@@ -32,24 +34,38 @@ namespace Business.Concrete
             _brandService = brandService;
             _colorService = colorService;
             _carCreditScoreService = carCreditScoreService;
+            _fuelTypeService = fuelTypeService;
+            _gearTypeService = gearTypeService;
         }
 
         [CacheRemoveAspect("ICarService.Get")]
         [ValidationAspect(typeof(CarAddDtoValidator))]
         public async Task<IResult> AddAsync(CarAddDto carAddDto)
         {
-            var brandResult = await GetBrandIdByBrandNameAsync(carAddDto.BrandName);
+            var brandResult = await GetBrandByBrandNameAsync(carAddDto.BrandName);
             if (!brandResult.Success)
                 return new ErrorResult(brandResult.Message);
 
-            var colorResult = await GetColorIdByColorNameAsync(carAddDto.ColorName);
+            var colorResult = await GetColorByColorNameAsync(carAddDto.ColorName);
             if (!colorResult.Success)
                 return new ErrorResult(colorResult.Message);
+
+            var gearTypeResult = await GetGearTypeByGearTypeNameAsync(carAddDto.GearTypeName);
+            if (!gearTypeResult.Success)
+                return new ErrorResult(gearTypeResult.Message);
+
+            var fuelTypeResult = await GetFuelTypeByFuelTypeNameAsync(carAddDto.FuelTypeName);
+            if (!fuelTypeResult.Success)
+                return new ErrorResult(fuelTypeResult.Message);
 
             Car carToAdd = new Car()
             {
                 BrandId = brandResult.Data.Id,
                 ColorId = colorResult.Data.Id,
+                FuelTypeId = fuelTypeResult.Data.Id,
+                GearTypeId = gearTypeResult.Data.Id,
+                HorsePower = carAddDto.HorsePower,
+                Name = carAddDto.Name,
                 DailyPrice = carAddDto.DailyPrice,
                 Description = carAddDto.Description,
                 ModelYear = carAddDto.ModelYear
@@ -246,6 +262,14 @@ namespace Business.Concrete
             if (!brandResult.Success)
                 return brandResult;
 
+            var gearTypeResult = await GetGearTypeByGearTypeNameAsync(carUpdateDto.GearTypeName);
+            if (!gearTypeResult.Success)
+                return new ErrorResult(gearTypeResult.Message);
+
+            var fuelTypeResult = await GetFuelTypeByFuelTypeNameAsync(carUpdateDto.FuelTypeName);
+            if (!fuelTypeResult.Success)
+                return new ErrorResult(fuelTypeResult.Message);
+
             var carCreditScoreResult = await _carCreditScoreService.UpdateAsync(new CarCreditScoreUpdateDto()
             {
                 MinCreditScore = carUpdateDto.MinCreditScore,
@@ -259,6 +283,10 @@ namespace Business.Concrete
             findedEntity.ModelYear = carUpdateDto.ModelYear;
             findedEntity.DailyPrice = carUpdateDto.DailyPrice;
             findedEntity.Description = carUpdateDto.Description;
+            findedEntity.HorsePower = carUpdateDto.HorsePower;
+            findedEntity.Name = carUpdateDto.Name;
+            findedEntity.GearTypeId = gearTypeResult.Data.Id;
+            findedEntity.FuelTypeId = fuelTypeResult.Data.Id;
 
             bool updateResult = await _carDal.UpdateAsync(findedEntity);
 
@@ -375,13 +403,21 @@ namespace Business.Concrete
             return Convert.ToDecimal(timeSpan.TotalMinutes) * perMinutePrice;
         }
 
-        private async Task<IDataResult<Brand>> GetBrandIdByBrandNameAsync(string brandName)
+        private async Task<IDataResult<Brand>> GetBrandByBrandNameAsync(string brandName)
         {
             return await _brandService.GetByNameAsync(brandName);
         }
-        private async Task<IDataResult<Color>> GetColorIdByColorNameAsync(string colorName)
+        private async Task<IDataResult<Color>> GetColorByColorNameAsync(string colorName)
         {
             return await _colorService.GetByNameAsync(colorName);
+        }
+        private async Task<IDataResult<FuelType>> GetFuelTypeByFuelTypeNameAsync(string fuelTypeName)
+        {
+            return await _fuelTypeService.GetByNameAsync(fuelTypeName);
+        }
+        private async Task<IDataResult<GearType>> GetGearTypeByGearTypeNameAsync(string gearTypeName)
+        {
+            return await _gearTypeService.GetByNameAsync(gearTypeName);
         }
 
         public async Task<IDataResult<CarUpdateDto>> GetUpdateDtoByIdAsync(int carId)
@@ -398,7 +434,11 @@ namespace Business.Concrete
                 DailyPrice = carResult.Data.DailyPrice,
                 Description = carResult.Data.Description,
                 MinCreditScore = carResult.Data.MinCreditScore,
-                ModelYear = carResult.Data.ModelYear
+                ModelYear = carResult.Data.ModelYear,
+                FuelTypeName = carResult.Data.FuelTypeName,
+                GearTypeName = carResult.Data.GearTypeName,
+                HorsePower = carResult.Data.HorsePower,
+                Name = carResult.Data.Name
             };
 
             return new SuccessDataResult<CarUpdateDto>(carUpdateDto, Messages.CarUpdateDtoBrought);

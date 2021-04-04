@@ -4,19 +4,43 @@
     class="card-img-top"
     height="200"
   />
-  <div class="card-body">
-    <p class="card-text"><b>Marka:</b> {{ carDetail.brandName }}</p>
+  <p
+    class="badge bg-color position-absolute fs-6"
+    style="right: 1px; top: 10px"
+  >
+    <i class="bi bi-star"></i> {{ carDetail.dailyPrice }} ₺
+  </p>
+  <div class="card-body row">
+    <div class="col-12">
+      <p class="text-center">
+        <b>{{ carDetail.name }}</b>
+      </p>
+    </div>
     <hr />
-    <p class="card-text"><b>Model Yılı:</b> {{ carDetail.modelYear }}</p>
-    <hr />
-    <p class="card-text"><b>Renk:</b> {{ carDetail.colorName }}</p>
-    <hr />
-    <p class="card-text"><b>Günlük Fiyat:</b> {{ carDetail.dailyPrice }} ₺</p>
-    <hr />
-    <p class="card-text">
-      <b>Min. Findeks Skoru:</b> {{ carDetail.minCreditScore }}
-    </p>
-    <hr />
-    <p class="card-text"><b>Açıklama:</b> {{ carDetail.description }}</p>
+    <div class="col-6">
+      <p class="card-text">
+        <img src="assets/images/icons/orange/car.png" style="width: 25%" />
+        {{ carDetail.brandName }}
+      </p>
+    </div>
+    <div class="col-6">
+      <p class="card-text">
+        <img src="assets/images/icons/orange/model.png" style="width: 25%" />
+        {{ carDetail.modelYear }}
+      </p>
+    </div>
+    <hr class="mt-3" />
+    <div class="col-6">
+      <p class="card-text">
+        <img src="assets/images/icons/orange/gearBox.png" style="width: 25%" />
+        {{ carDetail.gearTypeName }}
+      </p>
+    </div>
+    <div class="col-6">
+      <p class="card-text">
+        <img src="assets/images/icons/orange/gas.png" style="width: 25%" />
+        {{ carDetail.fuelTypeName }}
+      </p>
+    </div>
   </div>
 </div>

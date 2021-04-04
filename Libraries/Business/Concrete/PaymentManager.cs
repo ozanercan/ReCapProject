@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -23,6 +24,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(PaymentAddDtoValidator))]
+        [CacheRemoveAspect("IRentalService.Get")]
         public async Task<IResult> AddAsync(PaymentAddDto paymentAddDto)
         {
             var rulesResult=BusinessRules.Run(await this.CheckIfPaymentHasBeenMadeByRentalId(paymentAddDto.RentalId));

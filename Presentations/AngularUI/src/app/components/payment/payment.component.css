@@ -122,8 +122,6 @@ input:focus::-webkit-input-placeholder {
 }
 
 .btn-complete {
-  background-color: rgb(23, 4, 189);
-  border-color: rgb(23, 4, 189);
   color: white;
   width: 100%;
   font-size: 0.7rem;

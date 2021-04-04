@@ -1,6 +1,10 @@
 <div class="text-center">
   <div class="form-signin">
-    <form class="row" [formGroup]="updateForm" (ngSubmit)="update()">
+    <form
+      class="row w-sm-100 w-75 mx-auto"
+      [formGroup]="updateForm"
+      (ngSubmit)="update()"
+    >
       <div class="col-12 mb-4">
         <img
           class="img-fluid"
@@ -11,120 +15,110 @@
         />
         <h1 class="h3 mb-3 fw-normal">Profilini Düzenle</h1>
       </div>
-      <div class="col-6">
-        <div class="mb-4">
-          <div class="form-floating">
-            <input
-              type="text"
-              class="form-control"
-              [ngModel]="customerDetails.firstName"
-              id="firstName"
-              placeholder="Ozan"
-              formControlName="firstName"
-            />
-            <label for="firstName">İsim</label>
-            <div *ngIf="firstName?.invalid && firstName?.touched">
-              <div *ngIf="firstName?.errors?.required">
-                <p class="text-danger">İsim alanı gereklidir.</p>
-              </div>
+      <div class="col-12 col-md-6 mb-3">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            [ngModel]="customerDetails.firstName"
+            id="firstName"
+            placeholder="Ozan"
+            formControlName="firstName"
+          />
+          <label for="firstName">İsim</label>
+          <div *ngIf="firstName?.invalid && firstName?.touched">
+            <div *ngIf="firstName?.errors?.required">
+              <p class="text-danger">İsim alanı gereklidir.</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-6">
-        <div class="mb-4">
-          <div class="form-floating">
-            <input
-              type="text"
-              class="form-control"
-              [ngModel]="customerDetails.lastName"
-              id="lastName"
-              placeholder="ERCAN"
-              formControlName="lastName"
-            />
-            <label for="lastName">Soyisim</label>
-            <div *ngIf="lastName?.invalid && lastName?.touched">
-              <div *ngIf="lastName?.errors?.required">
-                <p class="text-danger">Soyisim alanı gereklidir.</p>
-              </div>
+      <div class="col-12 col-md-6 mb-3">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            [ngModel]="customerDetails.lastName"
+            id="lastName"
+            placeholder="ERCAN"
+            formControlName="lastName"
+          />
+          <label for="lastName">Soyisim</label>
+          <div *ngIf="lastName?.invalid && lastName?.touched">
+            <div *ngIf="lastName?.errors?.required">
+              <p class="text-danger">Soyisim alanı gereklidir.</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-6">
-        <div class="mb-4">
-          <div class="form-floating">
-            <input
-              type="text"
-              class="form-control"
-              [ngModel]="customerDetails.companyName"
-              id="companyName"
-              placeholder="x Şirketi"
-              formControlName="companyName"
-            />
-            <label for="companyName">Firma Adı</label>
-            <div *ngIf="companyName?.invalid && companyName?.touched">
-              <div *ngIf="companyName?.errors?.required">
-                <p class="text-danger">Firma Adı alanı gereklidir.</p>
-              </div>
+      <div class="col-12 col-md-6 mb-3">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            [ngModel]="customerDetails.companyName"
+            id="companyName"
+            placeholder="x Şirketi"
+            formControlName="companyName"
+          />
+          <label for="companyName">Firma Adı</label>
+          <div *ngIf="companyName?.invalid && companyName?.touched">
+            <div *ngIf="companyName?.errors?.required">
+              <p class="text-danger">Firma Adı alanı gereklidir.</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-6">
-        <div class="mb-4">
-          <div class="form-floating">
-            <input
-              type="email"
-              class="form-control"
-              [ngModel]="customerDetails.email"
-              id="email"
-              placeholder="name@example.com"
-              formControlName="email"
-            />
-            <label for="email">E-Posta</label>
-            <div *ngIf="email?.invalid && email?.touched">
-              <div *ngIf="email?.errors?.required">
-                <p class="text-danger">E-Posta alanı gereklidir.</p>
-              </div>
+      <div class="col-12 col-md-6 mb-3">
+        <div class="form-floating">
+          <input
+            type="email"
+            class="form-control"
+            [ngModel]="customerDetails.email"
+            id="email"
+            placeholder="name@example.com"
+            formControlName="email"
+          />
+          <label for="email">E-Posta</label>
+          <div *ngIf="email?.invalid && email?.touched">
+            <div *ngIf="email?.errors?.required">
+              <p class="text-danger">E-Posta alanı gereklidir.</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-6">
-        <div class="mb-4">
-          <div class="form-floating">
-            <input
-              type="password"
-              class="form-control"
-              id="activePassword"
-              placeholder="Password"
-              formControlName="activePassword"
-            />
-            <label for="activePassword">Şuanki Şifre</label>
-            <div *ngIf="activePassword?.invalid && activePassword?.touched">
-              <div *ngIf="activePassword?.errors?.required">
-                <p class="text-danger">Şuanki Şifre alanı gereklidir.</p>
-              </div>
+      <div class="col-12 col-md-6 mb-3">
+        <div class="form-floating">
+          <input
+            type="password"
+            class="form-control"
+            id="activePassword"
+            placeholder="Password"
+            formControlName="activePassword"
+          />
+          <label for="activePassword">Şuanki Şifre</label>
+          <div *ngIf="activePassword?.invalid && activePassword?.touched">
+            <div *ngIf="activePassword?.errors?.required">
+              <p class="text-danger">Şuanki Şifre alanı gereklidir.</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-6">
-        <div class="mb-4">
-          <div class="form-floating">
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              placeholder="Password"
-              formControlName="newPassword"
-            />
-            <label for="password">Yeni Şifre</label>
-          </div>
+      <div class="col-12 col-md-6 mb-3">
+        <div class="form-floating">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Password"
+            formControlName="newPassword"
+          />
+          <label for="password">Yeni Şifre</label>
         </div>
       </div>
-      <button class="w-100 btn btn-lg btn-primary">Güncelle</button>
+      <div class="col-12 text-center">
+        <button class="btn btn-lg btn-warning text-light w-25"  [disabled]="updateForm.invalid">Güncelle</button>
+      </div>
     </form>
   </div>
 </div>
