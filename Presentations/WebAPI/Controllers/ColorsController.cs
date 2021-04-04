@@ -22,6 +22,12 @@ namespace WebAPI.Controllers
             _colorService = colorService;
         }
 
+        [HttpGet("test")]
+        public async Task<IActionResult> Test()
+        {
+            return Ok("Proje çalıştı");
+        }
+
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {

@@ -17,7 +17,7 @@ export class RegisterGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if(this.authService.isAuthentication()){
       this.toastrService.warning('Sistemde aktifken üye olamazsınız, çıkış yapıp tekrar deneyin.');
-      this.router.navigate(['car/list/filter/card']);
+      this.router.navigate(['']);
       return false;
     }
     return true;

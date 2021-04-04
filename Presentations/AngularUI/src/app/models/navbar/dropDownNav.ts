@@ -1,8 +1,7 @@
-import { Nav } from "./nav";
-
+import { Nav } from './nav';
 
 export class DropDownNav {
-    title!: string;
-
-    childNavs!: Nav[];
+  title!: string;
+  onlyAuthentication!: boolean;
+  childNavs!: Nav[];
 }

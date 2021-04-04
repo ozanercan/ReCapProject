@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DropDownNav } from 'src/app/models/navbar/dropDownNav';
 import { Nav } from 'src/app/models/navbar/nav';
+import { NavbarService } from 'src/app/services/navbar.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,54 +9,25 @@ import { Nav } from 'src/app/models/navbar/nav';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  constructor() {}
-  ngOnInit(): void {}
+  constructor(private navbarService: NavbarService) {}
+  ngOnInit(): void {
+    this.getNavText();
+    this.getNavs();
+    this.getDropDownNavs();
+  }
+  navText!: string;
+  navs!: Nav[];
+  dropDownNavs!: DropDownNav[];
 
-  navbarBrandText = 'Rental';
+  getNavs() {
+    this.navs = this.navbarService.getNavs();
+  }
 
-  navs: Nav[] = [{ title: 'Ana Sayfa', route: '' }];
+  getDropDownNavs() {
+    this.dropDownNavs = this.navbarService.getDropDownNavs();
+  }
 
-  dropDownNavs: DropDownNav[] = [
-    {
-      title: 'Araç İşlemleri',
-      childNavs: [
-        { title: 'Tablolu Liste', route: 'car/list/table' },
-        { title: 'Renge Göre Liste', route: 'car/list/color/card' },
-        {
-          title: 'Markaya Göre Liste',
-          route: 'car/list/brand/card',
-        },
-        {
-          title: 'Gelişmiş Liste',
-          route: 'car/list/filter/card',
-        },
-        {
-          title: 'Yeni Araç Oluştur',
-          route: 'car/add/form',
-        },
-      ],
-    },
-    {
-      title: 'Marka İşlemleri',
-      childNavs: [
-        { title: 'Listele', route: 'brand/list/table' },
-        { title: 'Oluştur', route: 'brand/add/form' },
-      ],
-    },
-    {
-      title: 'Renk İşlemleri',
-      childNavs: [
-        { title: 'Listele', route: 'color/list/table' },
-        { title: 'Oluştur', route: 'color/add/form' },
-      ],
-    },
-    {
-      title: 'Müşteri İşlemleri',
-      childNavs: [{ title: 'Listele', route: 'customer/list/table' }],
-    },
-    {
-      title: 'Kiralama İşlemleri',
-      childNavs: [{ title: 'Listele', route: 'rental/list/table' }],
-    },
-  ];
+  getNavText() {
+    this.navText = this.navbarService.getNavText();
+  }
 }

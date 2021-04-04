@@ -33,15 +33,23 @@ const routes: Routes = [
   {
     path: 'customer/update/form',
     component: CustomerUpdateSelfWithFormComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthenticationGuard],
   },
-  { path: 'customer/register', component: RegisterComponent, canActivate:[RegisterGuard] },
+  {
+    path: 'customer/register',
+    component: RegisterComponent,
+    canActivate: [RegisterGuard],
+  },
   {
     path: 'customer/login/modal',
     component: LoginWithModalComponent,
     canActivate: [LoginGuard],
   },
-  { path: 'customer/login/form', component: LoginComponent, canActivate: [LoginGuard] },
+  {
+    path: 'customer/login/form',
+    component: LoginComponent,
+    canActivate: [LoginGuard],
+  },
   { path: 'imageUpload', component: ImageUploadComponent },
   {
     path: 'brand/add/form',
@@ -51,20 +59,35 @@ const routes: Routes = [
   {
     path: 'brand/update/form/:brandId',
     component: BrandUpdateWithFormComponent,
+    canActivate: [AuthenticationGuard],
   },
   { path: 'brand/list/table', component: BrandListWithTablePageComponent },
-  { path: 'car/add/form', component: CarAddWithFormComponent },
-  { path: 'car/update/form/:carId', component: CarUpdateWithFormComponent },
+  {
+    path: 'car/add/form',
+    component: CarAddWithFormComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'car/update/form/:carId',
+    component: CarUpdateWithFormComponent,
+    canActivate: [AuthenticationGuard],
+  },
   { path: 'color/list/table', component: ColorListWithTablePageComponent },
   {
     path: 'color/update/form/:colorId',
     component: ColorUpdateWithFormComponent,
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'customer/list/table',
     component: CustomerListWithTablePageComponent,
+    canActivate: [AuthenticationGuard],
   },
-  { path: 'color/add/form', component: ColorAddWithFormComponent },
+  {
+    path: 'color/add/form',
+    component: ColorAddWithFormComponent,
+    canActivate: [AuthenticationGuard],
+  },
   { path: 'car/list/table', component: CarListWithTablePageComponent },
   { path: 'rental/list/table', component: RentalListWithTablePageComponent },
   { path: 'car/detail/:carId', component: CarDetailComponent },
@@ -76,11 +99,12 @@ const routes: Routes = [
   {
     path: 'rental/add/:carId',
     component: RentalNewPageComponent,
+    
   },
   {
     path: 'payment/add/:rentalId',
     component: PaymentComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'car/list/color',
