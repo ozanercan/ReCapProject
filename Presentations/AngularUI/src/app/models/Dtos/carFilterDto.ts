@@ -1,4 +1,6 @@
 export class CarFilterDto {
   colorName!: string;
-  brandName!: String;
+  brandName!: string;
+  fuelTypeName!: string;
+  gearTypeName!: string;
 }

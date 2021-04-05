@@ -17,31 +17,48 @@ export class CarListWithCardComponent implements OnInit {
   constructor(
     private carService: CarService,
     private activatedRoute: ActivatedRoute,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private router: ToastrService
   ) {}
 
   errorResponse!: ResponseModel | undefined;
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((parameter) => {
-      if (parameter['brandName'] && parameter['colorName']) {
-        this.getCarDetailsByFilters(
-          parameter['colorName'],
-          parameter['brandName']
-        );
-      } else if (parameter['brandId']) {
-        this.getCarDetailsByBrandId(parameter['brandId']);
-      } else if (parameter['colorId']) {
-        this.getCarDetailsByColorId(parameter['colorId']);
-      } else if (parameter['colorName']) {
-        this.getCarDetailsByColorName(parameter['colorName']);
-      } else if (parameter['brandName']) {
-        this.getCarDetailsByBrandName(parameter['brandName']);
-      } else {
-        this.getCarDetails();
-      }
-      this.errorResponse = undefined;
+    this.activatedRoute.queryParamMap.subscribe((queryParam) => {
+      console.log(queryParam);
+      let carFilterDto: CarFilterDto = {
+        brandName: queryParam.get('brandName')!,
+        colorName: queryParam.get('colorName')!,
+        fuelTypeName: queryParam.get('fuelTypeName')!,
+        gearTypeName: queryParam.get('gearTypeName')!
+      };
+      this.getCarDetailsByFilters(carFilterDto);
     });
+
+    // ESKİ FİLTRELEME KOMUTLARI
+    // this.activatedRoute.params.subscribe((parameter) => {
+    //   console.log('params');
+    //   console.log(parameter);
+
+    //   if (parameter['brandName'] && parameter['colorName']) {
+    //     this.getCarDetailsByFilters(
+    //       parameter['colorName'],
+    //       parameter['brandName']
+    //     );
+    //   } else if (parameter['brandId']) {
+    //     this.getCarDetailsByBrandId(parameter['brandId']);
+    //   } else if (parameter['colorId']) {
+    //     this.getCarDetailsByColorId(parameter['colorId']);
+    //   } else if (parameter['colorName']) {
+    //     this.getCarDetailsByColorName(parameter['colorName']);
+    //   } else if (parameter['brandName']) {
+    //     this.getCarDetailsByBrandName(parameter['brandName']);
+    //   } else {
+    //     this.getCarDetails();
+    //   }
+    //   this.errorResponse = undefined;
+    // }
+    //);
   }
 
   carDetails: CarDetailDto[] = [];
@@ -112,11 +129,7 @@ export class CarListWithCardComponent implements OnInit {
     );
   }
 
-  getCarDetailsByFilters(colorName: string, brandName: string) {
-    let carFilterDto: CarFilterDto = new CarFilterDto();
-    carFilterDto.brandName = brandName;
-    carFilterDto.colorName = colorName;
-
+  getCarDetailsByFilters(carFilterDto: CarFilterDto) {
     this.carService.getCarDetailsByFilters(carFilterDto).subscribe(
       (response) => {
         this.carDetails = response.data;

@@ -1,4 +1,5 @@
-﻿using Core.DataAccess.RepositoryPattern.Concrete;
+﻿using AutoFilterer.Extensions;
+using Core.DataAccess.RepositoryPattern.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Contexts;
 using Entities.Concrete;
@@ -226,11 +227,47 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
+        //public async Task<List<CarDetailDto>> GetCarDetailsByFilterAsync(CarFilterDto carFilterDto)
+        //{
+        //    using (ReCapContext context = new ReCapContext())
+        //    {
+
+        //        var result = from car in context.Cars
+        //                     join color in context.Colors
+        //                     on car.ColorId equals color.Id
+        //                     join brand in context.Brands
+        //                     on car.BrandId equals brand.Id
+        //                     join carCreditScore in context.CarCreditScores
+        //                     on car.Id equals carCreditScore.CarId into gj
+        //                     from x in gj.DefaultIfEmpty()
+        //                     join fuelType in context.FuelTypes
+        //                    on car.FuelTypeId equals fuelType.Id
+        //                     join gearType in context.GearTypes
+        //                     on car.GearTypeId equals gearType.Id
+        //                     where color.Name == carFilterDto.ColorName
+        //                     && brand.Name == carFilterDto.BrandName
+        //                     select new CarDetailDto
+        //                     {
+        //                         BrandName = brand.Name,
+        //                         ColorName = color.Name,
+        //                         ModelYear = car.ModelYear,
+        //                         DailyPrice = car.DailyPrice,
+        //                         Description = car.Description,
+        //                         Id = car.Id,
+        //                         MinCreditScore = x.MinCreditScore,
+        //                         FuelTypeName = fuelType.Name,
+        //                         GearTypeName = gearType.Name,
+        //                         HorsePower = car.HorsePower,
+        //                         Name = car.Name
+        //                     };
+        //        return await result.AsNoTracking().ToListAsync();
+        //    }
+        //}
+
         public async Task<List<CarDetailDto>> GetCarDetailsByFilterAsync(CarFilterDto carFilterDto)
         {
             using (ReCapContext context = new ReCapContext())
             {
-
                 var result = from car in context.Cars
                              join color in context.Colors
                              on car.ColorId equals color.Id
@@ -243,8 +280,6 @@ namespace DataAccess.Concrete.EntityFramework
                             on car.FuelTypeId equals fuelType.Id
                              join gearType in context.GearTypes
                              on car.GearTypeId equals gearType.Id
-                             where color.Name == carFilterDto.ColorName
-                             && brand.Name == carFilterDto.BrandName
                              select new CarDetailDto
                              {
                                  BrandName = brand.Name,
@@ -259,7 +294,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  HorsePower = car.HorsePower,
                                  Name = car.Name
                              };
-                return await result.AsNoTracking().ToListAsync();
+
+                return await result.AsNoTracking().ApplyFilter(carFilterDto).ToListAsync();
             }
         }
     }

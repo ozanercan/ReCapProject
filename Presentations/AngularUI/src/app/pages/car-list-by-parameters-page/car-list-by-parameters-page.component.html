@@ -13,7 +13,12 @@
             >
               <option [ngValue]="null" selected>Renk Seçiniz.</option>
 
-              <option *ngFor="let color of colors">{{ color.name }}</option>
+              <option
+                *ngFor="let color of colors"
+                [selected]="color.name === selectedColor"
+              >
+                {{ color.name }}
+              </option>
             </select>
             <label for="colorSelect">Renk Seçimi</label>
           </div>
@@ -28,18 +33,72 @@
             >
               <option [ngValue]="null" selected>Marka Seçiniz.</option>
 
-              <option *ngFor="let brand of brands">{{ brand.name }}</option>
+              <option
+                *ngFor="let brand of brands"
+                [selected]="brand.name === selectedBrand"
+              >
+                {{ brand.name }}
+              </option>
             </select>
             <label for="brandSelect">Marka Seçimi</label>
+          </div>
+        </div>
+        <div class="col-md-12 mt-2">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              id="gearTypeSelect"
+              aria-label="Floating label select"
+              [(ngModel)]="selectedGearType"
+            >
+              <option [ngValue]="null" selected>Vites Tipi Seçiniz.</option>
+
+              <option
+                *ngFor="let gearType of gearTypes"
+                [selected]="gearType.name === selectedGearType"
+              >
+                {{ gearType.name }}
+              </option>
+            </select>
+            <label for="gearTypeSelect">Vites Tipi Seçimi</label>
+          </div>
+        </div>
+        <div class="col-md-12 mt-2">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              id="fuelTypeSelect"
+              aria-label="Floating label select"
+              [(ngModel)]="selectedFuelType"
+            >
+              <option [ngValue]="null" selected>Yakıt Tipi Seçiniz.</option>
+
+              <option
+                *ngFor="let fuelType of fuelTypes"
+                [selected]="fuelType.name === selectedFuelType"
+              >
+                {{ fuelType.name }}
+              </option>
+            </select>
+            <label for="fuelTypeSelect">Yakıt Tipi Seçimi</label>
           </div>
         </div>
         <div class="col-md-12 mt-3">
           <div class="text-center">
             <button
               class="btn btn-warning text-dark w-50"
-              (click)="filter()"
+              [routerLink]="['card']"
+              [queryParams]="{
+                brandName: selectedBrand,
+                colorName: selectedColor,
+                fuelTypeName: selectedFuelType,
+                gearTypeName: selectedGearType
+              }"
               [disabled]="
-                selectedBrand == undefined && selectedColor == undefined
+                selectedBrand == undefined &&
+                selectedColor == undefined &&
+                selectedGearType == undefined &&
+                selectedFuelType == undefined
               "
             >
               Filtrele

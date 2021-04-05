@@ -120,10 +120,10 @@ const routes: Routes = [
         path: 'card',
         component: CarListWithCardComponent,
       },
-      {
-        path: 'card/:colorId',
-        component: CarListWithCardComponent,
-      },
+      // {
+      //   path: 'card/:colorId',
+      //   component: CarListWithCardComponent,
+      // },
     ],
   },
   {
@@ -148,26 +148,26 @@ const routes: Routes = [
         path: 'card',
         component: CarListWithCardComponent,
       },
-      {
-        path: 'card/brandName/:brandName',
-        component: CarListWithCardComponent,
-      },
-      {
-        path: 'card/brandId/:brandId',
-        component: CarListWithCardComponent,
-      },
-      {
-        path: 'card/colorId/:colorId',
-        component: CarListWithCardComponent,
-      },
-      {
-        path: 'card/colorName/:colorName',
-        component: CarListWithCardComponent,
-      },
-      {
-        path: 'card/:colorName/:brandName',
-        component: CarListWithCardComponent,
-      },
+      // {
+      //   path: 'card/brandName/:brandName',
+      //   component: CarListWithCardComponent,
+      // },
+      // {
+      //   path: 'card/brandId/:brandId',
+      //   component: CarListWithCardComponent,
+      // },
+      // {
+      //   path: 'card/colorId/:colorId',
+      //   component: CarListWithCardComponent,
+      // },
+      // {
+      //   path: 'card/colorName/:colorName',
+      //   component: CarListWithCardComponent,
+      // },
+      // {
+      //   path: 'card/:colorName/:brandName',
+      //   component: CarListWithCardComponent,
+      // },
     ],
   },
 ];

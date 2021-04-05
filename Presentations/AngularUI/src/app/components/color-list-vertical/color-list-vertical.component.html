@@ -12,7 +12,8 @@
     class="list-group-item"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
-    routerLink="/car/list/color/card/{{ color.id }}"
+    routerLink="/car/list/color/card"
+    [queryParams]="{ colorName: color.name }"
     (click)="setCurrentColor(color)"
   >
     {{ color.name }}

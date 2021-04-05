@@ -13,7 +13,8 @@
     class="list-group-item list-group-item-action"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
-    routerLink="/car/list/brand/card/{{ brand.id }}"
+    routerLink="/car/list/brand/card"
+    [queryParams]="{ brandName: brand.name }"
   >
     {{ brand.name }}
   </li>

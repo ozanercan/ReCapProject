@@ -1,6 +1,7 @@
 ﻿using Core.Entities.Concrete;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DataAccess.Concrete.EntityFramework.Contexts
 {
@@ -10,7 +11,18 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         {
             optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB; Database=recapdb; Trusted_Connection=True;",
                 providerOptions => { providerOptions.EnableRetryOnFailure(); });
+
+            base.OnConfiguring(optionsBuilder.UseLoggerFactory(CustomerLoggerFactory));
         }
+        public static readonly ILoggerFactory CustomerLoggerFactory
+         = LoggerFactory.Create(builder =>
+         {
+             builder
+                 .AddFilter((category, level) =>
+                     category == DbLoggerCategory.Database.Command.Name
+                     && level == LogLevel.Information)
+                 .AddDebug();
+         });
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
