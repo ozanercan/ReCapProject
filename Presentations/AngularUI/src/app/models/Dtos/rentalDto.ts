@@ -1,6 +1,6 @@
 export class RentalDto {
   id!: number;
-  brandName!: string;
+  carName!: string;
   customer!: string;
   rentDate!: Date;
   returnDate!: Date;

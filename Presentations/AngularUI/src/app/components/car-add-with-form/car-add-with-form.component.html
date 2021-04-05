@@ -1,5 +1,9 @@
-<form [formGroup]="carAddForm" class="row w-sm-100 w-75 mx-auto" (ngSubmit)="addCar()">
-  <div class="col-12 col-md-6 mb-3">
+<form
+  [formGroup]="carAddForm"
+  class="row w-sm-100 w-75 mx-auto"
+  (ngSubmit)="addCar()"
+>
+  <div class="col-12 col-md-6 mb-4">
     <div class="form-floating">
       <select
         class="form-select"
@@ -20,7 +24,7 @@
       </div>
     </div>
   </div>
-  <div class="col-12 col-md-6 mb-3">
+  <div class="col-12 col-md-6 mb-4">
     <div class="form-floating">
       <select
         class="form-select"
@@ -41,7 +45,74 @@
       </div>
     </div>
   </div>
-  <div class="col-12 col-md-4 mb-3">
+  <div class="col-12 col-md-6 mb-4">
+    <div class="form-floating">
+      <select
+        class="form-select"
+        id="fuelTypeSelect"
+        aria-label="Floating label select "
+        formControlName="fuelTypeName"
+      >
+        <option selected [ngValue]="null">Yakıt Tipi Seçiniz.</option>
+
+        <option *ngFor="let fuelTypeName of fuelTypes">
+          {{ fuelTypeName.name }}
+        </option>
+      </select>
+      <label for="fuelTypeSelect">Yakıt Tipi Seçimi</label>
+
+      <div *ngIf="fuelTypeName?.invalid && fuelTypeName?.touched">
+        <div *ngIf="fuelTypeName?.errors?.required">
+          <p class="text-danger">Yakıt Tipi alanı gereklidir.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-6 mb-4">
+    <div class="form-floating">
+      <select
+        class="form-select"
+        id="gearTypeSelect"
+        aria-label="Floating label select "
+        formControlName="gearTypeName"
+      >
+        <option selected [ngValue]="null">Vites Tipi Seçiniz.</option>
+
+        <option *ngFor="let gearTypeName of gearTypes">
+          {{ gearTypeName.name }}
+        </option>
+      </select>
+      <label for="gearTypeSelect">Vites Tipi Seçimi</label>
+
+      <div *ngIf="gearTypeName?.invalid && gearTypeName?.touched">
+        <div *ngIf="gearTypeName?.errors?.required">
+          <p class="text-danger">Vites Tipi alanı gereklidir.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-4 mb-4">
+    <label for="nameInput" class="form-label">Başlık</label>
+    <input
+      type="text"
+      class="form-control"
+      id="nameInput"
+      formControlName="name"
+    />
+    <div *ngIf="name?.invalid && name?.touched">
+      <div *ngIf="name?.errors?.required">
+        <p class="text-danger">Başlık gereklidir.</p>
+      </div>
+      <div *ngIf="name?.errors?.minlength">
+        <p class="text-danger">Başlığın uzunluğu 1 karakterden fazla olmalıdır.</p>
+      </div>
+      <div *ngIf="name?.errors?.maxlength">
+        <p class="text-danger">Başlığın uzunluğu 255 karakterden az olmalıdır.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-4 mb-4">
     <label for="modelYearInput" class="form-label">Model Yılı</label>
     <input
       type="number"
@@ -58,7 +129,26 @@
       </div>
     </div>
   </div>
-  <div class="col-12 col-md-4 mb-3">
+  
+  <div class="col-12 col-md-4 mb-4">
+    <label for="horsePowerInput" class="form-label">Beygir Gücü</label>
+    <input
+      type="number"
+      class="form-control"
+      id="horsePowerInput"
+      formControlName="horsePower"
+    />
+    <div *ngIf="horsePower?.invalid && horsePower?.touched">
+      <div *ngIf="horsePower?.errors?.required">
+        <p class="text-danger">Beygir Gücü gereklidir.</p>
+      </div>
+      <div *ngIf="horsePower?.errors?.min">
+        <p class="text-danger">Beygir Gücü 0'dan büyük olmalıdır.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-4 mb-4">
     <label for="dailyPriceInput" class="form-label">Günlük Fiyat</label>
     <input
       type="number"
@@ -75,7 +165,7 @@
       </div>
     </div>
   </div>
-  <div class="col-12 col-md-4 mb-3">
+  <div class="col-12 col-md-4 mb-4">
     <label for="minCreditScore" class="form-label">Min. Findeks Skoru</label>
     <input
       type="number"
@@ -97,7 +187,7 @@
       </div>
     </div>
   </div>
-  <div class="mb-3">
+  <div class="mb-4">
     <div class="form-floating">
       <textarea
         class="form-control"
@@ -116,6 +206,11 @@
     </div>
   </div>
   <div class="col-12 text-center">
-    <button class="btn btn-warning text-light w-25 " [disabled]="carAddForm.invalid">Kayıt Et</button>
+    <button
+      class="btn btn-warning text-light w-25"
+      [disabled]="carAddForm.invalid"
+    >
+      Kayıt Et
+    </button>
   </div>
 </form>

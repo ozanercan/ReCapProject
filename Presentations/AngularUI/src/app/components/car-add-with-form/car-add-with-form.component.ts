@@ -5,9 +5,13 @@ import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { BrandDto } from 'src/app/models/Dtos/brandDto';
 import { CarAddDto } from 'src/app/models/Dtos/carAddDto';
 import { ColorDto } from 'src/app/models/Dtos/colorDto';
+import { FuelTypeViewDto } from 'src/app/models/Dtos/fuelTypeViewDto';
+import { GearTypeViewDto } from 'src/app/models/Dtos/GearTypeViewDto';
 import { BrandService } from 'src/app/services/brand.service';
 import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
+import { FuelTypeService } from 'src/app/services/fuel-type.service';
+import { GearTypeService } from 'src/app/services/gear-type.service';
 
 @Component({
   selector: 'app-car-add-with-form',
@@ -20,28 +24,34 @@ export class CarAddWithFormComponent implements OnInit {
     private colorService: ColorService,
     private brandService: BrandService,
     private toastrService: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private fuelTypeService:FuelTypeService,
+    private gearTypeService:GearTypeService
   ) {}
 
   ngOnInit(): void {
     this.createCarAddForm();
     this.getBrands();
     this.getColors();
+    this.getGearTypes();
+    this.getFuelTypes();
   }
 
   carAddForm!: FormGroup;
 
+  gearTypes: GearTypeViewDto[] = [];
+  fuelTypes: FuelTypeViewDto[] = [];
   colors: ColorDto[] = [];
   brands: BrandDto[] = [];
-
-  selectedBrand!: string;
-  selectedColor!: string;
-
 
   createCarAddForm() {
     this.carAddForm = this.formBuilder.group({
       brandName: ['', Validators.required],
       colorName: ['', Validators.required],
+      fuelTypeName: ['', Validators.required],
+      gearTypeName: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
+      horsePower: ['', [Validators.required, Validators.min(0)]],
       modelYear: ['', [Validators.required, Validators.min(1900)]],
       dailyPrice: ['', [Validators.required, Validators.min(0)]],
       description: ['', Validators.maxLength(500)],
@@ -51,10 +61,32 @@ export class CarAddWithFormComponent implements OnInit {
 
   get brandName(){ return this.carAddForm.get('brandName');}
   get colorName(){ return this.carAddForm.get('colorName');}
+  get fuelTypeName(){ return this.carAddForm.get('fuelTypeName');}
+  get gearTypeName(){ return this.carAddForm.get('gearTypeName');}
+  get horsePower(){ return this.carAddForm.get('horsePower');}
+  get name(){ return this.carAddForm.get('name');}
   get modelYear(){ return this.carAddForm.get('modelYear');}
   get dailyPrice(){ return this.carAddForm.get('dailyPrice');}
   get description(){ return this.carAddForm.get('description');}
   get minCreditScore(){ return this.carAddForm.get('minCreditScore');}
+
+  getFuelTypes(){
+    this.fuelTypeService.getAllViewDtos().subscribe(response=>{
+      this.fuelTypes = response.data;
+    },
+    responseError=>{
+      this.toastrService.error(ErrorHelper.getMessage(responseError));
+    });
+  }
+
+  getGearTypes(){
+    this.gearTypeService.getAllViewDtos().subscribe(response=>{
+      this.gearTypes = response.data;
+    },
+    responseError=>{
+      this.toastrService.error(ErrorHelper.getMessage(responseError));
+    });
+  }
 
   addCar() {
     if (this.carAddForm.valid) {

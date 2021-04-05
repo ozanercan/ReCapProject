@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th>Id</th>
-        <th>Marka Adı</th>
+        <th>Araç</th>
         <th>Müşteri</th>
         <th>Fiyat</th>
         <th>Kira Başlangıç Tarihi</th>
@@ -14,7 +14,7 @@
     <tbody>
       <tr *ngFor="let rentalDto of rentalDtos">
         <td>{{ rentalDto.id }}</td>
-        <td>{{ rentalDto.brandName }}</td>
+        <td>{{ rentalDto.carName }}</td>
         <td>{{ rentalDto.customer }}</td>
         <td>{{ rentalDto.price }} ₺</td>
         <td>{{ rentalDto.rentDate | date: "dd/MM/yyyy hh:mm" }}</td>

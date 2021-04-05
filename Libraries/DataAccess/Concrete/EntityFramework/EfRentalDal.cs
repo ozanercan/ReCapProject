@@ -29,7 +29,7 @@ namespace DataAccess.Concrete.EntityFramework
                             select new RentalDto
                             {
                                 Id = rental.Id,
-                                BrandName = brand.Name,
+                                CarName = car.Name,
                                 Customer = string.Join(" ", user.FirstName, user.LastName),
                                 RentDate = rental.RentDate,
                                 ReturnDate = rental.ReturnDate,

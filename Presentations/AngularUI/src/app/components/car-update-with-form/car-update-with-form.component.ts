@@ -8,9 +8,13 @@ import { BrandDto } from 'src/app/models/Dtos/brandDto';
 import { CarDto } from 'src/app/models/Dtos/carDto';
 import { CarUpdateDto } from 'src/app/models/Dtos/carUpdateDto';
 import { ColorDto } from 'src/app/models/Dtos/colorDto';
+import { FuelTypeViewDto } from 'src/app/models/Dtos/fuelTypeViewDto';
+import { GearTypeViewDto } from 'src/app/models/Dtos/GearTypeViewDto';
 import { BrandService } from 'src/app/services/brand.service';
 import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
+import { FuelTypeService } from 'src/app/services/fuel-type.service';
+import { GearTypeService } from 'src/app/services/gear-type.service';
 
 @Component({
   selector: 'app-car-update-with-form',
@@ -24,7 +28,9 @@ export class CarUpdateWithFormComponent implements OnInit {
     private toastrService: ToastrService,
     private formBuilder: FormBuilder,
     private colorService: ColorService,
-    private brandService: BrandService
+    private brandService: BrandService,
+    private fuelTypeService: FuelTypeService,
+    private gearTypeService: GearTypeService
   ) {}
 
   ngOnInit(): void {
@@ -45,9 +51,13 @@ export class CarUpdateWithFormComponent implements OnInit {
 
   colors: ColorDto[] = [];
   brands: BrandDto[] = [];
+  gearTypes: GearTypeViewDto[] = [];
+  fuelTypes: FuelTypeViewDto[] = [];
 
   selectedBrand!: string;
   selectedColor!: string;
+  selectedFuelType!: string;
+  selectedGearType!: string;
 
   getCarUpdateDtoById(id: number) {
     this.carService.getCarUpdateDtoByCarId(id).subscribe(
@@ -56,6 +66,8 @@ export class CarUpdateWithFormComponent implements OnInit {
         this.setId();
         this.getColors();
         this.getBrands();
+        this.getGearTypes();
+        this.getFuelTypes();
       },
       (error) => {
         this.toastrService.error(ErrorHelper.getMessage(error), 'HATA');
@@ -68,6 +80,17 @@ export class CarUpdateWithFormComponent implements OnInit {
       id: ['', Validators.required],
       brandName: ['', Validators.required],
       colorName: ['', Validators.required],
+      fuelTypeName: ['', Validators.required],
+      gearTypeName: ['', Validators.required],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(255),
+        ],
+      ],
+      horsePower: ['', [Validators.required, Validators.min(0)]],
       modelYear: ['', [Validators.required, Validators.min(1900)]],
       dailyPrice: ['', [Validators.required, Validators.min(0)]],
       description: ['', Validators.maxLength(500)],
@@ -83,6 +106,18 @@ export class CarUpdateWithFormComponent implements OnInit {
   }
   get colorName() {
     return this.carUpdateForm.get('colorName');
+  }
+  get fuelTypeName() {
+    return this.carUpdateForm.get('fuelTypeName');
+  }
+  get gearTypeName() {
+    return this.carUpdateForm.get('gearTypeName');
+  }
+  get horsePower() {
+    return this.carUpdateForm.get('horsePower');
+  }
+  get name() {
+    return this.carUpdateForm.get('name');
   }
   get modelYear() {
     return this.carUpdateForm.get('modelYear');
@@ -115,6 +150,30 @@ export class CarUpdateWithFormComponent implements OnInit {
     }
   }
 
+  getFuelTypes() {
+    this.fuelTypeService.getAllViewDtos().subscribe(
+      (response) => {
+        this.fuelTypes = response.data;
+        this.setInitFuelType();
+      },
+      (responseError) => {
+        this.toastrService.error(ErrorHelper.getMessage(responseError));
+      }
+    );
+  }
+
+  getGearTypes() {
+    this.gearTypeService.getAllViewDtos().subscribe(
+      (response) => {
+        this.gearTypes = response.data;
+        this.setInitGearType();
+      },
+      (responseError) => {
+        this.toastrService.error(ErrorHelper.getMessage(responseError));
+      }
+    );
+  }
+
   getColors() {
     this.colorService.getColors().subscribe(
       (p) => {
@@ -140,20 +199,20 @@ export class CarUpdateWithFormComponent implements OnInit {
   }
 
   setInitColor() {
-    this.colors.forEach((p) => {
-      if (p.name === this.carUpdateDto.colorName) {
-        this.selectedColor = p.name;
-        this.colorName?.setValue(this.selectedColor);
-      }
-    });
+    this.selectedColor = this.carUpdateDto.colorName;
+    this.colorName?.setValue(this.selectedColor);
   }
   setInitBrand() {
-    this.brands.forEach((p) => {
-      if (p.name === this.carUpdateDto.brandName) {
-        this.selectedBrand = p.name;
-        this.brandName?.setValue(this.selectedBrand);
-      }
-    });
+    this.selectedBrand = this.carUpdateDto.brandName;
+    this.brandName?.setValue(this.selectedBrand);
+  }
+  setInitFuelType() {
+    this.selectedFuelType = this.carUpdateDto.fuelTypeName;
+    this.fuelTypeName?.setValue(this.selectedFuelType);
+  }
+  setInitGearType() {
+    this.selectedGearType = this.carUpdateDto.gearTypeName;
+    this.gearTypeName?.setValue(this.selectedGearType);
   }
   setId() {
     this.carUpdateForm.get('id')?.setValue(this.carUpdateDto.id);
