@@ -93,16 +93,17 @@ Kullanıcı menüden hızlıca kayıt olabilir ya da giriş yapabilir. Giriş ya
 #### Yetki İle İlgili
 Her kullanıcının yetkileri özelleştirilebilir. Back-End tarafında kullanılan her metot kullanıcının yetkileriyle çalışır. Kullanıcının yapmaya çalıştığı işlem için yetkisi yoksa durumla ilgili bir uyarı mesajı alır.
 
+#### [Canlı Önizleme İçin Tıklayın](https://www.ozanercan.com.tr/rentalapp)
+
 #### Birkaç Görsel
 
-![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/detayliarama.JPG)
+![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/detayliarama2.JPG)
 
+![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/Ekran%20Alıntısı2.JPG)
 
-![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/aracdetay.JPG)
+![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/kira2.jpg)
 
-![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/kira.jpg)
-
-![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/odeme.JPG)
+![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/odeme2.JPG)
 
 
 ## License
