@@ -36,17 +36,16 @@ export class LoginWithModalComponent implements OnInit {
   }
 
   login(){
-    console.log(this.loginForm);
     if(this.loginForm.valid){
       let loginDto : LoginDto = this.loginForm.value;
       this.authService.login(loginDto).subscribe(response=>{
-
         this.tokenService.setToken(response.data);
         this.rememberMeService.setEmail(loginDto.email);
+        this.rememberMeService.setUser(response.data.user);
         
         this.toastrService.success('Başarıyla giriş yaptınız.');
 
-        timer(1000).subscribe(p=>{
+        timer(5000).subscribe(p=>{
           window.location.reload();
         });
 

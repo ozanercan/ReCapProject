@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { User } from '../models/Dtos/user';
 
 @Injectable({
   providedIn: 'root',
@@ -6,16 +7,30 @@ import { Injectable } from '@angular/core';
 export class RememberMeService {
   constructor() {}
 
-  cacheKey = 'loggedInUserEmail';
+  emailCacheKey = 'loggedInUserEmail';
+  userCacheKey = 'user';
 
   setEmail(email: string) {
-    localStorage.setItem(this.cacheKey, email);
+    localStorage.setItem(this.emailCacheKey, email);
   }
   getEmail(): string | null {
-    return localStorage.getItem(this.cacheKey);
+    return localStorage.getItem(this.emailCacheKey);
   }
 
-  delete() {
-    localStorage.removeItem(this.cacheKey);
+  deleteEmail() {
+    localStorage.removeItem(this.emailCacheKey);
+  }
+
+  setUser(user: User) {
+    localStorage.setItem(this.userCacheKey, JSON.stringify(user));
+  }
+  getUser(): User {
+    let user: User = JSON.parse(localStorage.getItem(this.userCacheKey)!);
+
+    return user;
+  }
+
+  deleteUser() {
+    localStorage.removeItem(this.userCacheKey);
   }
 }

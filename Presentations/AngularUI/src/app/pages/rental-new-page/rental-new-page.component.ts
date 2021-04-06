@@ -10,6 +10,7 @@ import { RentalService } from 'src/app/services/rental.service';
 import { timer } from 'rxjs';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { AuthService } from 'src/app/services/auth.service';
+import { RememberMeService } from 'src/app/services/remember-me.service';
 
 @Component({
   selector: 'app-rental-new-page',
@@ -24,7 +25,8 @@ export class RentalNewPageComponent implements OnInit {
     private toastrService: ToastrService,
     private rentalService: RentalService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private rememberMeService:RememberMeService
   ) {}
 
   ngOnInit(): void {
@@ -41,8 +43,6 @@ export class RentalNewPageComponent implements OnInit {
 
   carDetailDto!: CarDetailDto;
 
-  customerDetailDto!: CustomerDetailDto;
-
   rentDate!: Date;
 
   returnDate!: Date;
@@ -57,16 +57,8 @@ export class RentalNewPageComponent implements OnInit {
     return this.carDetailDto;
   }
 
-  setCustomerDetailDto(customerDetailDto: CustomerDetailDto) {
-    this.customerDetailDto = customerDetailDto;
-  }
-
   getValidateStatusForButton(): boolean {
-    if (
-      this.customerDetailDto == undefined ||
-      this.rentDate == undefined ||
-      this.returnDate == undefined
-    ) {
+    if (this.rentDate == undefined || this.returnDate == undefined) {
       return true;
     }
 
@@ -75,18 +67,14 @@ export class RentalNewPageComponent implements OnInit {
 
   create() {
     if (this.authService.isAuthentication()) {
-      if (this.customerDetailDto === undefined) {
-        this.toastrService.warning(
-          'Lütfen otomobili kiralayacağınız müşteriyi seçin.'
-        );
-      } else if (this.rentDate === undefined) {
+      if (this.rentDate === undefined) {
         this.toastrService.warning('Lütfen Kira Başlangıç Tarihini seçin.');
       } else if (this.returnDate === undefined) {
         this.toastrService.warning('Lütfen Kira Bitiş Tarihini seçin.');
       } else {
         let rentalCreateDto: RentalCreateDto = new RentalCreateDto();
         rentalCreateDto.carId = this.carDetailDto.id;
-        rentalCreateDto.customerId = this.customerDetailDto.id;
+        rentalCreateDto.customerId = this.rememberMeService.getUser().id;
         rentalCreateDto.rentDate = this.rentDate;
 
         rentalCreateDto.returnDate = this.returnDate;

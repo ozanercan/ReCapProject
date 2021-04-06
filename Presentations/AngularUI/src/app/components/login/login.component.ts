@@ -41,10 +41,9 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.valid){
       let loginDto : LoginDto = this.loginForm.value;
       this.authService.login(loginDto).subscribe(response=>{
-
         this.tokenService.setToken(response.data);
         this.rememberMeService.setEmail(loginDto.email);
-        
+        this.rememberMeService.setUser(response.data.user);
         this.toastrService.success('Giriş yapıldı.');
 
         this.toastrService.info('Ana Sayfaya yönlendiriliyorsunuz.');

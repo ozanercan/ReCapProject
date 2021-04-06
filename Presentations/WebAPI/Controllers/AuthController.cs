@@ -28,10 +28,11 @@ namespace WebAPI.Controllers
                 return BadRequest(userToLoginResult);
 
             var accessTokenResult = await _authService.CreateAccessTokenAsync(userToLoginResult.Data);
-            if (accessTokenResult.Success)
-                return Ok(accessTokenResult);
+            if (!accessTokenResult.Success)
+                return BadRequest(accessTokenResult);
 
-            return BadRequest(accessTokenResult);
+            accessTokenResult.Data.User = userToLoginResult.Data;
+            return Ok(accessTokenResult);
         }
 
         [HttpPost("register")]

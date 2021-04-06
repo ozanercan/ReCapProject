@@ -138,8 +138,8 @@ namespace Business.Concrete
 
             if (data == null)
                 return new ErrorDataResult<Car>(null, Messages.CarNotFound);
-            else
-                return new SuccessDataResult<Car>(data, Messages.CarGet);
+
+            return new SuccessDataResult<Car>(data, Messages.CarGet);
         }
 
         [PerformanceAspect(5)]
@@ -230,7 +230,7 @@ namespace Business.Concrete
         {
             var data = _carDal.GetAllNoTracking(p => p.ColorId == colorId);
 
-            if (data == null || data.Count <= 0)
+            if (data.Count == 0)
                 return new ErrorDataResult<List<Car>>(data, Messages.CarNotFoundByColor);
             else
                 return new SuccessDataResult<List<Car>>(data, Messages.CarGetListByColor);

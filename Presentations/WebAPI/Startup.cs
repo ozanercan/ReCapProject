@@ -13,6 +13,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace WebAPI
 {
@@ -57,13 +58,17 @@ namespace WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());
+            }
+
+            if (env.IsProduction())
+            {
+                app.UseCors(builder => builder.WithOrigins("https://ozanercan.com.tr").AllowAnyHeader().AllowAnyMethod());
             }
 
             app.ConfigureCustomExceptionMiddleware();
 
             app.UseStaticFiles();
-
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());
 
             app.UseHttpsRedirection();
 

@@ -64,7 +64,8 @@ export class AuthService {
 
   logout() {
     this.tokenService.delete();
-    this.rememberMeService.delete();
+    this.rememberMeService.deleteEmail();
+    this.rememberMeService.deleteUser();
     this.toastrService.success('Başarıyla çıkış yaptınız.');
     timer(1000).subscribe(p=>{
       window.location.reload();
