@@ -393,19 +393,40 @@ namespace Business.Concrete
             if (!carResult.Success)
                 return new ErrorDataResult<decimal>(0, carResult.Message);
 
-            decimal price = CalculateRent(carResult.Data.DailyPrice, rentalResult.Data.RentDate, rentalResult.Data.ReturnDate.Value);
 
-            price = Math.Ceiling(price);
+            CarPriceCalculateModel carPriceCalculateDto = new CarPriceCalculateModel()
+            {
+                DailyPrice = carResult.Data.DailyPrice,
+                RentDateTime = rentalResult.Data.RentDate,
+                ReturnDateTime = rentalResult.Data.ReturnDate.Value
+            };
+
+            decimal price = CalculatePrice(carPriceCalculateDto).Data;
+
             return new SuccessDataResult<decimal>(price, Messages.CarRentPriceCalculated);
         }
-
-        private decimal CalculateRent(decimal dailyPrice, DateTime rentDate, DateTime returnDate)
+        public async Task<IDataResult<decimal?>> GetCalculateTotalPrice(CarPriceCalculateDto carPriceCalculateDto)
         {
-            TimeSpan timeSpan = returnDate - rentDate;
+            var car = await _carDal.GetNoTrackingAsync(p => p.Id == carPriceCalculateDto.CarId);
+            if (car == null)
+                return new ErrorDataResult<decimal?>(null, Messages.CarNotFound);
 
-            decimal perMinutePrice = (dailyPrice / 24) / 60;
+            CarPriceCalculateModel carPriceCalculateModel = new CarPriceCalculateModel()
+            {
+                DailyPrice = car.DailyPrice,
+                RentDateTime = carPriceCalculateDto.RentDateTime,
+                ReturnDateTime = carPriceCalculateDto.ReturnDateTime
+            };
 
-            return Convert.ToDecimal(timeSpan.TotalMinutes) * perMinutePrice;
+            return new SuccessDataResult<decimal?>(CalculatePrice(carPriceCalculateModel).Data, Messages.CarRentPriceCalculated);
+        }
+        private IDataResult<decimal> CalculatePrice(CarPriceCalculateModel carPriceCalculateDto)
+        {
+            TimeSpan timeSpan = carPriceCalculateDto.ReturnDateTime - carPriceCalculateDto.RentDateTime;
+
+            decimal perMinutePrice = (carPriceCalculateDto.DailyPrice / 24) / 60;
+
+            return new SuccessDataResult<decimal>(Math.Ceiling(Convert.ToDecimal(timeSpan.TotalMinutes) * perMinutePrice), Messages.CarRentPriceCalculated);
         }
 
         private async Task<IDataResult<Brand>> GetBrandByBrandNameAsync(string brandName)

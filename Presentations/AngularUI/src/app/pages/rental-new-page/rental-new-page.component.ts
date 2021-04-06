@@ -26,7 +26,7 @@ export class RentalNewPageComponent implements OnInit {
     private rentalService: RentalService,
     private router: Router,
     private authService: AuthService,
-    private rememberMeService:RememberMeService
+    private rememberMeService: RememberMeService
   ) {}
 
   ngOnInit(): void {
@@ -34,10 +34,13 @@ export class RentalNewPageComponent implements OnInit {
 
     this.activatedRoute.params.subscribe((parameter) => {
       if (parameter['carId']) {
+        this.carId = parseInt(parameter['carId']);
         this.getCarDetailDtoFromService(parameter['carId']);
       }
     });
   }
+
+  carId!: number;
 
   dateTimeNow: string = new Date().toISOString();
 
@@ -46,6 +49,29 @@ export class RentalNewPageComponent implements OnInit {
   rentDate!: Date;
 
   returnDate!: Date;
+
+  totalPrice!: number;
+  getCarTotalPriceCalculate() {
+    if (this.rentDate != undefined && this.returnDate != undefined) {
+      this.carService
+        .getCalculateTotalPrice({
+          carId: this.carId,
+          rentDateTime: this.rentDate,
+          returnDateTime: this.returnDate,
+        })
+        .subscribe(
+          (response) => {
+            this.totalPrice = response.data;
+            this.toastrService.success(
+              `Fiyat Hesaplandı: <b>${ response.data  } ₺</b>`
+            );
+          },
+          (responseError) => {
+            this.toastrService.error(ErrorHelper.getMessage(responseError));
+          }
+        );
+    }
+  }
 
   getCarDetailDtoFromService(carId: number) {
     this.carService.getCarDetailByCarId(carId).subscribe((p) => {

@@ -13,6 +13,7 @@ import { ColorAddDto } from '../models/Dtos/colorAddDto';
 import { DataResponseModel } from '../models/responseModels/dataResponseModel';
 import { ResponseModel } from '../models/responseModels/responseModel';
 import { CarUpdateDto } from '../models/Dtos/carUpdateDto';
+import { CarCalculateDailyPriceDto } from '../models/Dtos/carCalculateDailyPriceDto';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,8 @@ export class CarService {
   ) {}
 
   getUrl: string = 'cars/getdetails';
+
+  getCalculateTotalPricePath: string = 'cars/CalculateTotalPrice';
 
   getUpdateCarPath: string = 'cars/update';
 
@@ -56,6 +59,13 @@ export class CarService {
       ApiUrlHelper.getUrlWithParameters(this.getCarUpdateDtoByIdPath, [
         { key: 'id', value: carId },
       ])
+    );
+  }
+
+  getCalculateTotalPrice(calculateDailyPrice: CarCalculateDailyPriceDto) {
+    return this.httpClient.post<DataResponseModel<number>>(
+      ApiUrlHelper.getUrl(this.getCalculateTotalPricePath),
+      calculateDailyPrice
     );
   }
 

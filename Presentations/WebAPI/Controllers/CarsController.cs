@@ -27,6 +27,16 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("CalculateTotalPrice")]
+        public async Task<IActionResult> CalculateTotalPriceAsync(CarPriceCalculateDto carPriceCalculateDto)
+        {
+            var result = await _carService.GetCalculateTotalPrice(carPriceCalculateDto);
+            if (result.Success)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
         [HttpGet("getcarupdatedtobyid")]
         public async Task<IActionResult> GetCarUpdateDtoByIdAsync(int id)
         {

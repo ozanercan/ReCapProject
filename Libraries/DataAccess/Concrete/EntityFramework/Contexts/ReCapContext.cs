@@ -12,8 +12,6 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
             optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB; Database=recapdb; Trusted_Connection=True;",
                 providerOptions => { providerOptions.EnableRetryOnFailure(); });
 
-          
-
 
             base.OnConfiguring(optionsBuilder.UseLoggerFactory(CustomerLoggerFactory));
         }

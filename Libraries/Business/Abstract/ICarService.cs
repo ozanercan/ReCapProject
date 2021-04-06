@@ -8,6 +8,8 @@ namespace Business.Abstract
 {
     public interface ICarService
     {
+        Task<IDataResult<decimal?>> GetCalculateTotalPrice(CarPriceCalculateDto carPriceCalculateDto);
+
         Task<IDataResult<List<Car>>> GetRentalCarsAsync();
 
         Task<IDataResult<List<CarDetailDto>>> GetCarDetailsAsync();

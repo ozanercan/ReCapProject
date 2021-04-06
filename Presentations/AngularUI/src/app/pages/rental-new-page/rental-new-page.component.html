@@ -22,6 +22,7 @@
         id="rentalStartDateTime"
         [(ngModel)]="rentDate"
         min="{{ dateTimeNow | date: 'YYYY-MM-ddThh:mm' }}"
+        (change)="getCarTotalPriceCalculate()"
       />
     </div>
     <div class="col-12 col-md-6 mb-3">
@@ -34,6 +35,7 @@
         id="rentalEndDateTime"
         [(ngModel)]="returnDate"
         min="{{ rentDate | date: 'YYYY-MM-ddThh:mm' }}"
+        (change)="getCarTotalPriceCalculate()"
       />
     </div>
     <div class="text-center text-md-start">
