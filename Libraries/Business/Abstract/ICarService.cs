@@ -32,7 +32,7 @@ namespace Business.Abstract
 
         Task<IDataResult<List<Car>>> GetAllAsync();
 
-        Task<IResult> AddAsync(CarAddDto carAddDto);
+        Task<IDataResult<Car>> AddAsync(CarAddDto carAddDto);
 
         Task<IResult> UpdateAsync(CarUpdateDto carUpdateDto);
 

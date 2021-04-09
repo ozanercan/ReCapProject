@@ -50,6 +50,10 @@ import { LoginGuard } from './guards/login.guard';
 import { RegisterGuard } from './guards/register.guard';
 import { NavbarInUserComponent } from './components/navbar-in-user/navbar-in-user.component';
 import { OnlyNumbersDirective } from './directives/only-numbers.directive';
+import { CarBannerComponent } from './components/car-banner/car-banner.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { CarImageAddWithFormComponent } from './components/car-image-add-with-form/car-image-add-with-form.component';
+import { CarImageUpdateWithFormComponent } from './components/car-image-update-with-form/car-image-update-with-form.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +95,11 @@ import { OnlyNumbersDirective } from './directives/only-numbers.directive';
     LoginWithModalComponent,
     CustomerUpdateSelfWithFormComponent,
     NavbarInUserComponent,
-    OnlyNumbersDirective
+    OnlyNumbersDirective,
+    CarBannerComponent,
+    HomePageComponent,
+    CarImageAddWithFormComponent,
+    CarImageUpdateWithFormComponent,
   ],
   imports: [
     BrowserModule,

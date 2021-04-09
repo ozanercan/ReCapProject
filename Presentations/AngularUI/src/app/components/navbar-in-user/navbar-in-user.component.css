@@ -1,4 +1,3 @@
-ul,
-ul.dropdown-menu li button {
-  background-color: black !important;
+.dropdown-menu {
+  background-color: var(--bs-light);
 }

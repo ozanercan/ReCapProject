@@ -202,7 +202,7 @@ namespace Business.Concrete
         {
             int carImageCount = (await _carImageDal.GetAllAsync(p => p.CarId == carId)).Count;
             if (carImageCount >= 5)
-                return new ErrorResult(Messages.CarImageCountError);
+                return new ErrorResult(Messages.CarImageCountLimitError);
 
             return new SuccessResult();
         }

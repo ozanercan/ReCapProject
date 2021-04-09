@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
-    <span class="btn navbar-brand text-light">{{ navText }}</span>
+    <span class="btn navbar-brand textColor">{{ navText }}</span>
     <button
-      class="navbar-toggler bg-light"
+      class="navbar-toggler backColor"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarSupportedContent"
@@ -13,10 +13,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
         <li *ngFor="let nav of navs" class="nav-item">
           <button
-            class="nav-link btn text-light hvr-underline-from-center"
+            class="nav-link btn"
             aria-current="page"
             routerLink="{{ nav.route }}"
             >{{ nav.title }}</button
@@ -24,18 +24,17 @@
         </li>
         <li *ngFor="let dropDownNav of dropDownNavs" class="nav-item dropdown">
           <button
-            class="nav-link btn dropdown-toggle text-light hvr-underline-from-center"
+            class="nav-link btn dropdown-toggle"
             id="navbarDropdown"
             role="button"
-            data-bs-toggle="dropdown"
             aria-expanded="false"
           >
             {{ dropDownNav.title }}
         </button>
           <ul class="dropdown-menu p-0" aria-labelledby="navbarDropdown">
-            <li>
+            <li class="m-0 m-0">
               <button
-                class="nav-link btn dropdown-item hvr-underline-from-left text-light"
+                class="nav-link btn dropdown-item"
                 *ngFor="let childNav of dropDownNav.childNavs"
                 routerLink="{{ childNav.route }}"
                 >{{ childNav.title }}</button

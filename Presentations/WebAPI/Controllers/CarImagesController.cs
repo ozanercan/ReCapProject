@@ -1,7 +1,12 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -16,7 +21,7 @@ namespace WebAPI.Controllers
         {
             _carImageService = carImageService;
             _webHostEnvironment = webHostEnvironment;
-            
+
         }
 
         [HttpGet("getlistbycarid")]
@@ -29,6 +34,23 @@ namespace WebAPI.Controllers
             return Ok(carImagesResult);
         }
 
+        [HttpPost("addPrimitive")]
+        public async Task<IActionResult> AddAsync(int carId, List<IFormFile> formFiles)
+        {
+            if (formFiles.Count == 0)
+                return BadRequest(Messages.CarImageCountInvalid);
+
+            IResult lastAddResult = new ErrorResult();
+            foreach (var formFile in formFiles)
+            {
+                var addResult = await _carImageService.AddAsync(new CarImageAddDto() { CarId = carId, FormFile = formFile });
+
+                lastAddResult = addResult;
+                if (!addResult.Success)
+                    return BadRequest(addResult);
+            }
+            return Ok(lastAddResult);
+        }
 
         [HttpPost("add")]
         public async Task<IActionResult> AddAsync([FromForm] CarImageAddDto carImageAddDto)

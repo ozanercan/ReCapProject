@@ -21,7 +21,6 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
-
             builder.RegisterType<EfBrandDal>().As<IBrandDal>();
             builder.RegisterType<EfCarDal>().As<ICarDal>();
             builder.RegisterType<EfColorDal>().As<IColorDal>();

@@ -50,6 +50,7 @@ namespace Business.Constants
         public static string GearTypesNotFound = "Vites Tipleri bulunamadı.";
         public static string AuthorizationToUserAdded = "Yetki kullanıcıya başarıyla eklendi.";
         public static string AuthorizationToUserNotAdded = "Yetki kullanıcıya eklenemedi.";
+        public static string CarImageCountInvalid = "Araç resim sayısı geçersiz.";
 
         public static string CarImageNotAdded => "Araç resmi eklenemedi.";
         public static string CarImageAdded => "Araç resmi eklendi.";
@@ -61,7 +62,7 @@ namespace Business.Constants
         public static string CarImageUpdated => "Araç resmi güncellendi.";
         public static string CarImagesListed => "Araç resimleri listelendi.";
         public static string CarImageBrought => "Araç resmi getirildi.";
-        public static string CarImageCountError => "Araç resim sınırını aştınız.";
+        public static string CarImageCountLimitError => "Araç resim sınırını aştınız.";
         public static string CarImageNotUploaded => "Resim yüklenemedi.";
         public static string RegisteredCarImageNotDeleted => "Kayıtlı araç resmi silinemedi.";
         public static string CarAlreadyRented => "Araç belirlenen tarihler arasında zaten kiralanmış.";

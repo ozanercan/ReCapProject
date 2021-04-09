@@ -8,6 +8,6 @@ export class CarAddDto {
   horsePower!: number;
   dailyPrice!: number;
   description!: string;
+
+  formFile!: FormData;
 }
-
-

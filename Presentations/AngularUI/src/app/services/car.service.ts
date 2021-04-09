@@ -14,6 +14,7 @@ import { DataResponseModel } from '../models/responseModels/dataResponseModel';
 import { ResponseModel } from '../models/responseModels/responseModel';
 import { CarUpdateDto } from '../models/Dtos/carUpdateDto';
 import { CarCalculateDailyPriceDto } from '../models/Dtos/carCalculateDailyPriceDto';
+import { Car } from '../models/car';
 
 @Injectable({
   providedIn: 'root',
@@ -69,8 +70,8 @@ export class CarService {
     );
   }
 
-  addCar(carAddDto: CarAddDto) {
-    return this.httpClient.post<ResponseModel>(
+  addCar(carAddDto: CarAddDto) : Observable<DataResponseModel<Car>> {
+    return this.httpClient.post<DataResponseModel<Car>>(
       ApiUrlHelper.getUrl(this.getCarAddPath),
       carAddDto
     );

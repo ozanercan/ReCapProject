@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -7,5 +8,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  constructor() {}
+
+  ngOnInit() {
+  }
+
   title = 'AngularUI';
 }

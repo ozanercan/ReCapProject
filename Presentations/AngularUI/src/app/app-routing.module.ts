@@ -5,6 +5,8 @@ import { BrandUpdateWithFormComponent } from './components/brand-update-with-for
 import { CarAddWithFormComponent } from './components/car-add-with-form/car-add-with-form.component';
 import { CarCardComponent } from './components/car-card/car-card.component';
 import { CarDetailComponent } from './components/car-detail/car-detail.component';
+import { CarImageAddWithFormComponent } from './components/car-image-add-with-form/car-image-add-with-form.component';
+import { CarImageUpdateWithFormComponent } from './components/car-image-update-with-form/car-image-update-with-form.component';
 import { CarListWithCardComponent } from './components/car-list-with-card/car-list-with-card.component';
 import { CarUpdateWithFormComponent } from './components/car-update-with-form/car-update-with-form.component';
 import { ColorAddWithFormComponent } from './components/color-add-with-form/color-add-with-form.component';
@@ -26,6 +28,7 @@ import { CarListByParametersPageComponent } from './pages/car-list-by-parameters
 import { CarListWithTablePageComponent } from './pages/car-list-with-table-page/car-list-with-table-page.component';
 import { ColorListWithTablePageComponent } from './pages/color-list-with-table-page/color-list-with-table-page.component';
 import { CustomerListWithTablePageComponent } from './pages/customer-list-with-table-page/customer-list-with-table-page.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ImageUploadComponent } from './pages/image-upload/image-upload.component';
 import { RentalListWithTablePageComponent } from './pages/rental-list-with-table-page/rental-list-with-table-page.component';
 import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.component';
@@ -96,12 +99,15 @@ const routes: Routes = [
     data: { roles: ['admin'] },
   },
   { path: 'car/list/table', component: CarListWithTablePageComponent },
+  { path: 'carimage/update/:carId', component: CarImageUpdateWithFormComponent },
+  { path: 'carimage/add/:carId', component: CarImageAddWithFormComponent },
+  { path: 'home', component: HomePageComponent },
   { path: 'rental/list/table', component: RentalListWithTablePageComponent },
   { path: 'car/detail/:carId', component: CarDetailComponent },
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'car/list/filter/card',
+    redirectTo: 'home',
   },
   {
     path: 'rental/add/:carId',

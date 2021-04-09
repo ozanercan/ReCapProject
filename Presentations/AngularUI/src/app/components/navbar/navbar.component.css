@@ -1,5 +1,27 @@
-nav,
-ul,
+nav {
+  background-color: var(--bs-light);
+}
+ul > li{
+  transition:width 2s;
+-moz-transition:width 2s; /* Firefox 4 */
+-webkit-transition:width 2s; /* Safari and Chrome */
+-o-transition:width 2s; /* Opera */
+}
+ul li {
+  margin-left: 5px;
+}
 li button {
-  background-color: #000000 !important;
+  background-color: var(--bs-light);
+  color: var(--bs-dark);
+  border-radius: 0px;
+}
+
+li button:hover {
+  background-color: var(--nav-bgColor);
+  color: var(--bs-light);
+
+}
+
+.dropdown:hover>.dropdown-menu {
+  display: block;
 }

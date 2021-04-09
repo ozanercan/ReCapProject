@@ -42,23 +42,24 @@ namespace Business.Concrete
         [CacheRemoveAspect("ICarService.Get")]
         [ValidationAspect(typeof(CarAddDtoValidator))]
         [SecuredOperation("admin")]
-        public async Task<IResult> AddAsync(CarAddDto carAddDto)
+        public async Task<IDataResult<Car>> AddAsync(CarAddDto carAddDto)
         {
             var brandResult = await GetBrandByBrandNameAsync(carAddDto.BrandName);
             if (!brandResult.Success)
-                return new ErrorResult(brandResult.Message);
+                return new ErrorDataResult<Car>(null, brandResult.Message);
 
             var colorResult = await GetColorByColorNameAsync(carAddDto.ColorName);
             if (!colorResult.Success)
-                return new ErrorResult(colorResult.Message);
+                return new ErrorDataResult<Car>(null, colorResult.Message);
 
             var gearTypeResult = await GetGearTypeByGearTypeNameAsync(carAddDto.GearTypeName);
             if (!gearTypeResult.Success)
-                return new ErrorResult(gearTypeResult.Message);
+                return new ErrorDataResult<Car>(null, gearTypeResult.Message);
 
             var fuelTypeResult = await GetFuelTypeByFuelTypeNameAsync(carAddDto.FuelTypeName);
             if (!fuelTypeResult.Success)
-                return new ErrorResult(fuelTypeResult.Message);
+                return new ErrorDataResult<Car>(null, fuelTypeResult.Message);
+
 
             Car carToAdd = new Car()
             {
@@ -73,15 +74,14 @@ namespace Business.Concrete
                 ModelYear = carAddDto.ModelYear
             };
             bool addResult = await _carDal.AddAsync(carToAdd);
-
             if (!addResult)
-                return new ErrorResult(Messages.CarNotAdded);
+                return new ErrorDataResult<Car>(null, Messages.CarNotAdded);
 
             var carCreditScoreAddResult = await AddCarCreditScoreAsync(carToAdd.Id, carAddDto.MinCreditScore);
             if (!carCreditScoreAddResult.Success)
-                return new ErrorResult(carCreditScoreAddResult.Message);
+                return new ErrorDataResult<Car>(null, carCreditScoreAddResult.Message);
 
-            return new SuccessResult(Messages.CarAdded);
+            return new SuccessDataResult<Car>(carToAdd, Messages.CarAdded);
         }
 
         private async Task<IResult> AddCarCreditScoreAsync(int carId, int minCreditScore)

@@ -1,4 +1,6 @@
 ﻿using Core.Entities.Abstract;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 
 namespace Entities.Dtos
 {

@@ -1,0 +1,30 @@
+<div class="row w-sm-100 w-75 mx-auto">
+  <div
+    class="col-12 col-md-3 mt-2"
+    *ngFor="let imageUrl of imageUrls; let i = index"
+  >
+    <img
+      [src]="imageUrl"
+      style="width: 250px; height: 200px"
+      class="img-thumbnail"
+    />
+  </div>
+  <div class="col-12 mt-2">
+    <div class="mb-3">
+      <input
+        type="file"
+        class="form-control"
+        (change)="onFileChanged($event)"
+        #fileInput
+        accept="image/*"
+        multiple
+      />
+      <h6 class="display-6 fs-6 text-light">
+        *Birden fazla fotoğrafı tek seferde yükleyebilirsiniz.
+      </h6>
+    </div>
+  </div>
+  <div class="text-center">
+    <button (click)="onUpload()" class="btn btn-success w-25">Yükle</button>
+  </div>
+</div>

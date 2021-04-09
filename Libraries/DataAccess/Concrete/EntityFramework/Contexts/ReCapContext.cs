@@ -9,10 +9,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB; Database=recapdb; Trusted_Connection=True;",
-                providerOptions => { providerOptions.EnableRetryOnFailure(); });
-
-
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=rentaldb; Trusted_Connection=True;");
             base.OnConfiguring(optionsBuilder.UseLoggerFactory(CustomerLoggerFactory));
         }
         public static readonly ILoggerFactory CustomerLoggerFactory
