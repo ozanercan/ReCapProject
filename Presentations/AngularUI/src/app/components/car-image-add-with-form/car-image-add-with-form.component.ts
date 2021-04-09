@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { timer } from 'rxjs';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { CarImageService } from 'src/app/services/car-image.service';
 
@@ -74,6 +75,10 @@ export class CarImageAddWithFormComponent implements OnInit {
     this.carImageService.add(formData, this.carId).subscribe(
       (p) => {
         this.toastrService.success(p.message);
+
+        timer(1000).subscribe((p) => {
+          window.location.reload();
+        });
       },
       (error) => {
         this.toastrService.error(ErrorHelper.getMessage(error));

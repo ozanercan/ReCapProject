@@ -1,0 +1,66 @@
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button
+      class="nav-link active"
+      id="nav-car-tab"
+      data-bs-toggle="tab"
+      data-bs-target="#nav-car"
+      type="button"
+      role="tab"
+      aria-controls="nav-car"
+      aria-selected="true"
+    >
+      Araç Bilgilerini Düzenle
+    </button>
+    <button
+      class="nav-link"
+      id="nav-carImageAdd-tab"
+      data-bs-toggle="tab"
+      data-bs-target="#nav-carImageAdd"
+      type="button"
+      role="tab"
+      aria-controls="nav-carImageAdd"
+      aria-selected="false"
+    >
+      Yeni Fotoğraf Ekle
+    </button>
+    <button
+      class="nav-link"
+      id="nav-carImageDelete-tab"
+      data-bs-toggle="tab"
+      data-bs-target="#nav-carImageDelete"
+      type="button"
+      role="tab"
+      aria-controls="nav-carImageDelete"
+      aria-selected="false"
+    >
+      Araç Fotoğraflarını Sil
+    </button>
+  </div>
+</nav>
+<div class="tab-content mt-3" id="nav-tabContent">
+  <div
+    class="tab-pane fade show active"
+    id="nav-car"
+    role="tabpanel"
+    aria-labelledby="nav-car-tab"
+  >
+    <app-car-update-with-form></app-car-update-with-form>
+  </div>
+  <div
+    class="tab-pane fade"
+    id="nav-carImageAdd"
+    role="tabpanel"
+    aria-labelledby="nav-carImageAdd-tab"
+  >
+    <app-car-image-add-with-form></app-car-image-add-with-form>
+  </div>
+  <div
+    class="tab-pane fade"
+    id="nav-carImageDelete"
+    role="tabpanel"
+    aria-labelledby="nav-carImageDelete-tab"
+  >
+    <app-car-image-update-with-form></app-car-image-update-with-form>
+  </div>
+</div>

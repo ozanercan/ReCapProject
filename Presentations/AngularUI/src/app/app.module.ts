@@ -39,7 +39,6 @@ import { CarAddWithFormComponent } from './components/car-add-with-form/car-add-
 import { BrandUpdateWithFormComponent } from './components/brand-update-with-form/brand-update-with-form.component';
 import { ColorUpdateWithFormComponent } from './components/color-update-with-form/color-update-with-form.component';
 import { CarUpdateWithFormComponent } from './components/car-update-with-form/car-update-with-form.component';
-import { ImageUploadComponent } from './pages/image-upload/image-upload.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthorizationInterceptor } from './interceptors/authorization.interceptor';
@@ -54,6 +53,7 @@ import { CarBannerComponent } from './components/car-banner/car-banner.component
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { CarImageAddWithFormComponent } from './components/car-image-add-with-form/car-image-add-with-form.component';
 import { CarImageUpdateWithFormComponent } from './components/car-image-update-with-form/car-image-update-with-form.component';
+import { CarUpdatePageComponent } from './pages/car-update-page/car-update-page.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +89,6 @@ import { CarImageUpdateWithFormComponent } from './components/car-image-update-w
     BrandUpdateWithFormComponent,
     ColorUpdateWithFormComponent,
     CarUpdateWithFormComponent,
-    ImageUploadComponent,
     LoginComponent,
     RegisterComponent,
     LoginWithModalComponent,
@@ -99,7 +98,8 @@ import { CarImageUpdateWithFormComponent } from './components/car-image-update-w
     CarBannerComponent,
     HomePageComponent,
     CarImageAddWithFormComponent,
-    CarImageUpdateWithFormComponent,
+    CarUpdatePageComponent,
+    CarImageUpdateWithFormComponent
   ],
   imports: [
     BrowserModule,

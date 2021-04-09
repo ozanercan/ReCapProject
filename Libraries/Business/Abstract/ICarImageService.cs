@@ -23,6 +23,7 @@ namespace Business.Abstract
         Task<IResult> UpdateAsync(CarImageUpdateDto carImageUpdateDto);
 
         Task<IResult> DeleteAsync(CarImageDeleteDto carImage);
+        Task<IResult> DeleteByIdAsync(int id);
 
         IDataResult<string> GetDefaultCarImageUrl();
 

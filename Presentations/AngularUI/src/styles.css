@@ -1,17 +1,16 @@
 :root {
   --nav-bgColor: #d01818;
-  --textColor: var(--bs-dark);
-
+  --textColor: var(--bs-light);
 }
 
 .btn:focus {
   box-shadow: none !important;
 }
 
-.textColor{
-  color:var(--textColor);
+.textColor {
+  color: var(--textColor);
 }
 
-.backColor{
+.backColor {
   background-color: var(--bgColor);
 }

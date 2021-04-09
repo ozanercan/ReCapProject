@@ -1,0 +1,6 @@
+button{
+    color: var(--bs-light);
+}
+.nav-link.active{
+    color: var(--bs-light);
+}

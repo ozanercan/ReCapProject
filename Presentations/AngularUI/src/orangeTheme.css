@@ -1,8 +1,10 @@
 
 
-.bg-color,
-.active {
-  background-color: var(--bgColor) !important;
+.bg-color{
+  background-color: var(--bs-warning) !important;
+}
+button.active{
+  background-color: var(--bs-warning) !important;
 }
 
 .form-label {

@@ -1,1 +1,54 @@
-<p>car-image-update-with-form works!</p>
+<div class="row">
+  <div class="col-12 col-md-3" *ngFor="let carImage of carImages">
+    <img
+      [src]="carImage.imagePath"
+      width="250"
+      class="img-thumbnail h-100 hvr-float-shadow"
+      height="200"
+      data-bs-toggle="modal"
+      data-bs-target="#carImageRemoveQuestionModal"
+      (click)="selectedCarImage = carImage"
+    />
+  </div>
+</div>
+<div class="mt-3">
+  <p class="display-6 fs-6 textColor">*Resmi silmek için üzerine tıklayın.</p>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="carImageRemoveQuestionModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Soru</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Seçtiğiniz araç resmini silmek istediğinizden emin misiniz?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Vazgeç
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="deleteCarImage(this.selectedCarImage)"
+          data-bs-dismiss="modal"
+        >
+          Sil
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

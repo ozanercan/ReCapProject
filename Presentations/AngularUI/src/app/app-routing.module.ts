@@ -26,14 +26,20 @@ import { CarListByBrandPageComponent } from './pages/car-list-by-brand-page/car-
 import { CarListByColorPageComponent } from './pages/car-list-by-color-page/car-list-by-color-page.component';
 import { CarListByParametersPageComponent } from './pages/car-list-by-parameters-page/car-list-by-parameters-page.component';
 import { CarListWithTablePageComponent } from './pages/car-list-with-table-page/car-list-with-table-page.component';
+import { CarUpdatePageComponent } from './pages/car-update-page/car-update-page.component';
 import { ColorListWithTablePageComponent } from './pages/color-list-with-table-page/color-list-with-table-page.component';
 import { CustomerListWithTablePageComponent } from './pages/customer-list-with-table-page/customer-list-with-table-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { ImageUploadComponent } from './pages/image-upload/image-upload.component';
 import { RentalListWithTablePageComponent } from './pages/rental-list-with-table-page/rental-list-with-table-page.component';
 import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.component';
 
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   pathMatch: 'full',
+  //   redirectTo: 'home',
+  // },
+  { path: 'home', component: HomePageComponent },
   {
     path: 'customer/update/form',
     component: CustomerUpdateSelfWithFormComponent,
@@ -54,9 +60,13 @@ const routes: Routes = [
     component: LoginComponent,
     canActivate: [LoginGuard],
   },
-  { path: 'imageUpload', component: ImageUploadComponent },
   {
-    path: 'brand/add/form',
+    path: 'customer/list/table',
+    component: CustomerListWithTablePageComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'admin/brand/add/form',
     component: BrandAddWithFormComponent,
     canActivate: [AuthenticationGuard, AuthorizationGuard],
     data: { roles: ['admin'] },
@@ -80,43 +90,9 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard, AuthorizationGuard],
     data: { roles: ['admin'] },
   },
-  { path: 'color/list/table', component: ColorListWithTablePageComponent },
   {
-    path: 'color/update/form/:colorId',
-    component: ColorUpdateWithFormComponent,
-    canActivate: [AuthenticationGuard, AuthorizationGuard],
-    data: { roles: ['admin'] },
-  },
-  {
-    path: 'customer/list/table',
-    component: CustomerListWithTablePageComponent,
-    canActivate: [AuthenticationGuard],
-  },
-  {
-    path: 'color/add/form',
-    component: ColorAddWithFormComponent,
-    canActivate: [AuthenticationGuard, AuthorizationGuard],
-    data: { roles: ['admin'] },
-  },
-  { path: 'car/list/table', component: CarListWithTablePageComponent },
-  { path: 'carimage/update/:carId', component: CarImageUpdateWithFormComponent },
-  { path: 'carimage/add/:carId', component: CarImageAddWithFormComponent },
-  { path: 'home', component: HomePageComponent },
-  { path: 'rental/list/table', component: RentalListWithTablePageComponent },
-  { path: 'car/detail/:carId', component: CarDetailComponent },
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'home',
-  },
-  {
-    path: 'rental/add/:carId',
-    component: RentalNewPageComponent,
-  },
-  {
-    path: 'payment/add/:rentalId',
-    component: PaymentComponent,
-    canActivate: [AuthenticationGuard],
+    path: 'carUpdate/:carId',
+    component: CarUpdatePageComponent,
   },
   {
     path: 'car/list/color',
@@ -126,10 +102,6 @@ const routes: Routes = [
         path: 'card',
         component: CarListWithCardComponent,
       },
-      // {
-      //   path: 'card/:colorId',
-      //   component: CarListWithCardComponent,
-      // },
     ],
   },
   {
@@ -154,27 +126,41 @@ const routes: Routes = [
         path: 'card',
         component: CarListWithCardComponent,
       },
-      // {
-      //   path: 'card/brandName/:brandName',
-      //   component: CarListWithCardComponent,
-      // },
-      // {
-      //   path: 'card/brandId/:brandId',
-      //   component: CarListWithCardComponent,
-      // },
-      // {
-      //   path: 'card/colorId/:colorId',
-      //   component: CarListWithCardComponent,
-      // },
-      // {
-      //   path: 'card/colorName/:colorName',
-      //   component: CarListWithCardComponent,
-      // },
-      // {
-      //   path: 'card/:colorName/:brandName',
-      //   component: CarListWithCardComponent,
-      // },
     ],
+  },
+  { path: 'car/detail/:carId', component: CarDetailComponent },
+  { path: 'car/list/table', component: CarListWithTablePageComponent },
+  {
+    path: 'carimage/update/:carId',
+    component: CarImageUpdateWithFormComponent,
+  },
+  { path: 'carimage/add/:carId', component: CarImageAddWithFormComponent },
+
+  { path: 'color/list/table', component: ColorListWithTablePageComponent },
+  {
+    path: 'color/update/form/:colorId',
+    component: ColorUpdateWithFormComponent,
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
+  },
+
+  {
+    path: 'color/add/form',
+    component: ColorAddWithFormComponent,
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
+  },
+
+  { path: 'rental/list/table', component: RentalListWithTablePageComponent },
+
+  {
+    path: 'rental/add/:carId',
+    component: RentalNewPageComponent,
+  },
+  {
+    path: 'payment/add/:rentalId',
+    component: PaymentComponent,
+    canActivate: [AuthenticationGuard],
   },
 ];
 

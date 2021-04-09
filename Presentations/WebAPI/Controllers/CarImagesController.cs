@@ -81,5 +81,16 @@ namespace WebAPI.Controllers
 
             return Ok(deleteResult);
         }
+
+
+        [HttpDelete("deletebyid")]
+        public async Task<IActionResult> DeleteByIdAsync(int id)
+        {
+            var deleteResult = await _carImageService.DeleteByIdAsync(id);
+            if (!deleteResult.Success)
+                return BadRequest(deleteResult);
+
+            return Ok(deleteResult);
+        }
     }
 }

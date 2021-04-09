@@ -187,6 +187,25 @@ namespace Business.Concrete
             return new SuccessDataResult<string>(DefaultValues.DefaultCarImageUrl);
         }
 
+        [SecuredOperation("admin")]
+        [CacheRemoveAspect("ICarImageService.Get")]
+        public async Task<IResult> DeleteByIdAsync(int id)
+        {
+            var carImageResult = await this.GetByIdAsync(id);
+            if (!carImageResult.Success)
+                return new ErrorResult(carImageResult.Message);
+
+            var fileRemoveResult = FileHelper.FileRemove(carImageResult.Data.ImagePath);
+            if (!fileRemoveResult.Success)
+                return new ErrorResult(Messages.RegisteredCarImageNotDeleted);
+
+            bool deleteResult = _carImageDal.Delete(carImageResult.Data);
+            if (!deleteResult)
+                return new ErrorResult(Messages.CarImageNotDeleted);
+
+            return new SuccessResult(Messages.CarImageDeleted);
+        }
+
         private void GetImagePathScheme(HttpRequest httpRequest, List<CarImage> getCarList)
         {
             getCarList.ForEach(p =>
@@ -206,5 +225,7 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
+
+        
     }
 }
