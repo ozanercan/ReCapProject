@@ -54,6 +54,8 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { CarImageAddWithFormComponent } from './components/car-image-add-with-form/car-image-add-with-form.component';
 import { CarImageUpdateWithFormComponent } from './components/car-image-update-with-form/car-image-update-with-form.component';
 import { CarUpdatePageComponent } from './pages/car-update-page/car-update-page.component';
+import { FeatureComponent } from './components/feature/feature.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +102,8 @@ import { CarUpdatePageComponent } from './pages/car-update-page/car-update-page.
     CarImageAddWithFormComponent,
     CarUpdatePageComponent,
     CarImageUpdateWithFormComponent,
+    FeatureComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
