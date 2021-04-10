@@ -14,7 +14,7 @@ export class NavbarService {
   private navs: Nav[] = [
     {
       title: 'Ana Sayfa',
-      route: '',
+      route: 'home/cars',
       onlyAuthentication: false,
       onlyClaim: undefined,
     },

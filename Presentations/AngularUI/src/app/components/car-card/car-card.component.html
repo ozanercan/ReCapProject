@@ -1,14 +1,14 @@
-<div class="card" (click)="navigateToCarDetailPage()">
+<div class="card h-100" (click)="navigateToCarDetailPage()">
   <img
     [src]="carDetail.imagePaths[0].imagePath"
     class="card-img-top"
     height="200"
   />
   <p
-    class="badge bg-color position-absolute fs-6"
-    style="right: 1px; top: 10px"
+    class="badge bg-color position-absolute fs-5"
+    style="right: 0px; top: 10px"
   >
-    <i class="bi bi-star"></i> {{ carDetail.dailyPrice }} ₺
+    {{ carDetail.dailyPrice }} ₺
   </p>
   <div class="card-body row">
     <div class="col-12">

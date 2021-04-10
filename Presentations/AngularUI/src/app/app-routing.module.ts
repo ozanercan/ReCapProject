@@ -39,7 +39,16 @@ const routes: Routes = [
   //   pathMatch: 'full',
   //   redirectTo: 'home',
   // },
-  { path: 'home', component: HomePageComponent },
+  {
+    path: 'home',
+    component: HomePageComponent,
+    children: [
+      {
+        path: 'cars',
+        component: CarListWithCardComponent,
+      },
+    ],
+  },
   {
     path: 'customer/update/form',
     component: CustomerUpdateSelfWithFormComponent,

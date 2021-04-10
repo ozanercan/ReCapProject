@@ -1,4 +1,4 @@
-<div>
+<div class="position-relative">
   <div
     id="carCarouselWithControls"
     class="carousel slide"
@@ -6,19 +6,49 @@
   >
     <div class="carousel-inner">
       <div
-        class="carousel-item"
+        class="carousel-item position-relative"
         [class.active]="i == 0"
         *ngFor="let carDetail of carDetailDtos; let i = index"
       >
-        <img [src]="carDetail.imagePaths[0].imagePath" class="d-block w-100" />
+        <img
+          [src]="carDetail.imagePaths[0].imagePath"
+          class="d-block w-100"
+          style="height: 100vh"
+        />
+        <div class="overlay"></div>
+        <div
+          class="bannerTextGroup position-absolute"
+          style="right: 5px; top: 60%"
+        >
+          <h1
+            class="text-center fs-1 badge text-light float-end fw-bold carName"
+          >
+            {{ carDetail.name | uppercase }}
+          </h1>
+          <br />
+          <h1
+            class="text-decoration-none text-center fs-1 fw-normal badge text-light border border-3 float-end"
+          >
+            <span class="fw-bold text-light">₺{{ carDetail.dailyPrice }}</span
+            ><span class="text-danger fw-bold">/</span>Gün
+          </h1>
+          <br />
+          <button
+            class="btn text-decoration-none text-center fs-1 fw-normal badge text-light rentNow float-end hvr-float-shadow"
+            routerLink="/car/detail/{{ carDetail.id }}"
+          >
+            Hemen Kirala!
+        </button>
+        </div>
       </div>
     </div>
   </div>
   <button
-    class="carousel-control-prev position-absolute top-0"
+    class="carousel-control-prev  inline-block "
     type="button"
     data-bs-target="#carCarouselWithControls"
     data-bs-slide="prev"
+    style="z-index: 3; top:50%; max-height: 50px;"
   >
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
@@ -28,6 +58,7 @@
     type="button"
     data-bs-target="#carCarouselWithControls"
     data-bs-slide="next"
+    style="z-index: 3;"
   >
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>

@@ -99,7 +99,7 @@ import { CarUpdatePageComponent } from './pages/car-update-page/car-update-page.
     HomePageComponent,
     CarImageAddWithFormComponent,
     CarUpdatePageComponent,
-    CarImageUpdateWithFormComponent
+    CarImageUpdateWithFormComponent,
   ],
   imports: [
     BrowserModule,
