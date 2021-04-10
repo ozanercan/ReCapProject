@@ -56,6 +56,7 @@ import { CarImageUpdateWithFormComponent } from './components/car-image-update-w
 import { CarUpdatePageComponent } from './pages/car-update-page/car-update-page.component';
 import { FeatureComponent } from './components/feature/feature.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { FooterComponent } from './components/footer/footer.component';
     CarImageUpdateWithFormComponent,
     FeatureComponent,
     FooterComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

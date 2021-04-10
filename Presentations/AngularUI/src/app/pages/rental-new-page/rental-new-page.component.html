@@ -12,7 +12,7 @@
       ></app-customer-list-with-table>
     </div> -->
 
-    <div class="col-12 col-md-6 mb-3">
+    <div class="col-12 col-md-6 h-25">
       <label for="rentalStartDateTime" class="form-label"
         >Kira Başlangıç Tarihi</label
       >
@@ -25,7 +25,7 @@
         (change)="getCarTotalPriceCalculate()"
       />
     </div>
-    <div class="col-12 col-md-6 mb-3">
+    <div class="col-12 col-md-6 h-25">
       <label for="rentalEndDateTime" class="form-label"
         >Kira Bitiş Tarihi</label
       >
@@ -38,7 +38,7 @@
         (change)="getCarTotalPriceCalculate()"
       />
     </div>
-    <div class="text-center text-md-start">
+    <div class="col-12 text-center text-md-start">
       <button class="btn btn-warning text-dark w-25" (click)="create()" [disabled]="getValidateStatusForButton()">Kayıt Et</button>
     </div>
   </div>
@@ -47,7 +47,7 @@
   id="showLoginModal"
   class="invisible"
   data-bs-toggle="modal"
-  data-bs-target="#exampleModal"
+  data-bs-target="#loginModal"
   data-bs-whatever="@mdo"
 ></button>
 <app-login-with-modal></app-login-with-modal>

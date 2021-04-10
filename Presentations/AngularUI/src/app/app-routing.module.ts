@@ -15,6 +15,7 @@ import { CustomerListWithTableComponent } from './components/customer-list-with-
 import { CustomerUpdateSelfWithFormComponent } from './components/customer-update-self-with-form/customer-update-self-with-form.component';
 import { LoginWithModalComponent } from './components/login-with-modal/login-with-modal.component';
 import { LoginComponent } from './components/login/login.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
@@ -34,21 +35,17 @@ import { RentalListWithTablePageComponent } from './pages/rental-list-with-table
 import { RentalNewPageComponent } from './pages/rental-new-page/rental-new-page.component';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   pathMatch: 'full',
-  //   redirectTo: 'home',
-  // },
   {
     path: 'home',
     component: HomePageComponent,
     children: [
       {
-        path: 'cars',
+        path: 'card',
         component: CarListWithCardComponent,
       },
     ],
   },
+
   {
     path: 'customer/update/form',
     component: CustomerUpdateSelfWithFormComponent,
@@ -72,7 +69,8 @@ const routes: Routes = [
   {
     path: 'customer/list/table',
     component: CustomerListWithTablePageComponent,
-    canActivate: [AuthenticationGuard],
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
   },
   {
     path: 'admin/brand/add/form',
@@ -86,7 +84,12 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard, AuthorizationGuard],
     data: { roles: ['admin'] },
   },
-  { path: 'brand/list/table', component: BrandListWithTablePageComponent },
+  {
+    path: 'brand/list/table',
+    component: BrandListWithTablePageComponent,
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
+  },
   {
     path: 'car/add/form',
     component: CarAddWithFormComponent,
@@ -102,6 +105,8 @@ const routes: Routes = [
   {
     path: 'carUpdate/:carId',
     component: CarUpdatePageComponent,
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
   },
   {
     path: 'car/list/color',
@@ -138,14 +143,31 @@ const routes: Routes = [
     ],
   },
   { path: 'car/detail/:carId', component: CarDetailComponent },
-  { path: 'car/list/table', component: CarListWithTablePageComponent },
+  {
+    path: 'car/list/table',
+    component: CarListWithTablePageComponent,
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
+  },
   {
     path: 'carimage/update/:carId',
     component: CarImageUpdateWithFormComponent,
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
   },
-  { path: 'carimage/add/:carId', component: CarImageAddWithFormComponent },
+  {
+    path: 'carimage/add/:carId',
+    component: CarImageAddWithFormComponent,
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
+  },
 
-  { path: 'color/list/table', component: ColorListWithTablePageComponent },
+  {
+    path: 'color/list/table',
+    component: ColorListWithTablePageComponent,
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
+  },
   {
     path: 'color/update/form/:colorId',
     component: ColorUpdateWithFormComponent,
@@ -160,7 +182,12 @@ const routes: Routes = [
     data: { roles: ['admin'] },
   },
 
-  { path: 'rental/list/table', component: RentalListWithTablePageComponent },
+  {
+    path: 'rental/list/table',
+    component: RentalListWithTablePageComponent,
+    canActivate: [AuthenticationGuard, AuthorizationGuard],
+    data: { roles: ['admin'] },
+  },
 
   {
     path: 'rental/add/:carId',
@@ -171,6 +198,15 @@ const routes: Routes = [
     component: PaymentComponent,
     canActivate: [AuthenticationGuard],
   },
+  // {
+  //   path: '**',
+  //   component: NotFoundComponent,
+  // },
+  // {
+  //   path: '',
+  //   pathMatch: 'full',
+  //   redirectTo: 'home',
+  // },
 ];
 
 @NgModule({

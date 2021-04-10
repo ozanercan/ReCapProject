@@ -89,13 +89,13 @@ export class CarService {
     throw new Error('');
   }
 
-  getById(id: number): Observable<DataResponseModel<CarDto>> {
-    return this.httpClient.get<DataResponseModel<CarDto>>(
-      ApiUrlHelper.getUrlWithParameters(this.getByIdUrl, [
-        { key: 'id', value: id },
-      ])
-    );
-  }
+  // getById(id: number): Observable<DataResponseModel<CarDto>> {
+  //   return this.httpClient.get<DataResponseModel<CarDto>>(
+  //     ApiUrlHelper.getUrlWithParameters(this.getByIdUrl, [
+  //       { key: 'id', value: id },
+  //     ])
+  //   );
+  // }
 
   getCarDetails(): Observable<DataResponseModel<CarDetailDto[]>> {
     return this.httpClient.get<DataResponseModel<CarDetailDto[]>>(

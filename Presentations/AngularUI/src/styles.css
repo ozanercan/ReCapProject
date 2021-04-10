@@ -14,3 +14,7 @@
 .backColor {
   background-color: var(--bgColor);
 }
+
+.list-group-item.active{
+  background-color: Var(--bs-warning) !important;
+}
