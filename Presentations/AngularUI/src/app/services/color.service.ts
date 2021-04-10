@@ -15,10 +15,10 @@ import { ResponseModel } from '../models/responseModels/responseModel';
 export class ColorService {
   constructor(private httpClient: HttpClient, private toastrService:ToastrService) {}
 
-  getColorByIdPath: string = 'colors/getbyid';
-  getColorsPath: string = 'colors/getall';
-  getColorAddPath: string = 'colors/add';
-  getColorUpdatePath: string = 'colors/update';
+  getColorByIdPath: string = 'colors/GetById';
+  getColorsPath: string = 'colors/GetAll';
+  getColorAddPath: string = 'colors/Add';
+  getColorUpdatePath: string = 'colors/Update';
 
   getColors(): Observable<DataResponseModel<ColorDto[]>> {
     return this.httpClient.get<DataResponseModel<ColorDto[]>>(

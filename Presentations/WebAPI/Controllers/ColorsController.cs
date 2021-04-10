@@ -22,13 +22,7 @@ namespace WebAPI.Controllers
             _colorService = colorService;
         }
 
-        [HttpGet("test")]
-        public async Task<IActionResult> Test()
-        {
-            return Ok("Proje çalıştı");
-        }
-
-        [HttpGet("getbyid")]
+        [HttpGet("GetById")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             var result = await _colorService.GetByIdAsync(id);
@@ -38,7 +32,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getall")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllAsync()
         {
             var result = await _colorService.GetAllAsync();
@@ -49,7 +43,7 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpPost("add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddAsync(ColorAddDto colorAddDto)
         {
             var result = await _colorService.AddAsync(colorAddDto);
@@ -59,7 +53,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPatch("update")]
+        [HttpPatch("Update")]
         public async Task<IActionResult> UpdateAsync(ColorUpdateDto colorUpdateDto)
         {
             var result = await _colorService.UpdateAsync(colorUpdateDto);
@@ -69,7 +63,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteAsync(Color color)
         {
             var result = await _colorService.DeleteAsync(color);

@@ -16,7 +16,7 @@ export class UserService {
     private toastrService: ToastrService
   ) {}
 
-  getFirstLastNameByEmailPath = 'users/getfirstlastnamebyemail';
+  getFirstLastNameByEmailPath = 'users/GetFirstLastNameByEmail';
   
   getFirstLastNameByEmail(email: string) : Observable<DataResponseModel<CustomerFirstLastNameDto>>{
    return this.httpClient.get<DataResponseModel<CustomerFirstLastNameDto>>(

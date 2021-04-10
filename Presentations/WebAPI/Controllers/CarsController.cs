@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
             _carService = carService;
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("GetById")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             var result = await _carService.GetByIdAsync(id);
@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getcarupdatedtobyid")]
+        [HttpGet("GetCarUpdateDtoById")]
         public async Task<IActionResult> GetCarUpdateDtoByIdAsync(int id)
         {
             var result = await _carService.GetUpdateDtoByIdAsync(id);
@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getcarrentpricebyrentalid")]
+        [HttpGet("GetCarRentPriceByRentalId")]
         public async Task<IActionResult> GetCarRentPriceByRentalIdAsync(int rentalId)
         {
             var result = await _carService.GetMoneyToPaidByRentalIdAsync(rentalId);
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getdetails")]
+        [HttpGet("GetDetails")]
         public async Task<IActionResult> GetAllDtoAsync()
         {
             var result = await _carService.GetCarDetailsAsync();
@@ -70,7 +70,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getcardetailsbybrandid")]
+        [HttpGet("GetCarDetailsByBrandId")]
         public async Task<IActionResult> GetCarDetailsByBrandIdAsync(int brandId)
         {
             var result = await _carService.GetCarDetailsByBrandIdAsync(brandId);
@@ -80,7 +80,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getcardetailsbybrandname")]
+        [HttpGet("GetCarDdetailsByBrandName")]
         public async Task<IActionResult> GetCarDetailsByBrandNameAsync(string brandName)
         {
             var result = await _carService.GetCarDetailsByBrandNameAsync(brandName);
@@ -90,7 +90,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getcardetailsbycolorid")]
+        [HttpGet("GetCarDetailsByColorId")]
         public async Task<IActionResult> GetCarDetailsByColorIdAsync(int colorId)
         {
             var result = await _carService.GetCarDetailsByColorIdAsync(colorId);
@@ -100,7 +100,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getcardetailsbycolorname")]
+        [HttpGet("GetCarDetailsByColorName")]
         public async Task<IActionResult> GetCarDetailsByColorNameAsync(string colorName)
         {
             var result = await _carService.GetCarDetailsByColorNameAsync(colorName);
@@ -110,7 +110,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getcardetailsbycarid")]
+        [HttpGet("GetCarDetailsByCarId")]
         public async Task<IActionResult> GetCarDetailsByIdAsync(int carId)
         {
             var result = await _carService.GetCarDetailByIdAsync(carId);
@@ -120,7 +120,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("getcardetailsbyfilters")]
+        [HttpPost("GetCarDetailsByFilters")]
         public async Task<IActionResult> GetCarDetailsByFiltersAsync(CarFilterDto carFilterDto)
         {
             var result = await _carService.GetCarDetailsByFiltersAsync(carFilterDto);
@@ -150,7 +150,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddAsync(CarAddDto carAddDto)
         {
             var result = await _carService.AddAsync(carAddDto);
@@ -160,7 +160,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPatch("update")]
+        [HttpPatch("Update")]
         public async Task<IActionResult> UpdateAsync(CarUpdateDto carUpdateDto)
         {
             var result = await _carService.UpdateAsync(carUpdateDto);
@@ -170,7 +170,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteAsync(Car car)
         {
             var result = await _carService.DeleteAsync(car);

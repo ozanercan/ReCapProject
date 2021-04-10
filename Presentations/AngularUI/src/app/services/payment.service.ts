@@ -11,7 +11,7 @@ import { ResponseModel } from '../models/responseModels/responseModel';
 export class PaymentService {
   constructor(private httpClient: HttpClient) {}
 
-  paymentAddPath: string = 'payments/add';
+  paymentAddPath: string = 'payments/Add';
 
   paymentIsCanPaymentPath: string = 'payments/IsCanPaymentByRentalId';
 

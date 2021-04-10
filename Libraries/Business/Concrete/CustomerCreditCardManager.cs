@@ -44,6 +44,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CustomerCreditCardAdded);
         }
 
+        [SecuredOperation("customer")]
         public async Task<IDataResult<List<CustomerCreditCardDto>>> GetCardsByCustomerIdAsync(int customerId)
         {
             var customerCreditCardsResult = await _customerCreditCardDal.GetAllNoTrackingAsync(p => p.UserId == customerId);

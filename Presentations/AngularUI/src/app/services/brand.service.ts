@@ -17,10 +17,10 @@ export class BrandService {
     private toastrService: ToastrService
   ) {}
 
-  getBrandsPath: string = 'brands/getall';
-  getBrandByIdPath: string = 'brands/getbyid';
-  getBrandAddPath: string = 'brands/add';
-  getBrandUpdatePath: string = 'brands/update';
+  getBrandsPath: string = 'brands/GetAll';
+  getBrandByIdPath: string = 'brands/GetById';
+  getBrandAddPath: string = 'brands/Add';
+  getBrandUpdatePath: string = 'brands/Update';
 
   getById(id: number): Observable<DataResponseModel<BrandDto>> {
     return this.httpClient.get<DataResponseModel<BrandDto>>(

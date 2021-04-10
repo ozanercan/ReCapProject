@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("GetById")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             var result = await _userService.GetByIdAsync(id);
@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getfirstlastnamebyemail")]
+        [HttpGet("GetFirstLastNameByEmail")]
         public async Task<IActionResult> GetFirstLastNameByEmailAsync(string email)
         {
             var result = await _userService.GetFirstNameLastNameByMailAsync(email);
@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getall")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllAsync()
         {
             var result = await _userService.GetAllAsync();
@@ -52,7 +52,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddAsync(User user)
         {
             var result = await _userService.AddAsync(user);
@@ -62,7 +62,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPut("update")]
+        [HttpPut("Update")]
         public async Task<IActionResult> UpdateAsync(User user)
         {
             var result = await _userService.UpdateAsync(user);
@@ -72,7 +72,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteAsync(User user)
         {
             var result = await _userService.DeleteAsync(user);

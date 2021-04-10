@@ -84,6 +84,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(carToAdd, Messages.CarAdded);
         }
 
+        
         private async Task<IResult> AddCarCreditScoreAsync(int carId, int minCreditScore)
         {
             var carCreditScoreResult = await _carCreditScoreService.AddAsync(new CarCreditScoreAddDto()
@@ -158,52 +159,6 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.CarGetListByRegistered);
         }
 
-        //private void SetImages(List<CarDetailDto> carDetails, List<CarImage> carImages)
-        //{
-        //    carDetails.ForEach(carDetail =>
-        //    {
-        //        var findedCarImages = carImages.Where(p => p.CarId == carDetail.Id).ToList();
-        //        if (findedCarImages.Count == 0)
-        //        {
-        //            carDetail.ImagePaths.Add(_carImageService.GetDefaultCarImage(carDetail.Id).Data);
-        //        }
-        //        else
-        //        {
-        //            carDetail.ImagePaths = findedCarImages;
-        //        }
-        //    });
-        //}
-
-        //private void SetImages(CarDetailDto carDetail, List<CarImage> carImages)
-        //{
-        //    var findedCarImages = carImages.Where(p => p.CarId == carDetail.Id).ToList();
-        //    if (findedCarImages.Count == 0)
-        //    {
-        //        carDetail.ImagePaths.Add(_carImageService.GetDefaultCarImage(carDetail.Id).Data);
-        //    }
-        //    else
-        //    {
-        //        carDetail.ImagePaths = findedCarImages;
-        //    }
-        //}
-
-        //private void CheckDefaultImage(List<CarDetailDto> data)
-        //{
-        //    foreach (var item in data)
-        //    {
-        //        if (item.ImagePaths.Count == 0)
-        //        {
-        //            item.ImagePaths = new List<CarImage>() { _carImageService.GetDefaultCarImage(item.Id).Data };
-        //        }
-        //    }
-        //}
-        //private void CheckDefaultImage(CarDetailDto data)
-        //{
-        //    if (data.ImagePaths.Count == 0)
-        //    {
-        //        data.ImagePaths = new List<CarImage>() { _carImageService.GetDefaultCarImage(data.Id).Data };
-        //    }
-        //}
 
         [PerformanceAspect(5)]
         [CacheAspect]

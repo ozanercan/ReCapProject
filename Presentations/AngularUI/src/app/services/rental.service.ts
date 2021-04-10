@@ -12,9 +12,9 @@ import { ApiUrlHelper } from '../helpers/api-url-helper';
 export class RentalService {
   constructor(private httpClient: HttpClient) {}
 
-  getRentalDetailsPath: string = 'rentals/getdetails';
-  getCustomerIdByIdPath: string = 'rentals/getcustomeridbyid';
-  rentalAddPath: string = 'rentals/add';
+  getRentalDetailsPath: string = 'rentals/GetDetails';
+  getCustomerIdByIdPath: string = 'rentals/GetCustomerIdById';
+  rentalAddPath: string = 'rentals/Add';
 
   getRentals(): Observable<DataResponseModel<RentalDto[]>> {
     return this.httpClient.get<DataResponseModel<RentalDto[]>>(

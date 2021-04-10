@@ -122,6 +122,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICustomerService.Get")]
+        [SecuredOperation("customer")]
         public async Task<IResult> UpdateAsync(Customer customer)
         {
             bool updateResult = await _customerDal.UpdateAsync(customer);
@@ -133,6 +134,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("ICustomerService.Get")]
+        [SecuredOperation("customer")]
         public async Task<IResult> UpdateWithUserAsync(CustomerUpdateDto customerUpdateDto)
         {
             var userResult = await _userService.GetByIdAsync(customerUpdateDto.Id);

@@ -13,8 +13,8 @@ import { ResponseModel } from '../models/responseModels/responseModel';
 export class CustomerCreditCardService {
   constructor(private httpClient: HttpClient) {}
 
-  getAddPath = 'customercreditcards/add';
-  getCardsByCustomerIdPath = 'customercreditcards/getcardsbycustomerid';
+  getAddPath = 'customercreditcards/Add';
+  getCardsByCustomerIdPath = 'customercreditcards/GetCardsByCustomerId';
 
   add(
     customerCreditCardAddDto: CustomerCreditCardAddDto

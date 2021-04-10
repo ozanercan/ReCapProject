@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getcustomeridbyid")]
+        [HttpGet("GetCustomerIdById")]
         public async Task<IActionResult> GetCustomerIdByIdAsync(int id)
         {
             var result = await _rentalService.GetCustomerIdByIdAsync(id);
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getdetails")]
+        [HttpGet("GetDetails")]
         public async Task<IActionResult> GetAllDtoAsync()
         {
             var result = await _rentalService.GetAllDtoAsync();
@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddAsync(RentalAddDto rentalCreateDto)
         {
             var result = await _rentalService.AddAsync(rentalCreateDto);
@@ -71,7 +71,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPut("update")]
+        [HttpPut("Update")]
         public async Task<IActionResult> UpdateAsync(Rental rental)
         {
             var result = await _rentalService.UpdateAsync(rental);
@@ -81,7 +81,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteAsync(Rental rental)
         {
             var result = await _rentalService.DeleteAsync(rental);

@@ -25,33 +25,31 @@ export class CarService {
     private toastrService: ToastrService
   ) {}
 
-  getUrl: string = 'cars/getdetails';
+  getUrl: string = 'cars/GetDetails';
 
   getCalculateTotalPricePath: string = 'cars/CalculateTotalPrice';
 
-  getUpdateCarPath: string = 'cars/update';
+  getUpdateCarPath: string = 'cars/Update';
 
-  getCarUpdateDtoByIdPath: string = 'cars/getcarupdatedtobyid';
+  getCarUpdateDtoByIdPath: string = 'cars/GetCarUpdateDtoById';
 
-  getByIdUrl: string = 'cars/getbyid';
+  getByIdUrl: string = 'cars/GetById';
 
-  getCarAddPath: string = 'cars/add';
+  getCarAddPath: string = 'cars/Add';
 
-  getCarDetailsByBrandIdPath: string = 'cars/getcardetailsbybrandid';
+  getCarDetailsByBrandIdPath: string = 'cars/GetCarDetailsByBrandId';
 
-  getCarDetailsByBrandNameIdPath: string = 'cars/getcardetailsbybrandname';
+  getCarDetailsByBrandNameIdPath: string = 'cars/GetCarDdetailsByBrandName';
 
-  getCarDetailsByColorIdPath: string = 'cars/getcardetailsbycolorid';
+  getCarDetailsByColorIdPath: string = 'cars/GetCarDetailsByColorId';
 
-  getCarDetailsByColorNamePath: string = 'cars/getcardetailsbycolorname';
+  getCarDetailsByColorNamePath: string = 'cars/GetCarDetailsByColorName';
 
-  getCarDetailByCarIdPath: string = 'cars/getcardetailsbycarid';
+  getCarDetailByCarIdPath: string = 'cars/GetCarDetailsByCarId';
 
-  getCarDetailByFiltersPath: string = 'cars/getcardetailsbyfilters';
+  getCarDetailByFiltersPath: string = 'cars/GetCarDetailsByFilters';
 
-  getCarImagesByCarIdPath: string = 'carimages/getlistbycarid';
-
-  getMoneyToPaidByRentalIdPath: string = 'cars/getcarrentpricebyrentalid';
+  getMoneyToPaidByRentalIdPath: string = 'cars/GetCarRentPriceByRentalId';
 
   getCarUpdateDtoByCarId(
     carId: number
@@ -185,15 +183,5 @@ export class CarService {
     );
   }
 
-  getCarImagesByCarId(
-    carId: number
-  ): Observable<DataResponseModel<CarImageDto[]>> {
-    let url = ApiUrlHelper.getUrlWithParameters(this.getCarImagesByCarIdPath, [
-      { key: 'carId', value: carId },
-    ]);
-
-    return this.httpClient.get<DataResponseModel<CarImageDto[]>>(url);
-
-    // `${this.getCarImagesByCarIdPath}?carId=${carId}`
-  }
+  
 }

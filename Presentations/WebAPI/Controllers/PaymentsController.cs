@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpPost("add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddAsync(PaymentAddDto paymentAddDto)
         {
             var result = await _paymentService.AddAsync(paymentAddDto);

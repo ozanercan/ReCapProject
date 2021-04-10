@@ -16,15 +16,12 @@ namespace WebAPI.Controllers
     public class CarImagesController : ControllerBase
     {
         private readonly ICarImageService _carImageService;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        public CarImagesController(ICarImageService carImageService, IWebHostEnvironment webHostEnvironment)
+        public CarImagesController(ICarImageService carImageService)
         {
             _carImageService = carImageService;
-            _webHostEnvironment = webHostEnvironment;
-
         }
 
-        [HttpGet("getlistbycarid")]
+        [HttpGet("GetListByCarId")]
         public async Task<IActionResult> GetListByCarIdAsync(int carId)
         {
             var carImagesResult = await _carImageService.GetAllByCarIdAsync(carId);
@@ -34,7 +31,7 @@ namespace WebAPI.Controllers
             return Ok(carImagesResult);
         }
 
-        [HttpPost("addPrimitive")]
+        [HttpPost("AddPrimitive")]
         public async Task<IActionResult> AddAsync(int carId, List<IFormFile> formFiles)
         {
             if (formFiles.Count == 0)
@@ -52,7 +49,7 @@ namespace WebAPI.Controllers
             return Ok(lastAddResult);
         }
 
-        [HttpPost("add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddAsync([FromForm] CarImageAddDto carImageAddDto)
         {
             var addResult = await _carImageService.AddAsync(carImageAddDto);
@@ -62,7 +59,7 @@ namespace WebAPI.Controllers
             return Ok(addResult);
         }
 
-        [HttpPost("update")]
+        [HttpPost("Update")]
         public async Task<IActionResult> UpdateAsync([FromForm] CarImageUpdateDto carImageUpdateDto)
         {
             var updateResult = await _carImageService.UpdateAsync(carImageUpdateDto);
@@ -72,7 +69,7 @@ namespace WebAPI.Controllers
             return Ok(updateResult.Message);
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteAsync(CarImageDeleteDto carImageDeleteDto)
         {
             var deleteResult = await _carImageService.DeleteAsync(carImageDeleteDto);
@@ -83,7 +80,7 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpDelete("deletebyid")]
+        [HttpDelete("DeleteById")]
         public async Task<IActionResult> DeleteByIdAsync(int id)
         {
             var deleteResult = await _carImageService.DeleteByIdAsync(id);

@@ -14,9 +14,9 @@ import { RememberMeService } from './remember-me.service';
 export class CustomerService {
   constructor(private httpClient: HttpClient) {}
 
-  getCustomerDetailsPath: string = 'customers/getdetailcustomers';
-  getCustomerDetailByEmailPath: string = 'customers/getdetailbyemail';
-  getUpdateWithUserPath: string = 'customers/updatewithuser';
+  getCustomerDetailsPath: string = 'customers/GetDetailCustomers';
+  getCustomerDetailByEmailPath: string = 'customers/GetDetailByEmail';
+  getUpdateWithUserPath: string = 'customers/UpdateWithUser';
 
   getCustomerDetailDtos(): Observable<DataResponseModel<CustomerDetailDto[]>> {
     return this.httpClient.get<DataResponseModel<CustomerDetailDto[]>>(

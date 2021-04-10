@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
             _authService = authService;
         }
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync(UserForLoginDto userForLoginDto)
         {
             var userToLoginResult = await _authService.LoginAsync(userForLoginDto);
@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
             return Ok(accessTokenResult);
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> RegisterAsync(UserForRegisterDto userForRegisterDto)
         {
             var registerResult = await _authService.RegisterAsync(userForRegisterDto);

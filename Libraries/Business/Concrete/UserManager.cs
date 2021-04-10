@@ -116,6 +116,7 @@ namespace Business.Concrete
         }
 
         [CacheAspect]
+        [SecuredOperation("customer")]
         public async Task<IDataResult<UserFirstLastNameDto>> GetFirstNameLastNameByMailAsync(string mail)
         {
             var user = await _userDal.GetAsync(p => p.Email.Equals(mail));

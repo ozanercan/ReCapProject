@@ -47,6 +47,7 @@ namespace Business.Concrete
         }
 
         [CacheRemoveAspect("IBrandService.Get")]
+        [SecuredOperation("admin")]
         public async Task<IResult> DeleteAsync(Brand brand)
         {
             bool deleteResult = await _brandDal.DeleteAsync(brand);

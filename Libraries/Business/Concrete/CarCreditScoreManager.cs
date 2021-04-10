@@ -52,6 +52,7 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("admin")]
+        [CacheRemoveAspect("ICarCreditScoreService.Get")]
         public async Task<IResult> UpdateAsync(CarCreditScoreUpdateDto carCreditScoreUpdateDto)
         {
             var carCreditScore = await _carCreditScoreDal.GetAsync(p => p.CarId == carCreditScoreUpdateDto.CarId);

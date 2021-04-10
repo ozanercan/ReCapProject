@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
             _customerService = customerService;
         }
 
-        [HttpPatch("updatewithuser")]
+        [HttpPatch("UpdateWithUser")]
         public async Task<IActionResult> UpdateWithUserAsync(CustomerUpdateDto customerUpdateDto)
         {
             var result = await _customerService.UpdateWithUserAsync(customerUpdateDto);
@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getdetailbyemail")]
+        [HttpGet("GetDetailByEmail")]
         public async Task<IActionResult> GetDetailByUserIdAsync(string email)
         {
             var result = await _customerService.GetCustomerDetailByEmailAsync(email);
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getdetailcustomers")]
+        [HttpGet("GetDetailCustomers")]
         public async Task<IActionResult> GetDetailCustomersAsync()
         {
             var result = await _customerService.GetCustomerDetailsAsync();
@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getall")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllAsync()
         {
             var result = await _customerService.GetAllAsync();
@@ -71,7 +71,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddAsync(CustomerAddDto customerCreateDto)
         {
             var result = await _customerService.AddAsync(customerCreateDto);
@@ -81,7 +81,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPut("update")]
+        [HttpPut("Update")]
         public async Task<IActionResult> UpdateAsync(Customer customer)
         {
             var result = await _customerService.UpdateAsync(customer);
@@ -91,7 +91,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteAsync(Customer customer)
         {
             var result = await _customerService.DeleteAsync(customer);

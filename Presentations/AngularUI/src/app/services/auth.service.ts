@@ -24,8 +24,8 @@ export class AuthService {
     private router: Router
   ) {}
 
-  getLoginPath: string = 'auth/login';
-  getRegisterPath: string = 'auth/register';
+  getLoginPath: string = 'auth/Login';
+  getRegisterPath: string = 'auth/Register';
 
   login(loginModel: LoginDto): Observable<DataResponseModel<AccessTokenDto>> {
     return this.httpClient.post<DataResponseModel<AccessTokenDto>>(

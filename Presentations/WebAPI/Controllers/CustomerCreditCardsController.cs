@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
             _customerCreditCardService = customerCreditCardService;
         }
 
-        [HttpPost("add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddAsync(CustomerCreditCardAddDto customerCreditCardAddDto)
         {
             var addResult = await _customerCreditCardService.AddAsync(customerCreditCardAddDto);
@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
             return Ok(addResult);
         }
 
-        [HttpGet("getcardsbycustomerid")]
+        [HttpGet("GetCardsByCustomerId")]
         public async Task<IActionResult> GetCardsByCustomerIdAsync(int customerId)
         {
             var addResult = await _customerCreditCardService.GetCardsByCustomerIdAsync(customerId);

@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
             _brandService = brandService;
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("GetById")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             var result = await _brandService.GetByIdAsync(id);
@@ -27,7 +27,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getall")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllAsync()
         {
             var result = await _brandService.GetAllAsync();
@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddAsync(BrandAddDto brandAddDto)
         {
             var result = await _brandService.AddAsync(brandAddDto);
@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPatch("update")]
+        [HttpPatch("Update")]
         public async Task<IActionResult> UpdateAsync(BrandUpdateDto brandUpdateDto)
         {
             var result = await _brandService.UpdateAsync(brandUpdateDto);
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteAsync(Brand brand)
         {
             var result = await _brandService.DeleteAsync(brand);
