@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-car-list-by-color-page',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CarListByColorPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private titleService: TitleService) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Renge Göre Araç Listesi');
   }
 
 }

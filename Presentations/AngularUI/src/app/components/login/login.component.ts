@@ -7,6 +7,7 @@ import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { LoginDto } from 'src/app/models/Dtos/loginDto';
 import { AuthService } from 'src/app/services/auth.service';
 import { RememberMeService } from 'src/app/services/remember-me.service';
+import { TitleService } from 'src/app/services/title.service';
 import { TokenService } from 'src/app/services/token.service';
 
 @Component({
@@ -21,12 +22,14 @@ export class LoginComponent implements OnInit {
     private tokenService:TokenService,
     private formBuilder: FormBuilder,
     private rememberMeService:RememberMeService,
-    private router:Router
+    private router:Router,
+    private titleService: TitleService
   ) {}
 
   loginForm!:FormGroup;
 
   ngOnInit(): void {
+    this.titleService.setTitle('Giriş Yap');
     this.createLoginForm();
   }
 

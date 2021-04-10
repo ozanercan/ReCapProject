@@ -6,6 +6,7 @@ import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { ColorDto } from 'src/app/models/Dtos/colorDto';
 import { ColorUpdateDto } from 'src/app/models/Dtos/colorUpdateDto';
 import { ColorService } from 'src/app/services/color.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-color-update-with-form',
@@ -17,10 +18,12 @@ export class ColorUpdateWithFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private colorService: ColorService,
     private toastrService: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private titleService: TitleService
   ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Renk Düzenle');
     this.createColorUpdateForm();
     this.activatedRoute.params.subscribe((parameter) => {
       if (parameter['colorId']) {

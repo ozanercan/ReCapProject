@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { CarImageService } from 'src/app/services/car-image.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-car-image-add-with-form',
@@ -16,7 +17,8 @@ export class CarImageAddWithFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private carImageService: CarImageService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private titleService: TitleService
   ) {}
 
   carId!: number;
@@ -38,6 +40,7 @@ export class CarImageAddWithFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Yeni Fotoğraf Ekle');
     this.createCarImageAddForm();
     this.activatedRoute.params.subscribe((p) => {
       if (p['carId']) {

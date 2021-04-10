@@ -11,6 +11,7 @@ import { BrandService } from 'src/app/services/brand.service';
 import { ColorService } from 'src/app/services/color.service';
 import { FuelTypeService } from 'src/app/services/fuel-type.service';
 import { GearTypeService } from 'src/app/services/gear-type.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-car-list-by-parameters-page',
@@ -24,7 +25,8 @@ export class CarListByParametersPageComponent implements OnInit {
     private toastrService: ToastrService,
     private fuelTypeService: FuelTypeService,
     private gearTypeService: GearTypeService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private titleService: TitleService
   ) {}
 
   colors: ColorDto[] = [];
@@ -38,7 +40,7 @@ export class CarListByParametersPageComponent implements OnInit {
   selectedFuelType!: string;
 
   ngOnInit(): void {
-
+    this.titleService.setTitle('Detaylı Araç Listesi');
     this.getColors();
     this.getBrands();
     this.getGearTypes();

@@ -4,6 +4,7 @@ import { CarDetailDto } from 'src/app/models/Dtos/carDetailDto';
 import { CarImageDto } from 'src/app/models/Dtos/carImageDto';
 import { CarImageService } from 'src/app/services/car-image.service';
 import { CarService } from 'src/app/services/car.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-car-detail',
@@ -14,10 +15,12 @@ export class CarDetailComponent implements OnInit {
   constructor(
     private carService: CarService,
     private carImageService: CarImageService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private titleService: TitleService
   ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Araç Detayları');
     this.activatedRoute.params.subscribe((parameter) => {
       if (parameter['carId']) {
         this.getCarDetailById(parameter['carId']);

@@ -11,6 +11,7 @@ import { CarService } from 'src/app/services/car.service';
 import { CustomerCreditCardService } from 'src/app/services/customer-credit-card.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { RentalService } from 'src/app/services/rental.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-payment',
@@ -25,7 +26,8 @@ export class PaymentComponent implements OnInit {
     private carService: CarService,
     private rentalService: RentalService,
     private customerCreditCardService: CustomerCreditCardService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private titleService: TitleService
   ) {}
 
   // Required
@@ -58,6 +60,8 @@ export class PaymentComponent implements OnInit {
   paymentForm!: FormGroup;
 
   ngOnInit(): void {
+    this.titleService.setTitle('Ödeme Yap');
+
     this.createPaymentForm();
 
     this.activatedRoute.params.subscribe((parameter) => {

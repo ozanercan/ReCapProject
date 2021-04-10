@@ -5,6 +5,7 @@ import { timer } from 'rxjs';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { CarImage } from 'src/app/models/carImage';
 import { CarImageService } from 'src/app/services/car-image.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-car-image-update-with-form',
@@ -15,7 +16,8 @@ export class CarImageUpdateWithFormComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private carImageService: CarImageService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private titleService: TitleService
   ) {}
 
   carId!: number;
@@ -25,6 +27,7 @@ export class CarImageUpdateWithFormComponent implements OnInit {
   selectedCarImage!: CarImage;
 
   ngOnInit(): void {
+    this.titleService.setTitle('Fotoğraf Güncelle');
     this.activatedRoute.params.subscribe((param) => {
       if (param['carId']) {
         this.carId = parseInt(param['carId']);

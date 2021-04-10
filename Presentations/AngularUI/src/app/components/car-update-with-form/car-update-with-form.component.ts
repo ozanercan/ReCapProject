@@ -15,6 +15,7 @@ import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
 import { FuelTypeService } from 'src/app/services/fuel-type.service';
 import { GearTypeService } from 'src/app/services/gear-type.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-car-update-with-form',
@@ -30,10 +31,12 @@ export class CarUpdateWithFormComponent implements OnInit {
     private colorService: ColorService,
     private brandService: BrandService,
     private fuelTypeService: FuelTypeService,
-    private gearTypeService: GearTypeService
+    private gearTypeService: GearTypeService,
+    private titleService: TitleService
   ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Araç Düzenle');
     this.createCarUpdateForm();
 
     this.activatedRoute.params.subscribe((parameter) => {

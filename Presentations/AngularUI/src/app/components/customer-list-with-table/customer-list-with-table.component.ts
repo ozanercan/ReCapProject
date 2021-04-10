@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CustomerDetailDto } from 'src/app/models/Dtos/customerDetailDto';
 import { CustomerService } from 'src/app/services/customer.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-customer-list-with-table',
@@ -8,11 +9,14 @@ import { CustomerService } from 'src/app/services/customer.service';
   styleUrls: ['./customer-list-with-table.component.css'],
 })
 export class CustomerListWithTableComponent implements OnInit {
-  constructor(private customerService: CustomerService) {
+  constructor(private customerService: CustomerService,
+    private titleService: TitleService) {
     this.getCustomerDetails();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.titleService.setTitle('Müşteriler');
+  }
 
   customerDetails: CustomerDetailDto[] = [];
   

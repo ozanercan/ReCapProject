@@ -12,6 +12,4 @@ export class AppComponent {
 
   ngOnInit() {
   }
-
-  title = 'AngularUI';
 }

@@ -11,6 +11,7 @@ import { CustomerDetailDto } from 'src/app/models/Dtos/customerDetailDto';
 import { CustomerUpdateWithUserDto } from 'src/app/models/Dtos/customerUpdateWithUserDto';
 import { CustomerService } from 'src/app/services/customer.service';
 import { RememberMeService } from 'src/app/services/remember-me.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-customer-update-self-with-form',
@@ -22,10 +23,12 @@ export class CustomerUpdateSelfWithFormComponent implements OnInit {
     private toastrService: ToastrService,
     private customerService: CustomerService,
     private formBuilder: FormBuilder,
-    private rememberMeService: RememberMeService
+    private rememberMeService: RememberMeService,
+    private titleService: TitleService
   ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Profil Düzenle');
     this.createUpdateForm();
     this.getActiveDatas();
   }

@@ -73,7 +73,7 @@ const routes: Routes = [
     data: { roles: ['admin'] },
   },
   {
-    path: 'admin/brand/add/form',
+    path: 'brand/add/form',
     component: BrandAddWithFormComponent,
     canActivate: [AuthenticationGuard, AuthorizationGuard],
     data: { roles: ['admin'] },

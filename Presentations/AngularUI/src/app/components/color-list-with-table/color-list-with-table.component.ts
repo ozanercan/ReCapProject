@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ColorDto } from 'src/app/models/Dtos/colorDto';
 import { ColorService } from 'src/app/services/color.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-color-list-with-table',
@@ -8,10 +9,13 @@ import { ColorService } from 'src/app/services/color.service';
   styleUrls: ['./color-list-with-table.component.css'],
 })
 export class ColorListWithTableComponent implements OnInit {
-  constructor(private colorService: ColorService) {
-  }
+  constructor(
+    private colorService: ColorService,
+    private titleService: TitleService
+  ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Renkler');
     this.getColors();
   }
 

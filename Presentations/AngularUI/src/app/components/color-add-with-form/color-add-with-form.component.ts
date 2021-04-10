@@ -5,6 +5,7 @@ import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { ColorAddDto } from 'src/app/models/Dtos/colorAddDto';
 import { BrandService } from 'src/app/services/brand.service';
 import { ColorService } from 'src/app/services/color.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-color-add-with-form',
@@ -15,10 +16,12 @@ export class ColorAddWithFormComponent implements OnInit {
   constructor(
     private colorService: ColorService,
     private toastrService: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private titleService: TitleService
   ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Yeni Renk Oluştur');
     this.createColorAddForm();
   }
 

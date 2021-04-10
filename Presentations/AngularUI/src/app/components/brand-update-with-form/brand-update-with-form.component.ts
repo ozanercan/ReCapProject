@@ -6,6 +6,7 @@ import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { BrandDto } from 'src/app/models/Dtos/brandDto';
 import { BrandUpdateDto } from 'src/app/models/Dtos/brandUpdateDto';
 import { BrandService } from 'src/app/services/brand.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-brand-update-with-form',
@@ -17,10 +18,12 @@ export class BrandUpdateWithFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private brandService: BrandService,
     private toastrService: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private titleService: TitleService
   ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Marka Düzenle');
     this.createBrandUpdateForm();
     this.activatedRoute.params.subscribe((parameter) => {
       if (parameter['brandId']) {

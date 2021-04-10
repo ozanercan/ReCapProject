@@ -15,6 +15,7 @@ import { CarService } from 'src/app/services/car.service';
 import { ColorService } from 'src/app/services/color.service';
 import { FuelTypeService } from 'src/app/services/fuel-type.service';
 import { GearTypeService } from 'src/app/services/gear-type.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-car-add-with-form',
@@ -30,10 +31,12 @@ export class CarAddWithFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private fuelTypeService: FuelTypeService,
     private gearTypeService: GearTypeService,
-    private router: Router
+    private router: Router,
+    private titleService: TitleService
   ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Yeni Araç Oluştur');
     this.createCarAddForm();
     this.getBrands();
     this.getColors();

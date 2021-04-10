@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { BrandAddDto } from 'src/app/models/Dtos/brandAddDto';
 import { BrandService } from 'src/app/services/brand.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-brand-add-with-form',
@@ -20,10 +21,12 @@ export class BrandAddWithFormComponent implements OnInit {
   constructor(
     private brandService: BrandService,
     private toastrService: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private titleService: TitleService
   ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Yeni Marka Oluştur');
     this.createBrandAddForm();
   }
 

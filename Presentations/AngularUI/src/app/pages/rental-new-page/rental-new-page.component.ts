@@ -11,6 +11,7 @@ import { timer } from 'rxjs';
 import { ErrorHelper } from 'src/app/helpers/errorHelper';
 import { AuthService } from 'src/app/services/auth.service';
 import { RememberMeService } from 'src/app/services/remember-me.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'app-rental-new-page',
@@ -26,12 +27,11 @@ export class RentalNewPageComponent implements OnInit {
     private rentalService: RentalService,
     private router: Router,
     private authService: AuthService,
-    private rememberMeService: RememberMeService
+    private rememberMeService: RememberMeService,
+    private titleService: TitleService
   ) {}
 
   ngOnInit(): void {
-    let nowDate = new Date().toLocaleString();
-
     this.activatedRoute.params.subscribe((parameter) => {
       if (parameter['carId']) {
         this.carId = parseInt(parameter['carId']);
@@ -63,7 +63,7 @@ export class RentalNewPageComponent implements OnInit {
           (response) => {
             this.totalPrice = response.data;
             this.toastrService.success(
-              `Fiyat Hesaplandı: <b>${ response.data  } ₺</b>`
+              `Fiyat Hesaplandı: <b>${response.data} ₺</b>`
             );
           },
           (responseError) => {
