@@ -63,7 +63,7 @@ namespace Business.Concrete
             }
             carCreditScore.MinCreditScore = carCreditScoreUpdateDto.MinCreditScore;
 
-            bool updateResult = await _carCreditScoreDal.CommitAsync();
+            bool updateResult = await _carCreditScoreDal.UpdateAsync(carCreditScore);
             if (!updateResult)
                 return new ErrorResult(Messages.CarCreditScoreNotUpdated);
 

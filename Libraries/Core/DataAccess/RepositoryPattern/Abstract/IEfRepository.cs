@@ -8,8 +8,6 @@ namespace Core.DataAccess.RepositoryPattern.Abstract
 {
     public interface IEfRepository<TEntity> where TEntity : class, IEntity, new()
     {
-        bool Commit();
-        Task<bool> CommitAsync();
 
         bool CreateBulk(List<TEntity> entities);
         Task<bool> CreateBulkAsync(List<TEntity> entities);
