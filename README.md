@@ -14,6 +14,7 @@ Merhaba, bu proje sayın <b>Engin Demiroğ</b>'un ücretsiz olarak sunduğu 'Yaz
         <li>Interceptor, Aspectler</li>
         <li>Cache, Validate, Authorize Aspect</li>
         <li>Autofac</li>
+        <li>AutoFilterer</li>
         <li>Fluent Validation</li>
         <li>Json Web Token</li>
         <li>Repository Design Pattern</li>
@@ -97,13 +98,13 @@ Her kullanıcının yetkileri özelleştirilebilir. Back-End tarafında kullanı
 
 #### Birkaç Görsel
 
-![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/detayliarama2.JPG)
+![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/Detaylı%20Listeleme%203.JPG)
 
-![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/Ekran%20Alıntısı2.JPG)
+![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/Araç%20Detayı%203.JPG)
 
-![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/kira2.jpg)
+![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/Kira%203.JPG)
 
-![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/odeme2.JPG)
+![Image of Yaktocat](https://raw.githubusercontent.com/ozanercan/ReCapProject/master/previewImages/Ödeme3.JPG)
 
 
 ## License
